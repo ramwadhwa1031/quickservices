@@ -109,12 +109,16 @@
         .section-header p { font-size: 1.25rem; color: #64748b; max-width: 650px; margin: 0 auto; line-height: 1.6; font-weight:500;}
         
         .svc-grid-modern { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; }
-        .svc-card-3d { background: #FFF; border-radius: 24px; padding: 40px; box-shadow: var(--shadow-card); position: relative; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none; color: inherit; display: block; border: 1px solid rgba(0,0,0,0.03); overflow:hidden; }
+        .svc-card-3d { background: #FFF; border-radius: 24px; box-shadow: var(--shadow-card); position: relative; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none; color: inherit; display: flex; flex-direction: column; border: 1px solid rgba(0,0,0,0.03); overflow:hidden; }
+        .svc-img-wrap { width: 100%; height: 240px; overflow: hidden; position: relative; }
+        .svc-img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .svc-card-3d:hover .svc-img { transform: scale(1.08); }
+        .svc-body-3d { padding: 45px 35px 35px; position: relative; flex-grow: 1; }
         .svc-card-3d::before { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle at top right, rgba(255,87,34,0.06) 0%, transparent 60%); opacity:0; transition: 0.4s; }
         .svc-card-3d:hover { transform: translateY(-15px); box-shadow: var(--shadow-float); border-color: rgba(255,87,34,0.2); }
         .svc-card-3d:hover::before { opacity:1; }
         
-        .svc-icon-3d { width: 85px; height: 85px; background: var(--c-warm-bg); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; color: var(--c-brand); margin-bottom: 30px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(255,87,34,0.1);}
+        .svc-icon-3d { position: absolute; right: 35px; top: -42px; width: 85px; height: 85px; background: var(--c-warm-bg); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; color: var(--c-brand); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 4px solid #FFF; box-shadow: 0 10px 20px rgba(0,0,0,0.05); z-index: 5;}
         .svc-card-3d:hover .svc-icon-3d { transform: scale(1.15) rotate(10deg); background: var(--c-brand); color: #FFF; box-shadow: 0 15px 30px rgba(255,87,34,0.3); border-color:var(--c-brand);}
         
         .svc-title-3d { font-size: 1.6rem; font-weight: 900; color: var(--c-slate-900); margin-bottom: 15px; }
@@ -388,42 +392,57 @@
             <div class="svc-grid-modern">
                 <!-- Chimney -->
                 <a href="service-chimney.html" class="svc-card-3d" data-aos="zoom-in" data-aos-delay="0">
-                    <div class="svc-icon-3d"><i class="fas fa-wind"></i></div>
+                    <div class="svc-img-wrap"><img src="assets/chimney_indian_1774159192970.png" class="svc-img" alt="Kitchen Chimney Repair"></div>
+                    <div class="svc-body-3d">
+                        <div class="svc-icon-3d"><i class="fas fa-wind"></i></div>
                     <h3 class="svc-title-3d">Kitchen Chimneys</h3>
                     <p class="svc-desc-3d">Absolute extraction recovery. We handle deep chemical descale, motor rewinds, and logic board replacements.</p>
                     <div class="svc-arrow"><i class="fas fa-arrow-right"></i></div>
+                </div>
                 </a>
 
                 <!-- Hobs -->
                 <a href="service-hob.html" class="svc-card-3d" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="svc-icon-3d"><i class="fas fa-fire-burner"></i></div>
+                    <div class="svc-img-wrap"><img src="assets/stove_indian_1774159214973.png" class="svc-img" alt="Hob Repair"></div>
+                    <div class="svc-body-3d">
+                        <div class="svc-icon-3d"><i class="fas fa-fire-burner"></i></div>
                     <h3 class="svc-title-3d">Built-in Hobs</h3>
                     <p class="svc-desc-3d">Gas leak mitigation, auto-ignition trigger calibrations, and complete burner flow overhauls for perfectly safe flames.</p>
                     <div class="svc-arrow"><i class="fas fa-arrow-right"></i></div>
+                </div>
                 </a>
 
                 <!-- Microwave -->
                 <a href="service-microwave.html" class="svc-card-3d" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="svc-icon-3d"><i class="fas fa-wave-square"></i></div>
+                    <div class="svc-img-wrap"><img src="assets/microwave_indian_1774159242700.png" class="svc-img" alt="Microwave Repair"></div>
+                    <div class="svc-body-3d">
+                        <div class="svc-icon-3d"><i class="fas fa-wave-square"></i></div>
                     <h3 class="svc-title-3d">Microwave Ovens</h3>
                     <p class="svc-desc-3d">High-voltage magnetron replacements and PCB logic circuitry diagnostics for sparks, unheating, or dead panels.</p>
                     <div class="svc-arrow"><i class="fas fa-arrow-right"></i></div>
+                </div>
                 </a>
 
                 <!-- RO -->
                 <a href="service-ro.html" class="svc-card-3d" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="svc-icon-3d"><i class="fas fa-tint"></i></div>
+                    <div class="svc-img-wrap"><img src="assets/ro_indian_1774159259432.png" class="svc-img" alt="RO Repair"></div>
+                    <div class="svc-body-3d">
+                        <div class="svc-icon-3d"><i class="fas fa-tint"></i></div>
                     <h3 class="svc-title-3d">RO Purifiers</h3>
                     <p class="svc-desc-3d">Absolute biological sterility. Membrane unblocking, booster pump replacements, and micro-precision TDS resets.</p>
                     <div class="svc-arrow"><i class="fas fa-arrow-right"></i></div>
+                </div>
                 </a>
 
                 <!-- Dishwasher -->
                 <a href="service-dishwasher.html" class="svc-card-3d" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="svc-icon-3d"><i class="fas fa-sink"></i></div>
+                    <div class="svc-img-wrap"><img src="assets/dishwasher_indian_1774159277516.png" class="svc-img" alt="Dishwasher Repair"></div>
+                    <div class="svc-body-3d">
+                        <div class="svc-icon-3d"><i class="fas fa-sink"></i></div>
                     <h3 class="svc-title-3d">Smart Dishwashers</h3>
                     <p class="svc-desc-3d">Thermal logic fixes, motherboard drainage clears, and inlet valve sensor corrections for spotless dish execution.</p>
                     <div class="svc-arrow"><i class="fas fa-arrow-right"></i></div>
+                </div>
                 </a>
             </div>
         </div>
