@@ -5,38 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuickCare Service | Elite Appliance Repair</title>
     
-    <meta name="keywords" content="kitchen appliance repair Pune, appliance repair service Pune, chimney repair Pune, gas stove repair Pune, microwave repair Pune, oven repair Pune, cooktop repair Pune, hob repair service Pune, dishwasher repair Pune, water purifier repair Pune, cooking range repair Pune, kitchen chimney service Pune, built-in hob repair Pune, gas stove service near me, microwave oven repair Pune, RO water purifier service Pune, dishwasher technician Pune, cooking range service Pune, cooktop burner repair Pune, electric oven repair">
-    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* Extreme Pro Interactive Alternating Theme */
+        :root { 
+            --c-brand: #ff5722; 
+            --c-brand-dark: #e64a19;
+            --c-slate-900: #0f172a;
+            --c-slate-800: #1e293b;
+            --c-slate-100: #f1f5f9;
+            --c-slate-50: #f8fafc;
+            --c-warm-bg: #fff5eb; /* Peach/warm alternate background */
+            --shadow-float: 0 25px 50px -12px rgba(0,0,0,0.15);
+            --shadow-card: 0 10px 30px -5px rgba(0,0,0,0.05);
+        }
+        
+        body { background: #FFF; color: var(--c-slate-800); overflow-x: hidden; }
+        
+        /* Modal Popup Styles */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.4s; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-box { background: #FFF; width: 90%; max-width: 500px; border-radius: 24px; position: relative; overflow: hidden; transform: translateY(40px) scale(0.95); transition: 0.4s cubic-bezier(0.16,1,0.3,1); box-shadow: 0 30px 60px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); }
+        .modal-overlay.active .modal-box { transform: translateY(0) scale(1); }
+        .modal-close { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.05); border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: 0.3s; z-index: 10; }
+        .modal-close:hover { background: #ef4444; color: #FFF; }
+        .modal-tabs { display: flex; background: var(--c-slate-100); }
+        .modal-tab { flex: 1; padding: 20px; text-align: center; border: none; background: transparent; font-weight: 800; color: #64748b; cursor: pointer; transition: 0.3s; }
+        .modal-tab.active { background: #FFF; color: var(--c-brand); box-shadow: 0 -4px 0 var(--c-brand) inset; }
+        .modal-body { padding: 40px; }
+        .modal-panel { display: none; }
+        .modal-panel.active { display: block; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; transform:translateY(10px); } to { opacity: 1; transform:translateY(0); } }
+
+        /* ADVANCED SPLIT HERO SLIDER */
+        .hero-split-fullscreen { position: relative; height: 95vh; min-height: 750px; background: var(--c-slate-900); overflow: hidden; display: flex; align-items: center; }
+        .hero-creative-swiper { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+        
+        /* Swiper Creative Overlay */
+        .slide-bg { position: absolute; inset: 0; width: 100%; height: 100%; background-size: cover; background-position: center; filter: brightness(0.9) contrast(1.1); }
+        .hero-creative-swiper::after { display: none; } /* Removed complete black layer gradient */
+        
+        /* Slide Content Container */
+        .hero-slide-inner { position: absolute; top: 0; left: 0; right: 0; margin: 0 auto; padding: 0 20px; max-width: 1200px; width: 100%; height: 100%; z-index: 3; display: flex; align-items: center; }
+        .slide-text-box { width: 50%; max-width: 650px; padding-right: 50px; }
+        @media(max-width: 900px) { .slide-text-box { width: 100%; padding-right: 0; text-align: center; margin-bottom: 300px; } }
+        
+        .hero-badges { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 30px; }
+        @media(max-width: 900px) { .hero-badges { justify-content: center; } }
+        .hero-badge { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); padding: 8px 18px; border-radius: 30px; color: #FFF; font-weight: 700; font-size:0.9rem; display: flex; align-items: center; gap: 8px; }
+        .hero-badge i { color: #10b981; }
+
+        .slide-text-box h1 { font-size: clamp(3.2rem, 5vw, 4.8rem); color: #FFF; margin-bottom: 24px; line-height: 1.1; font-weight: 900; letter-spacing: -1px; text-shadow: 2px 2px 8px rgba(0,0,0,0.9), -1px -1px 8px rgba(0,0,0,0.6); }
+        .slide-text-box h1 span { color: var(--c-brand); display: block; }
+        .slide-text-box p { font-size: 1.25rem; color: #FFF; margin-bottom: 40px; line-height: 1.6; max-width: 550px; font-weight: 600; text-shadow: 1px 1px 5px rgba(0,0,0,0.9); }
+
+        /* Swiper Navigation Customization */
+        .swiper-button-next, .swiper-button-prev { color: #FFF !important; background: rgba(255,255,255,0.1); backdrop-filter: blur(5px); width: 60px !important; height: 60px !important; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; }
+        .swiper-button-next:hover, .swiper-button-prev:hover { background: var(--c-brand); transform: scale(1.1); }
+        .swiper-button-next::after, .swiper-button-prev::after { font-size: 1.5rem !important; }
+        .swiper-pagination-bullet { background: #FFF !important; opacity: 0.5; width: 12px; height: 12px; transition: 0.3s; }
+        .swiper-pagination-bullet-active { opacity: 1; background: var(--c-brand) !important; width: 30px; border-radius: 6px; }
+
+        /* Static Hero Form (Overlays the slider on the right) */
+        .hero-static-layer { position: absolute; inset: 0; z-index: 10; pointer-events: none; display: flex; align-items: center; justify-content: flex-end; }
+        .hero-form-col { width: 45%; max-width: 480px; pointer-events: auto; }
+        @media(max-width: 900px) { .hero-static-layer { justify-content: center; align-items: flex-end; padding-bottom: 40px; } .hero-form-col { width: 90%; } }
+        
+        .hero-form-card { background: #FFF; padding: 40px; border-radius: 20px; box-shadow: 0 40px 80px rgba(0,0,0,0.5); border-top: 5px solid var(--c-brand); position: relative; }
+        .hero-form-card h3 { font-size: 1.8rem; margin-bottom: 10px; text-align: center; color: var(--c-slate-900); font-weight: 900; }
+        .hero-form-card p { text-align: center; color: #64748b; margin-bottom: 24px; font-weight: 600; font-size:0.95rem; }
+        .form-group { margin-bottom: 20px; position: relative; }
+        .form-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 1.1rem; }
+        .form-control { width: 100%; padding: 16px 16px 16px 45px; border: 2px solid #e2e8f0; border-radius: 12px; font-family: inherit; font-size: 1rem; background: var(--c-slate-50); transition: 0.3s; font-weight: 500; color: var(--c-slate-900); }
+        .form-control:focus { outline: none; border-color: var(--c-brand); background: #FFF; box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.1); }
+        
+        .btn-massive { width: 100%; padding: 20px; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; border-radius: 12px; background: var(--c-brand); color: #FFF; border: none; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 20px rgba(255,87,34,0.3); position:relative; overflow:hidden;}
+        .btn-massive::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: skewX(-25deg); animation: shine 3s infinite; }
+        .btn-massive:hover { background: var(--c-brand-dark); transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255,87,34,0.4); }
+
+        /* Stats Overlay (White Background Alternate) */
+        .stats-overlay { position: relative; padding: 60px 0; background: #FFF; margin: 0 20px; border-radius: 24px; top: -50px; z-index: 15; box-shadow: 0 20px 40px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.05); }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; text-align: center; }
+        .stat-box h4 { font-size: 3.5rem; font-weight: 900; margin-bottom: 5px; color: var(--c-slate-900); }
+        .stat-box span { color: var(--c-brand); }
+        .stat-box p { color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.9rem; }
+        @media(max-width: 768px) { .stats-grid { grid-template-columns: 1fr 1fr; gap: 40px; } .stats-overlay { padding: 40px 0; } }
+
+        /* Infinite Marquee (Light Slate Gray Alternate) */
+        .brand-marquee { padding: 40px 0; background: var(--c-slate-50); border-bottom: 1px solid rgba(0,0,0,0.05); overflow: hidden; display: flex; white-space: nowrap; margin-bottom: 0px;}
+        .marquee-track { display: flex; animation: scrollTrack 30s linear infinite; gap: 60px; align-items:center; }
+        .marquee-item { font-size: 1.6rem; font-weight: 900; color: #1e293b; text-transform: uppercase; letter-spacing: 3px; }
+        .marquee-item:nth-child(even) { color: var(--c-brand); font-size: 1.2rem; }
+        @keyframes scrollTrack { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* Bouncy Service Grid (Warm Peach Alternate Background) */
+        .services-showcase { padding: 100px 0 120px; background: var(--c-warm-bg); position: relative; border-bottom: 1px solid rgba(255,87,34,0.1); }
+        .section-header { text-align: center; margin-bottom: 70px; }
+        .section-header h2 { font-size: clamp(2.5rem, 4vw, 3.8rem); font-weight: 900; color: var(--c-slate-900); margin-bottom: 20px; letter-spacing:-1px;}
+        .section-header p { font-size: 1.25rem; color: #64748b; max-width: 650px; margin: 0 auto; line-height: 1.6; font-weight:500;}
+        
+        .svc-grid-modern { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; }
+        .svc-card-3d { background: #FFF; border-radius: 24px; padding: 40px; box-shadow: var(--shadow-card); position: relative; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none; color: inherit; display: block; border: 1px solid rgba(0,0,0,0.03); overflow:hidden; }
+        .svc-card-3d::before { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle at top right, rgba(255,87,34,0.06) 0%, transparent 60%); opacity:0; transition: 0.4s; }
+        .svc-card-3d:hover { transform: translateY(-15px); box-shadow: var(--shadow-float); border-color: rgba(255,87,34,0.2); }
+        .svc-card-3d:hover::before { opacity:1; }
+        
+        .svc-icon-3d { width: 85px; height: 85px; background: var(--c-warm-bg); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; color: var(--c-brand); margin-bottom: 30px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(255,87,34,0.1);}
+        .svc-card-3d:hover .svc-icon-3d { transform: scale(1.15) rotate(10deg); background: var(--c-brand); color: #FFF; box-shadow: 0 15px 30px rgba(255,87,34,0.3); border-color:var(--c-brand);}
+        
+        .svc-title-3d { font-size: 1.6rem; font-weight: 900; color: var(--c-slate-900); margin-bottom: 15px; }
+        .svc-desc-3d { color: #64748b; line-height: 1.7; font-size: 1.05rem; margin-bottom: 30px; font-weight:500;}
+        .svc-arrow { position: absolute; bottom: 35px; right: 35px; width: 50px; height: 50px; border-radius: 50%; background: var(--c-slate-50); border:1px solid #e2e8f0; display: flex; align-items:center; justify-content:center; color: var(--c-slate-900); transition: 0.4s; opacity: 0; transform: translateX(-20px) scale(0.8); font-size: 1.2rem;}
+        .svc-card-3d:hover .svc-arrow { opacity: 1; transform: translateX(0) scale(1); background: var(--c-slate-900); color: #FFF; border-color:var(--c-slate-900);}
+
+        /* Motion Graphic Workflow (Deep High-Tech Dark Alternate Background) */
+        .workflow-interactive { padding: 120px 0; background: var(--c-slate-900); position: relative; overflow:hidden;}
+        .workflow-interactive .section-header h2 { color: #FFF; }
+        .workflow-interactive .section-header p { color: #94a3b8; }
+        
+        .workflow-path { position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: repeating-linear-gradient(90deg, rgba(255,255,255,0.1) 0, rgba(255,255,255,0.1) 10px, transparent 10px, transparent 20px); z-index: 0; }
+        
+        .workflow-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; position: relative; z-index: 1; margin-top: 60px;}
+        @media(max-width: 900px) { .workflow-grid { grid-template-columns: 1fr; gap: 50px; } .workflow-path { display:none; } }
+        
+        .step-card { text-align: center; background: transparent; position: relative; z-index: 2; padding: 20px; border-radius: 20px; transition: 0.4s; }
+        .step-card:hover { background: rgba(255,255,255,0.03); transform: translateY(-10px); }
+        .step-icon-wrap { width: 110px; height: 110px; background: var(--c-slate-800); border: 2px solid var(--c-brand); border-radius: 50%; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--c-brand); position: relative; box-shadow: 0 10px 30px rgba(255,87,34,0.2); transition: 0.4s; }
+        .step-icon-wrap::after { content: ''; position: absolute; inset: -12px; border: 2px dashed rgba(255,87,34,0.3); border-radius: 50%; animation: spin 10s linear infinite; }
+        .step-card:hover .step-icon-wrap { transform: scale(1.1); background: var(--c-brand); color: #FFF; box-shadow: 0 15px 40px rgba(255,87,34,0.4); }
+        .step-title { font-size: 1.5rem; font-weight: 900; color: #FFF; margin-bottom: 15px; }
+        .step-desc { color: #cbd5e1; font-size: 1.05rem; line-height: 1.6; }
+        
+        /* FAQ Accordion (Clean White Alternate Background) */
+        .faq-section { background:#FFF; border-top: 1px solid rgba(0,0,0,0.05); }
+
+    </style>
 </head>
 <body>
 
     <!-- Advanced Dual-Tab Modal -->
     <div id="queryModal" class="modal-overlay">
         <div class="modal-box">
-            <button class="modal-close" id="closeModal"><i class="fas fa-times"></i></button>
-            
+            <button class="modal-close" onclick="document.getElementById('queryModal').classList.remove('active');"><i class="fas fa-times"></i></button>
             <div class="modal-tabs">
-                <button class="modal-tab active" data-target="tab1">Request Service</button>
-                <button class="modal-tab" data-target="tab2">General Query</button>
+                <button class="modal-tab active" onclick="switchTab('tab1')">Priority Service</button>
+                <button class="modal-tab" onclick="switchTab('tab2')">General Query</button>
             </div>
-
             <div class="modal-body">
-                <!-- Tab 1: Service Block -->
                 <div id="tab1" class="modal-panel active">
-                    <button type="button" class="location-btn" onclick="detectLocation()">
-                        <i class="fas fa-crosshairs"></i> <span id="locText">Detect My Live Location</span>
+                    <button type="button" class="location-btn" onclick="detectLocation()" style="width:100%; border:none; background:rgba(37,99,235,0.05); color:#2563eb; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; margin-bottom:20px; display:flex; align-items:center; justify-content:center; gap:8px; transition:0.3s; box-shadow:0 4px 6px rgba(37,99,235,0.1);">
+                        <i class="fas fa-crosshairs"></i> <span id="locText">Detect My Live Coordinates</span>
                     </button>
-                    <form onsubmit="event.preventDefault(); alert('Priority service request sent with location!'); document.getElementById('queryModal').classList.remove('active');">
+                    <form onsubmit="event.preventDefault(); alert('Priority service request sent with GPS location!'); document.getElementById('queryModal').classList.remove('active');">
                         <div class="form-group">
                             <i class="fas fa-user form-icon"></i>
-                            <input type="text" class="form-control" placeholder="Your Name" required>
+                            <input type="text" class="form-control" placeholder="Property Owner Name" required>
                         </div>
                         <div class="form-group">
                             <i class="fas fa-phone form-icon"></i>
-                            <input type="tel" class="form-control" placeholder="Mobile Number" required>
+                            <input type="tel" class="form-control" placeholder="Active Mobile Format (+91)" required>
                         </div>
                         <div class="form-group">
                             <i class="fas fa-tools form-icon"></i>
@@ -46,29 +177,29 @@
                                 <option value="stove">Built-in Hob / Stove</option>
                                 <option value="microwave">Microwave Oven</option>
                                 <option value="ro">RO Purifier</option>
+                                <option value="dishwasher">Smart Dishwasher</option>
                             </select>
+                            <i class="fas fa-chevron-down" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#94a3b8; pointer-events:none;"></i>
                         </div>
-                        <input type="hidden" id="latitudeField" name="latitude">
-                        <input type="hidden" id="longitudeField" name="longitude">
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">Dispatch Technician Now</button>
+                        <input type="hidden" id="modalLat">
+                        <input type="hidden" id="modalLong">
+                        <button type="submit" class="btn-massive" style="border-radius:12px;">Trigger Dispatch <i class="fas fa-paper-plane"></i></button>
                     </form>
                 </div>
-
-                <!-- Tab 2: Query Block -->
                 <div id="tab2" class="modal-panel">
-                    <form onsubmit="event.preventDefault(); alert('Query submitted. Our team will contact you within 30 minutes.'); document.getElementById('queryModal').classList.remove('active');">
+                    <form onsubmit="event.preventDefault(); alert('Query submitted. Our team will contact you securely.'); document.getElementById('queryModal').classList.remove('active');">
                         <div class="form-group">
                             <i class="fas fa-user form-icon"></i>
-                            <input type="text" class="form-control" placeholder="Name" required>
+                            <input type="text" class="form-control" placeholder="Your Name" required>
                         </div>
                         <div class="form-group">
                             <i class="fas fa-envelope form-icon"></i>
                             <input type="email" class="form-control" placeholder="Email Address" required>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" rows="4" style="padding-left:16px;" placeholder="What do you need help with?" required></textarea>
+                            <textarea class="form-control" rows="4" style="padding-left:16px; border-radius:12px;" placeholder="What do you need help with?" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-secondary" style="width: 100%;">Submit Query</button>
+                        <button type="submit" class="btn-massive" style="border-radius:12px; background:#1e293b; box-shadow:0 10px 20px rgba(0,0,0,0.2);">Submit Query <i class="fas fa-arrow-right"></i></button>
                     </form>
                 </div>
             </div>
@@ -79,7 +210,7 @@
     <div class="top-bar">
         <div class="container">
             <div class="top-bar-left">
-                <span><i class="fas fa-shield-alt"></i> Verified & Guaranteed Operations</span>
+                <span><i class="fas fa-shield-alt"></i> Verified Operations</span>
                 <span style="margin-left: 30px;"><i class="fas fa-bolt"></i> 120-Min SLA in Pune</span>
             </div>
             <div class="top-bar-right">
@@ -93,13 +224,12 @@
     <header class="main-header" id="mainHeader">
         <div class="container header-wrapper">
             <a href="index.html" class="logo">
-                <img src="assets/logo_new_1774159155609.png" alt="QuickCare Service Logo">
+                <img src="assets/logo_new_1774159155609.png" alt="QuickCare Service">
                 <div class="logo-text">
                     <span class="logo-title">QuickCare</span>
                     <span class="logo-sub">Appliance Service</span>
                 </div>
             </a>
-            
             <nav class="nav-menu" id="navLinks">
                 <a href="index.html" class="active">Home</a>
                 <a href="about.html">About Us</a>
@@ -115,276 +245,253 @@
                 </div>
                 <a href="contact.html">Contact Us</a>
                 <a href="tel:18001038824" class="btn btn-primary" style="margin-left: 10px; padding: 12px 24px;">
-                    <i class="fas fa-phone-volume"></i> Support 24/7
+                    <i class="fas fa-headset"></i> Support 24/7
                 </a>
             </nav>
             <button class="mobile-btn" id="mobileToggle"><i class="fas fa-bars"></i></button>
         </div>
     </header>
 
-    <!-- Deep Vibrant Hero Overlap -->
-    <section class="hero">
-        <div class="hero-bg-slider swiper hero-swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="assets/hero_indian_1774159176459.png" alt="Pune Expert"></div>
-                <div class="swiper-slide"><img src="assets/chimney_indian_1774159192970.png" alt="Chimney Expert"></div>
-            </div>
-        </div>
+    <!-- ADVANCED SPLIT-SCREEN CREATIVE SLIDER HERO -->
+    <section class="hero-split-fullscreen">
         
-        <div class="container hero-wrapper">
-            <div class="hero-content" data-aos="fade-right" data-aos-duration="1000">
-                <div class="hero-badges">
-                    <span class="hero-badge"><i class="fas fa-check-circle"></i> ISO 9001:2015</span>
-                    <span class="hero-badge"><i class="fas fa-star"></i> 4.9/5 Rating</span>
+        <!-- Interactive Background Slider -->
+        <div class="swiper hero-creative-swiper">
+            <div class="swiper-wrapper">
+                
+                <!-- Slide 1 -->
+                <div class="swiper-slide">
+                    <div class="slide-bg" data-swiper-parallax="30%" style="background-image: url('assets/hero_indian_1774159176459.png');"></div>
+                    <div class="container hero-slide-inner">
+                        <div class="slide-text-box" data-swiper-parallax="-300" >
+                            <div class="hero-badges">
+                                <span class="hero-badge"><i class="fas fa-check-circle"></i> ISO 9001:2015</span>
+                                <span class="hero-badge"><i class="fas fa-star" style="color:#FBBF24;"></i> 4.9/5 Rating</span>
+                            </div>
+                            <h1>Pune's Most Elite <span>Appliance Engineers.</span></h1>
+                            <p>We deploy heavily trained technicians directly to your doorstep in 120 minutes. Original OEM parts and absolute logic transparency.</p>
+                        </div>
+                    </div>
                 </div>
-                <h1>Pune's Most Elite <span>Appliance Engineers.</span></h1>
-                <p>We deploy directly to your doorstep in 120 minutes. Advanced circuitry repair for Chimneys, Built-in Hobs, Microwaves, and RO Systems.</p>
-                <button class="btn btn-secondary" onclick="document.getElementById('queryModal').classList.add('active');"><i class="fas fa-tools"></i> Request Engineer Now</button>
-                <a href="tel:18001038824" class="btn btn-white" style="margin-left: 15px;"><i class="fas fa-phone"></i> Call Operations</a>
-            </div>
 
-            <!-- Booking Card Floating Over Image -->
-            <div class="hero-form-card" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="200">
-                <h3>Priority Assessment</h3>
-                <p>No hidden fees. Book an engineer immediately.</p>
-                <form onsubmit="event.preventDefault(); alert('Priority service request sent with location!');">
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <input type="text" class="form-control" placeholder="Property Owner Name" style="padding-left: 15px;" required>
+                <!-- Slide 2 -->
+                <div class="swiper-slide">
+                    <div class="slide-bg" data-swiper-parallax="30%" style="background-image: url('assets/chimney_indian_1774159192970.png');"></div>
+                    <div class="container hero-slide-inner">
+                        <div class="slide-text-box" data-swiper-parallax="-300" >
+                            <div class="hero-badges">
+                                <span class="hero-badge"><i class="fas fa-shield-alt"></i> 30-Day SLA</span>
+                            </div>
+                            <h1>Advanced Hardware <span>Recovery System.</span></h1>
+                            <p>We execute deep chemical descaling and heavy motor rewinding to brutally restore your appliances to factory suction states.</p>
+                        </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <input type="tel" class="form-control" placeholder="+91 Mobile Matrix" style="padding-left: 15px;" required>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="swiper-slide">
+                    <div class="slide-bg" data-swiper-parallax="30%" style="background-image: url('assets/microwave_indian_1774159242700.png');"></div>
+                    <div class="container hero-slide-inner">
+                        <div class="slide-text-box" data-swiper-parallax="-300" >
+                            <div class="hero-badges">
+                                <span class="hero-badge"><i class="fas fa-battery-full"></i> 100% Guaranteed</span>
+                            </div>
+                            <h1>Circuit Logic <span>Diagnostics.</span></h1>
+                            <p>Specialists in handling high-voltage PCB board restoration and magnetron replacements for microwave and modern water purifiers.</p>
+                        </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <select class="form-control" style="padding-left: 15px; appearance:none;" required>
-                            <option value="">Select Failed System</option>
-                            <option value="chimney">Chimney Matrix</option>
-                            <option value="stove">Built-in Hob Fault</option>
-                            <option value="microwave">Microwave Circuitry</option>
-                            <option value="ro">RO Calibrations</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; border-radius:8px;">Initialize Dispatch <i class="fas fa-paper-plane"></i></button>
-                </form>
+                </div>
+
+            </div>
+            
+            <!-- Swiper Controls -->
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+
+        <!-- Static Booking Form Component -->
+        <div class="container hero-static-layer">
+            <div class="hero-form-col" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="400">
+                <div class="hero-form-card">
+                    <h3>Priority Assessment</h3>
+                    <p>Cut the queue. Send coordinates for instant dispatch.</p>
+                    <form onsubmit="event.preventDefault(); alert('Priority service request sent with GPS location!');">
+                        <button type="button" onclick="detectLocation()" style="width:100%; border:none; background:rgba(37,99,235,0.05); color:#2563eb; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; margin-bottom:20px; display:flex; align-items:center; justify-content:center; gap:8px; transition:0.3s; box-shadow:0 4px 6px rgba(37,99,235,0.1);">
+                            <i class="fas fa-crosshairs"></i> <span id="locText">Auto-Detect Current GPS</span>
+                        </button>
+                        <div class="form-group">
+                            <i class="fas fa-user form-icon"></i>
+                            <input type="text" class="form-control" placeholder="Property Owner Name" required>
+                        </div>
+                        <div class="form-group">
+                            <i class="fas fa-phone form-icon"></i>
+                            <input type="tel" class="form-control" placeholder="Active Mobile Number" required>
+                        </div>
+                        <div class="form-group">
+                            <i class="fas fa-tools form-icon"></i>
+                            <select class="form-control" style="appearance:none;" required>
+                                <option value="">Select Defective Appliance</option>
+                                <option value="chimney">Kitchen Chimney</option>
+                                <option value="hob">Built-in Hob</option>
+                                <option value="microwave">Microwave Oven</option>
+                                <option value="ro">RO Purifier</option>
+                                <option value="dishwasher">Smart Dishwasher</option>
+                            </select>
+                            <i class="fas fa-chevron-down" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#94a3b8; pointer-events:none;"></i>
+                        </div>
+                        <button type="submit" class="btn-massive" style="box-shadow:0 15px 30px rgba(255,87,34,0.3);">Trigger Dispatch <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Ticker Section -->
-    <div class="ticker-wrap">
-        <div class="ticker">
-            <span class="ticker-item">Gas Stove Repair ◆</span>
-            <span class="ticker-item">Microwave Repair ◆</span>
-            <span class="ticker-item">RO Water Purifier ◆</span>
-            <span class="ticker-item">Dishwasher Repair ◆</span>
-            <span class="ticker-item">Cooking Range ◆</span>
-            <span class="ticker-item">Built-in Hob ◆</span>
-            <span class="ticker-item">Same-Day Service ◆</span>
-            <span class="ticker-item">30-Day Warranty ◆</span>
-            <span class="ticker-item">Certified Technicians ◆</span>
-            <span class="ticker-item">Gas Stove Repair ◆</span>
-            <span class="ticker-item">Microwave Repair ◆</span>
-            <span class="ticker-item">RO Water Purifier ◆</span>
-            <span class="ticker-item">Dishwasher Repair ◆</span>
-            <span class="ticker-item">Cooking Range ◆</span>
+    <!-- 1. Stats Overlay Panel (White BG Alternate) -->
+    <div class="container">
+        <div class="stats-overlay" data-aos="fade-up">
+            <div class="stats-grid">
+                <div class="stat-box"><h4>10<span>k+</span></h4><p>Successful Fixes</p></div>
+                <div class="stat-box"><h4>120<span>m</span></h4><p>SLA Guarantee</p></div>
+                <div class="stat-box"><h4>30<span>d</span></h4><p>Repair Warranty</p></div>
+                <div class="stat-box"><h4>100<span>%</span></h4><p>Verified Hardware</p></div>
+            </div>
         </div>
     </div>
 
-    <!-- Trust Row (6 items) -->
-    <section class="trust-row">
-        <div class="container trust-grid-6">
-            <div class="trust-item" data-aos="fade-up" data-aos-delay="0">
-                <div class="trust-item-icon">🛡️</div>
-                <h4>30-Day Warranty</h4>
-                <p>On all parts & labor</p>
-            </div>
-            <div class="trust-item" data-aos="fade-up" data-aos-delay="50">
-                <div class="trust-item-icon">⚡</div>
-                <h4>Same-Day Service</h4>
-                <p>Quick turnaround</p>
-            </div>
-            <div class="trust-item" data-aos="fade-up" data-aos-delay="100">
-                <div class="trust-item-icon">👨‍🔧</div>
-                <h4>Certified Techs</h4>
-                <p>Background verified</p>
-            </div>
-            <div class="trust-item" data-aos="fade-up" data-aos-delay="150">
-                <div class="trust-item-icon">💰</div>
-                <h4>Transparent Pricing</h4>
-                <p>No hidden fees</p>
-            </div>
-            <div class="trust-item" data-aos="fade-up" data-aos-delay="200">
-                <div class="trust-item-icon">📍</div>
-                <h4>All Areas Pune</h4>
-                <p>Wide coverage</p>
-            </div>
-            <div class="trust-item" data-aos="fade-up" data-aos-delay="250">
-                <div class="trust-item-icon">📞</div>
-                <h4>Toll-Free Support</h4>
-                <p>Always available</p>
-            </div>
+    <!-- 2. Infinite Scroll Brand Logos (Light Gray Alternate) -->
+    <div class="brand-marquee">
+        <div class="marquee-track">
+            <div class="marquee-item">Bosch Service</div><div class="marquee-item">◆</div>
+            <div class="marquee-item">LG Appliances</div><div class="marquee-item">◆</div>
+            <div class="marquee-item">IFB Technical</div><div class="marquee-item">◆</div>
+            <div class="marquee-item">Elica Chimneys</div><div class="marquee-item">◆</div>
+            <div class="marquee-item">Faber Hobs</div><div class="marquee-item">◆</div>
+            <div class="marquee-item">Samsung Connect</div><div class="marquee-item">◆</div>
+            <div class="marquee-item">Whirlpool Care</div><div class="marquee-item">◆</div>
+            <!-- Repeat for seamless loop -->
+            <div class="marquee-item">Bosch Service</div><div class="marquee-item">◆</div>
+            <div class="marquee-item">LG Appliances</div><div class="marquee-item">◆</div>
+            <div class="marquee-item">IFB Technical</div><div class="marquee-item">◆</div>
+            <div class="marquee-item">Elica Chimneys</div><div class="marquee-item">◆</div>
         </div>
-    </section>
+    </div>
 
-    <!-- Dynamic Capabilities Gallery -->
-    <section class="section-padding bg-light" style="padding-top: 50px;">
+    <!-- 3. Hardware Matrix Service Grid (Warm Peach Alternate) -->
+    <section class="services-showcase">
         <div class="container">
-            <div class="section-head" data-aos="fade-up">
-                <span class="section-tag">Repair Modules</span>
-                <h2 class="section-title">Hardware Resolution Expertise</h2>
-                <p class="section-desc">We operate successfully on the most complex household appliance failures in Pune.</p>
+            <div class="section-header" data-aos="fade-up">
+                <h2>Our Hardware Matrix</h2>
+                <p>Select your failed appliance below. We service all major domestic and commercial kitchen systems using precise diagnostic technology.</p>
             </div>
 
-            <div class="service-grid">
-                <!-- Kitchen Chimney -->
-                <div class="visual-card" data-aos="flip-left">
-                    <div class="v-img-wrap">
-                        <img src="assets/chimney_indian_1774159192970.png" alt="Chimney Repair Pune">
-                        <div class="v-overlay"></div>
-                        <div class="v-icon"><i class="fas fa-wind"></i></div>
-                    </div>
-                    <div class="v-content">
-                        <h3>Kitchen Chimneys</h3>
-                        <p>Complete suction recovery, motor recalibration, and heavy grease extraction logics.</p>
-                        <a href="services.html" class="v-link">Review Protocol <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
+            <div class="svc-grid-modern">
+                <!-- Chimney -->
+                <a href="service-chimney.html" class="svc-card-3d" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="svc-icon-3d"><i class="fas fa-wind"></i></div>
+                    <h3 class="svc-title-3d">Kitchen Chimneys</h3>
+                    <p class="svc-desc-3d">Absolute extraction recovery. We handle deep chemical descale, motor rewinds, and logic board replacements.</p>
+                    <div class="svc-arrow"><i class="fas fa-arrow-right"></i></div>
+                </a>
 
-                <!-- Built In Hobs -->
-                <div class="visual-card" data-aos="flip-left" data-aos-delay="150">
-                    <div class="v-img-wrap">
-                        <img src="assets/stove_indian_1774159214973.png" alt="Hob Repair Pune">
-                        <div class="v-overlay"></div>
-                        <div class="v-icon"><i class="fas fa-fire-burner"></i></div>
-                    </div>
-                    <div class="v-content">
-                        <h3>Built-in Hobs</h3>
-                        <p>Immediate mitigation of dangerous gas leaks, auto-ignition errors, and valve locks.</p>
-                        <a href="services.html" class="v-link">Review Protocol <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
+                <!-- Hobs -->
+                <a href="service-hob.html" class="svc-card-3d" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="svc-icon-3d"><i class="fas fa-fire-burner"></i></div>
+                    <h3 class="svc-title-3d">Built-in Hobs</h3>
+                    <p class="svc-desc-3d">Gas leak mitigation, auto-ignition trigger calibrations, and complete burner flow overhauls for perfectly safe flames.</p>
+                    <div class="svc-arrow"><i class="fas fa-arrow-right"></i></div>
+                </a>
 
                 <!-- Microwave -->
-                <div class="visual-card" data-aos="flip-left" data-aos-delay="300">
-                    <div class="v-img-wrap">
-                        <img src="assets/microwave_indian_1774159242700.png" alt="Microwave Repair Pune">
-                        <div class="v-overlay"></div>
-                        <div class="v-icon"><i class="fas fa-wave-square"></i></div>
-                    </div>
-                    <div class="v-content">
-                        <h3>Microwave Array</h3>
-                        <p>Magnetron restorations, high-voltage diode replacements, and heating circuit fixes.</p>
-                        <a href="services.html" class="v-link">Review Protocol <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
+                <a href="service-microwave.html" class="svc-card-3d" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="svc-icon-3d"><i class="fas fa-wave-square"></i></div>
+                    <h3 class="svc-title-3d">Microwave Ovens</h3>
+                    <p class="svc-desc-3d">High-voltage magnetron replacements and PCB logic circuitry diagnostics for sparks, unheating, or dead panels.</p>
+                    <div class="svc-arrow"><i class="fas fa-arrow-right"></i></div>
+                </a>
 
-            <div style="text-align: center; margin-top: 60px;" data-aos="zoom-in" data-aos-delay="400">
-                <a href="services.html" class="btn btn-primary" style="padding: 20px 50px; font-size: 1.15rem; box-shadow: 0 10px 20px rgba(37,99,235,0.2);">Load Entire Service Catalog</a>
+                <!-- RO -->
+                <a href="service-ro.html" class="svc-card-3d" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="svc-icon-3d"><i class="fas fa-tint"></i></div>
+                    <h3 class="svc-title-3d">RO Purifiers</h3>
+                    <p class="svc-desc-3d">Absolute biological sterility. Membrane unblocking, booster pump replacements, and micro-precision TDS resets.</p>
+                    <div class="svc-arrow"><i class="fas fa-arrow-right"></i></div>
+                </a>
+
+                <!-- Dishwasher -->
+                <a href="service-dishwasher.html" class="svc-card-3d" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="svc-icon-3d"><i class="fas fa-sink"></i></div>
+                    <h3 class="svc-title-3d">Smart Dishwashers</h3>
+                    <p class="svc-desc-3d">Thermal logic fixes, motherboard drainage clears, and inlet valve sensor corrections for spotless dish execution.</p>
+                    <div class="svc-arrow"><i class="fas fa-arrow-right"></i></div>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Process Section -->
-    <div class="process-section section-padding">
+    <!-- 4. Deployment Path (Deep Dark Alternate) -->
+    <section class="workflow-interactive">
         <div class="container">
-            <div class="section-head" data-aos="fade-up">
-                <span class="section-tag" style="background:transparent;">SIMPLE PROCESS</span>
-                <h2 class="section-title" style="font-size: clamp(2rem, 3.5vw, 2.5rem); margin-bottom: 50px;">Get Your Appliance Fixed in 4 Easy Steps</h2>
+            <div class="section-header" data-aos="fade-up">
+                <h2>The Deployment Path</h2>
+                <p>Tracking the execution of your repair mandate from distress signal to active restoration.</p>
             </div>
 
-            <div class="process-grid">
-                <div class="process-step" data-aos="zoom-in" data-aos-delay="0">
-                    <div class="step-circle"><i class="fas fa-phone-alt"></i><div class="step-num">1</div></div>
-                    <h3>Call or WhatsApp</h3>
-                    <p>Call 1800-103-8824 or WhatsApp 7756996498 to book your repair</p>
+            <div class="workflow-grid">
+                <div class="workflow-path"></div>
+                
+                <div class="step-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="step-icon-wrap"><i class="fas fa-headset"></i></div>
+                    <h3 class="step-title">1. Transmission</h3>
+                    <p class="step-desc">Input data or call. Live operators assign priority.</p>
                 </div>
-                <div class="process-step" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="step-circle"><i class="fas fa-calendar-alt"></i><div class="step-num">2</div></div>
-                    <h3>Schedule Visit</h3>
-                    <p>Pick a convenient slot — same-day, next-day, or scheduled</p>
+                
+                <div class="step-card" data-aos="fade-up" data-aos-delay="150">
+                    <div class="step-icon-wrap"><i class="fas fa-truck-fast"></i></div>
+                    <h3 class="step-title">2. Intercept</h3>
+                    <p class="step-desc">Engineer hits coordinates inside 120 minutes.</p>
                 </div>
-                <div class="process-step" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="step-circle"><i class="fas fa-search"></i><div class="step-num">3</div></div>
-                    <h3>Diagnosis & Quote</h3>
-                    <p>Technician arrives, diagnoses the problem, gives upfront fixed quote</p>
+                
+                <div class="step-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="step-icon-wrap"><i class="fas fa-microscope"></i></div>
+                    <h3 class="step-title">3. Diagnose</h3>
+                    <p class="step-desc">Absolute multi-meter logic check and flat quote.</p>
                 </div>
-                <div class="process-step" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="step-circle"><i class="fas fa-check"></i><div class="step-num">4</div></div>
-                    <h3>Repair & Warranty</h3>
-                    <p>Appliance fixed successfully with 30-day service warranty</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Intersecting "Why Choose Us" Split Layout -->
-    <section class="section-padding bg-light" style="overflow: hidden;">
-        <div class="container">
-            <div class="section-head" data-aos="fade-up">
-                <span class="section-tag">WHY QUICKCARE?</span>
-                <h2>Pune's Most Trusted Appliance Repair</h2>
-                <p class="section-desc">We deliver hassle-free, professional service directly to your doorstep.</p>
-            </div>
-            
-            <div class="why-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
-                <div class="why-card" style="background:#FFF; padding:24px; border-radius:16px; box-shadow:var(--shadow-sm); border-left:3px solid var(--primary);">
-                    <div style="width:48px;height:48px;background:rgba(37, 99, 235, 0.1);color:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;"><i class="fas fa-bolt"></i></div>
-                    <h3 style="font-size:18px;margin-bottom:8px;">Same-Day Response</h3>
-                    <p style="font-size:14px;color:var(--text-body);">We understand the urgency of a broken kitchen up to speed. Book before 2PM for same-day service.</p>
-                </div>
-                <div class="why-card" style="background:#FFF; padding:24px; border-radius:16px; box-shadow:var(--shadow-sm); border-left:3px solid var(--primary);">
-                    <div style="width:48px;height:48px;background:rgba(37, 99, 235, 0.1);color:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;"><i class="fas fa-shield-alt"></i></div>
-                    <h3 style="font-size:18px;margin-bottom:8px;">30-Day Warranty</h3>
-                    <p style="font-size:14px;color:var(--text-body);">Peace of mind with our service guarantee on all appliance repairs and spare parts used.</p>
-                </div>
-                <div class="why-card" style="background:#FFF; padding:24px; border-radius:16px; box-shadow:var(--shadow-sm); border-left:3px solid var(--primary);">
-                    <div style="width:48px;height:48px;background:rgba(37, 99, 235, 0.1);color:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;"><i class="fas fa-user-check"></i></div>
-                    <h3 style="font-size:18px;margin-bottom:8px;">Certified Technicians</h3>
-                    <p style="font-size:14px;color:var(--text-body);">Our experts are highly trained, background-verified, and experienced across major brands.</p>
-                </div>
-                <div class="why-card" style="background:#FFF; padding:24px; border-radius:16px; box-shadow:var(--shadow-sm); border-left:3px solid var(--primary);">
-                    <div style="width:48px;height:48px;background:rgba(37, 99, 235, 0.1);color:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;"><i class="fas fa-indian-rupee-sign"></i></div>
-                    <h3 style="font-size:18px;margin-bottom:8px;">No Hidden Charges</h3>
-                    <p style="font-size:14px;color:var(--text-body);">We provide upfront, transparent diagnosis quotes before starting any repair work.</p>
-                </div>
-                <div class="why-card" style="background:#FFF; padding:24px; border-radius:16px; box-shadow:var(--shadow-sm); border-left:3px solid var(--primary);">
-                    <div style="width:48px;height:48px;background:rgba(37, 99, 235, 0.1);color:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;"><i class="fas fa-home"></i></div>
-                    <h3 style="font-size:18px;margin-bottom:8px;">Doorstep Service</h3>
-                    <p style="font-size:14px;color:var(--text-body);">No need to carry heavy appliances. We fix them right in your kitchen instantly.</p>
-                </div>
-                <div class="why-card" style="background:#FFF; padding:24px; border-radius:16px; box-shadow:var(--shadow-sm); border-left:3px solid var(--primary);">
-                    <div style="width:48px;height:48px;background:rgba(37, 99, 235, 0.1);color:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;"><i class="fas fa-check-circle"></i></div>
-                    <h3 style="font-size:18px;margin-bottom:8px;">All Brands Covered</h3>
-                    <p style="font-size:14px;color:var(--text-body);">From Elica and Faber to Bosch, LG, and IFB, we service all major brands perfectly.</p>
+                
+                <div class="step-card" data-aos="fade-up" data-aos-delay="450">
+                    <div class="step-icon-wrap"><i class="fas fa-check-double"></i></div>
+                    <h3 class="step-title">4. Restore & Guarantee</h3>
+                    <p class="step-desc">Perfectly replaced parts secured by a 30-Day SLA.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FAQ Accordion -->
-    <section class="section-padding">
+    <!-- 5. FAQ Accordion (Clean White Alternate bg is inside .faq-section) -->
+    <section class="section-padding faq-section">
         <div class="container">
-            <div class="section-head" data-aos="fade-up">
-                <h2 class="section-title">Common Queries</h2>
+            <div class="section-header" data-aos="fade-up">
+                <h2 style="font-weight:900;">Transparent Operations</h2>
+                <p style="font-size:1.2rem; color:#64748b; font-weight:500;">Answers to common queries about our hardware resolution procedures.</p>
             </div>
             
-            <div class="faq-container" data-aos="zoom-in">
+            <div class="faq-container" data-aos="zoom-in" style="max-width: 900px; margin: 0 auto;">
                 <div class="faq-item active">
-                    <button class="faq-question"><span>How fast can an engineer reach me in Pune?</span> <i class="fas fa-chevron-down faq-icon"></i></button>
+                    <button class="faq-question" style="font-size:1.15rem; padding: 25px; font-weight:800;"><span>How fast can an engineer reach me in Pune?</span> <i class="fas fa-chevron-down faq-icon"></i></button>
                     <div class="faq-answer" style="max-height: 200px;">
-                        <div class="faq-answer-content">Our internal SLA dictates a maximum 120-minute response vector for any address within standard Pune municipal limits.</div>
+                        <div class="faq-answer-content" style="padding:0 25px 25px; font-size:1.05rem; font-weight:500; color:#475569;">Our internal SLA dictates a maximum 120-minute response vector for any address within standard Pune municipal limits.</div>
                     </div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question"><span>Do you supply original specific brand spare parts?</span> <i class="fas fa-chevron-down faq-icon"></i></button>
+                    <button class="faq-question" style="font-size:1.15rem; padding: 25px; font-weight:800;"><span>Do you supply original brand spare parts?</span> <i class="fas fa-chevron-down faq-icon"></i></button>
                     <div class="faq-answer">
-                        <div class="faq-answer-content">Absolutely. We only utilize Tier-1, OEM-certified hardware blocks for any major appliance replacements like magnetrons or hob valves.</div>
+                        <div class="faq-answer-content" style="padding:0 25px 25px; font-size:1.05rem; font-weight:500; color:#475569;">Absolutely. We only utilize Tier-1, OEM-certified hardware blocks for any major appliance replacements like magnetrons or hob valves.</div>
                     </div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question"><span>Is there an upfront visitation charge?</span> <i class="fas fa-chevron-down faq-icon"></i></button>
+                    <button class="faq-question" style="font-size:1.15rem; padding: 25px; font-weight:800;"><span>Is there an upfront visitation charge?</span> <i class="fas fa-chevron-down faq-icon"></i></button>
                     <div class="faq-answer">
-                        <div class="faq-answer-content">Yes, a highly affordable, standard diagnostic fee is applied for the engineer's deployment. This covers their highly technical assessment.</div>
+                        <div class="faq-answer-content" style="padding:0 25px 25px; font-size:1.05rem; font-weight:500; color:#475569;">Yes, a highly affordable, standard diagnostic fee is applied for the engineer's deployment. This covers their highly technical assessment.</div>
                     </div>
                 </div>
             </div>
@@ -393,7 +500,7 @@
 
     <!-- Floating Action Buttons -->
     <div class="fab-container">
-        <a onclick="document.getElementById('queryModal').classList.add('active');" class="fab fab-query" style="background:#8B5CF6;" title="Quick Query"><i class="fas fa-clipboard-list"></i></a>
+        <a onclick="document.getElementById('queryModal').classList.add('active');" class="fab fab-query" style="background:#8B5CF6; cursor:pointer;" title="Priority Booking"><i class="fas fa-tools"></i></a>
         <a href="https://wa.me/917756996498" target="_blank" class="fab fab-wa"><i class="fab fa-whatsapp"></i></a>
         <a href="tel:18001038824" class="fab fab-call"><i class="fas fa-phone-alt"></i></a>
     </div>
@@ -402,7 +509,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col-1" data-aos="fade-up" data-aos-delay="100">
+                <div class="footer-col-1">
                     <div class="footer-logo">
                         <img src="assets/logo_new_1774159155609.png" alt="QuickCare Service">
                         <span>QuickCare.</span>
@@ -415,17 +522,17 @@
                     </div>
                 </div>
                 
-                <div data-aos="fade-up" data-aos-delay="200">
+                <div>
                     <h4 class="footer-title">Navigation Grid</h4>
                     <ul class="footer-links">
                         <li><a href="index.html"><i class="fas fa-circle"></i> Command Center</a></li>
                         <li><a href="about.html"><i class="fas fa-circle"></i> Corporate Array</a></li>
                         <li><a href="services.html"><i class="fas fa-circle"></i> Service Capabilities</a></li>
-                        <li><a href="terms.html"><i class="fas fa-circle"></i> Legal Protocols</a></li>
+                        <li><a href="contact.html"><i class="fas fa-circle"></i> Dispatch Hub</a></li>
                     </ul>
                 </div>
 
-                <div data-aos="fade-up" data-aos-delay="300">
+                <div>
                     <h4 class="footer-title">Hardware Targets</h4>
                     <ul class="footer-links">
                         <li><a href="service-chimney.html"><i class="fas fa-circle"></i> Kitchen Chimneys</a></li>
@@ -436,7 +543,7 @@
                     </ul>
                 </div>
 
-                <div data-aos="fade-up" data-aos-delay="400">
+                <div>
                     <h4 class="footer-title">Central Hub</h4>
                     <ul class="footer-contact">
                         <li><i class="fas fa-map-marker-alt"></i> <span>Shop 5, Dhanori Rd, Jakat Naka, Pune - 411015</span></li>
@@ -456,5 +563,35 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({ duration: 800, once: true, offset: 50 });
+            
+            // Re-initialize Swiper specifically for Creative Parallax Effect
+            if(typeof Swiper !== 'undefined') {
+                new Swiper('.hero-creative-swiper', {
+                    loop: true,
+                    speed: 1200,
+                    parallax: true,
+                    autoplay: { delay: 5000, disableOnInteraction: false },
+                    pagination: { el: '.swiper-pagination', clickable: true },
+                    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+                    effect: 'creative',
+                    creativeEffect: {
+                        prev: { shadow: true, translate: ['-20%', 0, -1] },
+                        next: { translate: ['100%', 0, 0] }
+                    }
+                });
+            }
+
+            // Tabs Logic
+            window.switchTab = function(tabId) {
+                document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.modal-panel').forEach(p => p.classList.remove('active'));
+                event.target.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            }
+        });
+    </script>
 </body>
 </html>
