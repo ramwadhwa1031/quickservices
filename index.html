@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickCare Service | Elite Appliance Repair</title>
+    
+    <meta name="keywords" content="kitchen appliance repair Pune, appliance repair service Pune, chimney repair Pune, gas stove repair Pune, microwave repair Pune, oven repair Pune, cooktop repair Pune, hob repair service Pune, dishwasher repair Pune, water purifier repair Pune, cooking range repair Pune, kitchen chimney service Pune, built-in hob repair Pune, gas stove service near me, microwave oven repair Pune, RO water purifier service Pune, dishwasher technician Pune, cooking range service Pune, cooktop burner repair Pune, electric oven repair">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Advanced Dual-Tab Modal -->
+    <div id="queryModal" class="modal-overlay">
+        <div class="modal-box">
+            <button class="modal-close" id="closeModal"><i class="fas fa-times"></i></button>
+            
+            <div class="modal-tabs">
+                <button class="modal-tab active" data-target="tab1">Request Service</button>
+                <button class="modal-tab" data-target="tab2">General Query</button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Tab 1: Service Block -->
+                <div id="tab1" class="modal-panel active">
+                    <button type="button" class="location-btn" onclick="detectLocation()">
+                        <i class="fas fa-crosshairs"></i> <span id="locText">Detect My Live Location</span>
+                    </button>
+                    <form onsubmit="event.preventDefault(); alert('Priority service request sent with location!'); document.getElementById('queryModal').classList.remove('active');">
+                        <div class="form-group">
+                            <i class="fas fa-user form-icon"></i>
+                            <input type="text" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <i class="fas fa-phone form-icon"></i>
+                            <input type="tel" class="form-control" placeholder="Mobile Number" required>
+                        </div>
+                        <div class="form-group">
+                            <i class="fas fa-tools form-icon"></i>
+                            <select class="form-control" required style="padding-left: 45px; appearance:none;">
+                                <option value="">Select Defective Appliance</option>
+                                <option value="chimney">Kitchen Chimney</option>
+                                <option value="stove">Built-in Hob / Stove</option>
+                                <option value="microwave">Microwave Oven</option>
+                                <option value="ro">RO Purifier</option>
+                            </select>
+                        </div>
+                        <input type="hidden" id="latitudeField" name="latitude">
+                        <input type="hidden" id="longitudeField" name="longitude">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Dispatch Technician Now</button>
+                    </form>
+                </div>
+
+                <!-- Tab 2: Query Block -->
+                <div id="tab2" class="modal-panel">
+                    <form onsubmit="event.preventDefault(); alert('Query submitted. Our team will contact you within 30 minutes.'); document.getElementById('queryModal').classList.remove('active');">
+                        <div class="form-group">
+                            <i class="fas fa-user form-icon"></i>
+                            <input type="text" class="form-control" placeholder="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <i class="fas fa-envelope form-icon"></i>
+                            <input type="email" class="form-control" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="4" style="padding-left:16px;" placeholder="What do you need help with?" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-secondary" style="width: 100%;">Submit Query</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Info Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <span><i class="fas fa-shield-alt"></i> Verified & Guaranteed Operations</span>
+                <span style="margin-left: 30px;"><i class="fas fa-bolt"></i> 120-Min SLA in Pune</span>
+            </div>
+            <div class="top-bar-right">
+                <a href="mailto:divedipankaj9@gmail.com"><i class="fas fa-envelope"></i> divedipankaj9@gmail.com</a>
+                <a href="tel:18001038824" style="color: #FFF;"><i class="fas fa-phone-alt"></i> 1800 103 8824</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Main Header -->
+    <header class="main-header" id="mainHeader">
+        <div class="container header-wrapper">
+            <a href="index.html" class="logo">
+                <img src="assets/logo_new_1774159155609.png" alt="QuickCare Service Logo">
+                <div class="logo-text">
+                    <span class="logo-title">QuickCare</span>
+                    <span class="logo-sub">Appliance Service</span>
+                </div>
+            </a>
+            
+            <nav class="nav-menu" id="navLinks">
+                <a href="index.html" class="active">Home</a>
+                <a href="about.html">About Us</a>
+                <div class="dropdown">
+                    <a href="services.html" class="dropbtn">Services <i class="fas fa-chevron-down" style="font-size: 0.8em; margin-left: 5px;"></i></a>
+                    <div class="dropdown-content">
+                        <a href="service-chimney.html">Kitchen Chimney</a>
+                        <a href="service-hob.html">Built-in Hob</a>
+                        <a href="service-microwave.html">Microwave Oven</a>
+                        <a href="service-ro.html">RO Purifier</a>
+                        <a href="service-dishwasher.html">Dishwashers</a>
+                    </div>
+                </div>
+                <a href="contact.html">Contact Us</a>
+                <a href="tel:18001038824" class="btn btn-primary" style="margin-left: 10px; padding: 12px 24px;">
+                    <i class="fas fa-phone-volume"></i> Support 24/7
+                </a>
+            </nav>
+            <button class="mobile-btn" id="mobileToggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Deep Vibrant Hero Overlap -->
+    <section class="hero">
+        <div class="hero-bg-slider swiper hero-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="assets/hero_indian_1774159176459.png" alt="Pune Expert"></div>
+                <div class="swiper-slide"><img src="assets/chimney_indian_1774159192970.png" alt="Chimney Expert"></div>
+            </div>
+        </div>
+        
+        <div class="container hero-wrapper">
+            <div class="hero-content" data-aos="fade-right" data-aos-duration="1000">
+                <div class="hero-badges">
+                    <span class="hero-badge"><i class="fas fa-check-circle"></i> ISO 9001:2015</span>
+                    <span class="hero-badge"><i class="fas fa-star"></i> 4.9/5 Rating</span>
+                </div>
+                <h1>Pune's Most Elite <span>Appliance Engineers.</span></h1>
+                <p>We deploy directly to your doorstep in 120 minutes. Advanced circuitry repair for Chimneys, Built-in Hobs, Microwaves, and RO Systems.</p>
+                <button class="btn btn-secondary" onclick="document.getElementById('queryModal').classList.add('active');"><i class="fas fa-tools"></i> Request Engineer Now</button>
+                <a href="tel:18001038824" class="btn btn-white" style="margin-left: 15px;"><i class="fas fa-phone"></i> Call Operations</a>
+            </div>
+
+            <!-- Booking Card Floating Over Image -->
+            <div class="hero-form-card" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="200">
+                <h3>Priority Assessment</h3>
+                <p>No hidden fees. Book an engineer immediately.</p>
+                <form onsubmit="event.preventDefault(); alert('Priority service request sent with location!');">
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <input type="text" class="form-control" placeholder="Property Owner Name" style="padding-left: 15px;" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <input type="tel" class="form-control" placeholder="+91 Mobile Matrix" style="padding-left: 15px;" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <select class="form-control" style="padding-left: 15px; appearance:none;" required>
+                            <option value="">Select Failed System</option>
+                            <option value="chimney">Chimney Matrix</option>
+                            <option value="stove">Built-in Hob Fault</option>
+                            <option value="microwave">Microwave Circuitry</option>
+                            <option value="ro">RO Calibrations</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; border-radius:8px;">Initialize Dispatch <i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ticker Section -->
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <span class="ticker-item">Gas Stove Repair ◆</span>
+            <span class="ticker-item">Microwave Repair ◆</span>
+            <span class="ticker-item">RO Water Purifier ◆</span>
+            <span class="ticker-item">Dishwasher Repair ◆</span>
+            <span class="ticker-item">Cooking Range ◆</span>
+            <span class="ticker-item">Built-in Hob ◆</span>
+            <span class="ticker-item">Same-Day Service ◆</span>
+            <span class="ticker-item">30-Day Warranty ◆</span>
+            <span class="ticker-item">Certified Technicians ◆</span>
+            <span class="ticker-item">Gas Stove Repair ◆</span>
+            <span class="ticker-item">Microwave Repair ◆</span>
+            <span class="ticker-item">RO Water Purifier ◆</span>
+            <span class="ticker-item">Dishwasher Repair ◆</span>
+            <span class="ticker-item">Cooking Range ◆</span>
+        </div>
+    </div>
+
+    <!-- Trust Row (6 items) -->
+    <section class="trust-row">
+        <div class="container trust-grid-6">
+            <div class="trust-item" data-aos="fade-up" data-aos-delay="0">
+                <div class="trust-item-icon">🛡️</div>
+                <h4>30-Day Warranty</h4>
+                <p>On all parts & labor</p>
+            </div>
+            <div class="trust-item" data-aos="fade-up" data-aos-delay="50">
+                <div class="trust-item-icon">⚡</div>
+                <h4>Same-Day Service</h4>
+                <p>Quick turnaround</p>
+            </div>
+            <div class="trust-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="trust-item-icon">👨‍🔧</div>
+                <h4>Certified Techs</h4>
+                <p>Background verified</p>
+            </div>
+            <div class="trust-item" data-aos="fade-up" data-aos-delay="150">
+                <div class="trust-item-icon">💰</div>
+                <h4>Transparent Pricing</h4>
+                <p>No hidden fees</p>
+            </div>
+            <div class="trust-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="trust-item-icon">📍</div>
+                <h4>All Areas Pune</h4>
+                <p>Wide coverage</p>
+            </div>
+            <div class="trust-item" data-aos="fade-up" data-aos-delay="250">
+                <div class="trust-item-icon">📞</div>
+                <h4>Toll-Free Support</h4>
+                <p>Always available</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dynamic Capabilities Gallery -->
+    <section class="section-padding bg-light" style="padding-top: 50px;">
+        <div class="container">
+            <div class="section-head" data-aos="fade-up">
+                <span class="section-tag">Repair Modules</span>
+                <h2 class="section-title">Hardware Resolution Expertise</h2>
+                <p class="section-desc">We operate successfully on the most complex household appliance failures in Pune.</p>
+            </div>
+
+            <div class="service-grid">
+                <!-- Kitchen Chimney -->
+                <div class="visual-card" data-aos="flip-left">
+                    <div class="v-img-wrap">
+                        <img src="assets/chimney_indian_1774159192970.png" alt="Chimney Repair Pune">
+                        <div class="v-overlay"></div>
+                        <div class="v-icon"><i class="fas fa-wind"></i></div>
+                    </div>
+                    <div class="v-content">
+                        <h3>Kitchen Chimneys</h3>
+                        <p>Complete suction recovery, motor recalibration, and heavy grease extraction logics.</p>
+                        <a href="services.html" class="v-link">Review Protocol <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Built In Hobs -->
+                <div class="visual-card" data-aos="flip-left" data-aos-delay="150">
+                    <div class="v-img-wrap">
+                        <img src="assets/stove_indian_1774159214973.png" alt="Hob Repair Pune">
+                        <div class="v-overlay"></div>
+                        <div class="v-icon"><i class="fas fa-fire-burner"></i></div>
+                    </div>
+                    <div class="v-content">
+                        <h3>Built-in Hobs</h3>
+                        <p>Immediate mitigation of dangerous gas leaks, auto-ignition errors, and valve locks.</p>
+                        <a href="services.html" class="v-link">Review Protocol <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Microwave -->
+                <div class="visual-card" data-aos="flip-left" data-aos-delay="300">
+                    <div class="v-img-wrap">
+                        <img src="assets/microwave_indian_1774159242700.png" alt="Microwave Repair Pune">
+                        <div class="v-overlay"></div>
+                        <div class="v-icon"><i class="fas fa-wave-square"></i></div>
+                    </div>
+                    <div class="v-content">
+                        <h3>Microwave Array</h3>
+                        <p>Magnetron restorations, high-voltage diode replacements, and heating circuit fixes.</p>
+                        <a href="services.html" class="v-link">Review Protocol <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 60px;" data-aos="zoom-in" data-aos-delay="400">
+                <a href="services.html" class="btn btn-primary" style="padding: 20px 50px; font-size: 1.15rem; box-shadow: 0 10px 20px rgba(37,99,235,0.2);">Load Entire Service Catalog</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <div class="process-section section-padding">
+        <div class="container">
+            <div class="section-head" data-aos="fade-up">
+                <span class="section-tag" style="background:transparent;">SIMPLE PROCESS</span>
+                <h2 class="section-title" style="font-size: clamp(2rem, 3.5vw, 2.5rem); margin-bottom: 50px;">Get Your Appliance Fixed in 4 Easy Steps</h2>
+            </div>
+
+            <div class="process-grid">
+                <div class="process-step" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="step-circle"><i class="fas fa-phone-alt"></i><div class="step-num">1</div></div>
+                    <h3>Call or WhatsApp</h3>
+                    <p>Call 1800-103-8824 or WhatsApp 7756996498 to book your repair</p>
+                </div>
+                <div class="process-step" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="step-circle"><i class="fas fa-calendar-alt"></i><div class="step-num">2</div></div>
+                    <h3>Schedule Visit</h3>
+                    <p>Pick a convenient slot — same-day, next-day, or scheduled</p>
+                </div>
+                <div class="process-step" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="step-circle"><i class="fas fa-search"></i><div class="step-num">3</div></div>
+                    <h3>Diagnosis & Quote</h3>
+                    <p>Technician arrives, diagnoses the problem, gives upfront fixed quote</p>
+                </div>
+                <div class="process-step" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="step-circle"><i class="fas fa-check"></i><div class="step-num">4</div></div>
+                    <h3>Repair & Warranty</h3>
+                    <p>Appliance fixed successfully with 30-day service warranty</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Intersecting "Why Choose Us" Split Layout -->
+    <section class="section-padding bg-light" style="overflow: hidden;">
+        <div class="container">
+            <div class="section-head" data-aos="fade-up">
+                <span class="section-tag">WHY QUICKCARE?</span>
+                <h2>Pune's Most Trusted Appliance Repair</h2>
+                <p class="section-desc">We deliver hassle-free, professional service directly to your doorstep.</p>
+            </div>
+            
+            <div class="why-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+                <div class="why-card" style="background:#FFF; padding:24px; border-radius:16px; box-shadow:var(--shadow-sm); border-left:3px solid var(--primary);">
+                    <div style="width:48px;height:48px;background:rgba(37, 99, 235, 0.1);color:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;"><i class="fas fa-bolt"></i></div>
+                    <h3 style="font-size:18px;margin-bottom:8px;">Same-Day Response</h3>
+                    <p style="font-size:14px;color:var(--text-body);">We understand the urgency of a broken kitchen up to speed. Book before 2PM for same-day service.</p>
+                </div>
+                <div class="why-card" style="background:#FFF; padding:24px; border-radius:16px; box-shadow:var(--shadow-sm); border-left:3px solid var(--primary);">
+                    <div style="width:48px;height:48px;background:rgba(37, 99, 235, 0.1);color:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;"><i class="fas fa-shield-alt"></i></div>
+                    <h3 style="font-size:18px;margin-bottom:8px;">30-Day Warranty</h3>
+                    <p style="font-size:14px;color:var(--text-body);">Peace of mind with our service guarantee on all appliance repairs and spare parts used.</p>
+                </div>
+                <div class="why-card" style="background:#FFF; padding:24px; border-radius:16px; box-shadow:var(--shadow-sm); border-left:3px solid var(--primary);">
+                    <div style="width:48px;height:48px;background:rgba(37, 99, 235, 0.1);color:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;"><i class="fas fa-user-check"></i></div>
+                    <h3 style="font-size:18px;margin-bottom:8px;">Certified Technicians</h3>
+                    <p style="font-size:14px;color:var(--text-body);">Our experts are highly trained, background-verified, and experienced across major brands.</p>
+                </div>
+                <div class="why-card" style="background:#FFF; padding:24px; border-radius:16px; box-shadow:var(--shadow-sm); border-left:3px solid var(--primary);">
+                    <div style="width:48px;height:48px;background:rgba(37, 99, 235, 0.1);color:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;"><i class="fas fa-indian-rupee-sign"></i></div>
+                    <h3 style="font-size:18px;margin-bottom:8px;">No Hidden Charges</h3>
+                    <p style="font-size:14px;color:var(--text-body);">We provide upfront, transparent diagnosis quotes before starting any repair work.</p>
+                </div>
+                <div class="why-card" style="background:#FFF; padding:24px; border-radius:16px; box-shadow:var(--shadow-sm); border-left:3px solid var(--primary);">
+                    <div style="width:48px;height:48px;background:rgba(37, 99, 235, 0.1);color:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;"><i class="fas fa-home"></i></div>
+                    <h3 style="font-size:18px;margin-bottom:8px;">Doorstep Service</h3>
+                    <p style="font-size:14px;color:var(--text-body);">No need to carry heavy appliances. We fix them right in your kitchen instantly.</p>
+                </div>
+                <div class="why-card" style="background:#FFF; padding:24px; border-radius:16px; box-shadow:var(--shadow-sm); border-left:3px solid var(--primary);">
+                    <div style="width:48px;height:48px;background:rgba(37, 99, 235, 0.1);color:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;"><i class="fas fa-check-circle"></i></div>
+                    <h3 style="font-size:18px;margin-bottom:8px;">All Brands Covered</h3>
+                    <p style="font-size:14px;color:var(--text-body);">From Elica and Faber to Bosch, LG, and IFB, we service all major brands perfectly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-head" data-aos="fade-up">
+                <h2 class="section-title">Common Queries</h2>
+            </div>
+            
+            <div class="faq-container" data-aos="zoom-in">
+                <div class="faq-item active">
+                    <button class="faq-question"><span>How fast can an engineer reach me in Pune?</span> <i class="fas fa-chevron-down faq-icon"></i></button>
+                    <div class="faq-answer" style="max-height: 200px;">
+                        <div class="faq-answer-content">Our internal SLA dictates a maximum 120-minute response vector for any address within standard Pune municipal limits.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question"><span>Do you supply original specific brand spare parts?</span> <i class="fas fa-chevron-down faq-icon"></i></button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">Absolutely. We only utilize Tier-1, OEM-certified hardware blocks for any major appliance replacements like magnetrons or hob valves.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question"><span>Is there an upfront visitation charge?</span> <i class="fas fa-chevron-down faq-icon"></i></button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">Yes, a highly affordable, standard diagnostic fee is applied for the engineer's deployment. This covers their highly technical assessment.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <a onclick="document.getElementById('queryModal').classList.add('active');" class="fab fab-query" style="background:#8B5CF6;" title="Quick Query"><i class="fas fa-clipboard-list"></i></a>
+        <a href="https://wa.me/917756996498" target="_blank" class="fab fab-wa"><i class="fab fa-whatsapp"></i></a>
+        <a href="tel:18001038824" class="fab fab-call"><i class="fas fa-phone-alt"></i></a>
+    </div>
+
+    <!-- Professional Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col-1" data-aos="fade-up" data-aos-delay="100">
+                    <div class="footer-logo">
+                        <img src="assets/logo_new_1774159155609.png" alt="QuickCare Service">
+                        <span>QuickCare.</span>
+                    </div>
+                    <p class="footer-desc">Deploying elite, highly trained electrical and mechanical hardware engineers directly to households across Pune.</p>
+                    <div class="f-socials">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="footer-title">Navigation Grid</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-circle"></i> Command Center</a></li>
+                        <li><a href="about.html"><i class="fas fa-circle"></i> Corporate Array</a></li>
+                        <li><a href="services.html"><i class="fas fa-circle"></i> Service Capabilities</a></li>
+                        <li><a href="terms.html"><i class="fas fa-circle"></i> Legal Protocols</a></li>
+                    </ul>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="footer-title">Hardware Targets</h4>
+                    <ul class="footer-links">
+                        <li><a href="service-chimney.html"><i class="fas fa-circle"></i> Kitchen Chimneys</a></li>
+                        <li><a href="service-hob.html"><i class="fas fa-circle"></i> Built-in Hobs</a></li>
+                        <li><a href="service-microwave.html"><i class="fas fa-circle"></i> Microwaves</a></li>
+                        <li><a href="service-ro.html"><i class="fas fa-circle"></i> Water RO Systems</a></li>
+                        <li><a href="service-dishwasher.html"><i class="fas fa-circle"></i> Dishwashers</a></li>
+                    </ul>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="400">
+                    <h4 class="footer-title">Central Hub</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> <span>Shop 5, Dhanori Rd, Jakat Naka, Pune - 411015</span></li>
+                        <li><i class="fas fa-phone-volume"></i> <span>1800-103-8824</span></li>
+                        <li><i class="fas fa-bolt"></i> <span style="color:var(--success);">Available Mon-Sun</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 QuickCare Service Platform. High-Conversion Architecture Generated.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RO Purifiers Repair | QuickCare Service</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <style>
+        /* Pro Service Page CSS */
+        .pro-hero { padding: 160px 0 100px; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #FFF; text-align: center; position:relative; overflow:hidden;}
+        .pro-hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, 0.15) 2px, transparent 2px); background-size: 30px 30px; opacity: 0.3;}
+        .pro-hero h1 { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 900; color: #FFFFFF !important; margin-bottom: 20px; position:relative; z-index:2; text-shadow: 0 4px 15px rgba(0,0,0,0.5);}
+        .pro-hero p { font-size: 1.25rem; color: rgba(255,255,255,0.85); max-width: 800px; margin: 0 auto 30px; line-height: 1.7; position:relative; z-index:2;}
+        
+        .pro-layout { display: grid; grid-template-columns: 1fr 400px; gap: 50px; margin-top: -60px; position: relative; z-index: 10; padding-bottom: 80px;}
+        @media(max-width: 992px) { .pro-layout { grid-template-columns: 1fr; margin-top: 40px;} }
+
+        .pro-main-content { background: #FFF; border-radius: 16px; padding: 40px; box-shadow: var(--shadow-xl); border: 1px solid rgba(0,0,0,0.05);}
+        .pro-main-content img { width: 100%; height: auto; border-radius: 12px; margin-bottom: 30px; object-fit: cover; max-height: 450px; box-shadow: var(--shadow-md);}
+        .pro-main-content h2 { font-size: 2rem; color: var(--bg-dark); margin-bottom: 20px; font-weight: 800; letter-spacing:-0.5px;}
+        .pro-main-content p { font-size: 1.15rem; line-height: 1.8; color: var(--text-body); margin-bottom: 25px;}
+        
+        .pro-bullets { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; list-style: none; padding: 0; margin-bottom: 40px;}
+        @media(max-width: 600px) { .pro-bullets { grid-template-columns: 1fr; } }
+        .pro-bullets li { display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--text-dark); background: #F8FAFC; padding: 14px 20px; border-radius: 8px; border-left: 4px solid var(--primary); transition: var(--transition);}
+        .pro-bullets li:hover { transform: translateX(5px); box-shadow: var(--shadow-sm); }
+        .pro-bullets li i { color: var(--primary); font-size: 1.2rem;}
+
+        .pro-sidebar-sticky { position: sticky; top: 100px; height: max-content;}
+        
+        .service-form-box { background: #FFF; border-radius: 16px; padding: 35px; box-shadow: var(--shadow-xl); border-top: 5px solid var(--primary); }
+        .service-form-box h3 { font-size: 1.6rem; color: var(--bg-dark); margin-bottom: 10px; text-align: center; font-weight: 800;}
+        .form-control { background: #F8FAFC; border: 1px solid #E2E8F0; padding: 15px 15px 15px 45px; border-radius: 8px; width: 100%; font-size: 1rem; color: var(--text-dark); transition: var(--transition); }
+        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); outline: none; background: #FFF; }
+        .form-group { position: relative; margin-bottom: 20px; }
+        .form-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
+        
+        .feature-tags { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px;}
+        .feature-tags span { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px); color: #FFF; padding: 8px 16px; border-radius: 30px; font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;}
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <span><i class="fas fa-shield-alt"></i> Verified & Guaranteed Operations</span>
+                <span><i class="fas fa-bolt"></i> 120-Min SLA in Pune</span>
+            </div>
+            <div class="top-bar-right">
+                <a href="mailto:divedipankaj9@gmail.com" style="color:#FFF;"><i class="fas fa-envelope"></i> divedipankaj9@gmail.com</a>
+                <a href="tel:18001038824" style="color:#FFF;"><i class="fas fa-phone"></i> 1800 103 8824</a>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header" id="mainHeader">
+        <div class="container header-wrapper">
+            <a href="index.html" class="logo">
+                <img src="assets/logo_new_1774159155609.png" alt="QuickCare Logo">
+                <div class="logo-text">
+                    <span class="logo-title">QuickCare</span>
+                    <span class="logo-sub">Appliance Service</span>
+                </div>
+            </a>
+            <button class="mobile-btn" id="mobileToggle"><i class="fas fa-bars"></i></button>
+            <nav class="nav-menu" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <div class="dropdown">
+                    <a href="services.html" class="dropbtn active">Services <i class="fas fa-chevron-down" style="font-size: 0.8em; margin-left: 5px;"></i></a>
+                    <div class="dropdown-content">
+                        <a href="service-chimney.html">Kitchen Chimney</a>
+                        <a href="service-hob.html">Built-in Hob</a>
+                        <a href="service-microwave.html">Microwave Oven</a>
+                        <a href="service-ro.html">RO Purifier</a>
+                        <a href="service-dishwasher.html">Dishwashers</a>
+                    </div>
+                </div>
+                <a href="contact.html">Contact Us</a>
+                <a href="tel:18001038824" class="btn btn-primary" style="margin-left: 10px; padding: 12px 24px;">
+                    <i class="fas fa-phone-volume"></i> Support 24/7
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="pro-hero">
+        <div class="container">
+            <h1 data-aos="zoom-in">RO Purifiers Repair Services</h1>
+            <p data-aos="fade-up" data-aos-delay="100">Sediment filter updates, pump diagnostics, and TDS calibrations.</p>
+            <div class="feature-tags" data-aos="fade-up" data-aos-delay="200">
+                <span><i class="fas fa-check-circle" style="color:#34D399;"></i> OEM Certified Parts</span>
+                <span><i class="fas fa-bolt" style="color:#FBBF24;"></i> 120-Min SLA Dispatch</span>
+                <span><i class="fas fa-shield-alt" style="color:#34D399;"></i> 30-Day Guarantee</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container pro-layout">
+        <!-- Main Content Left Side -->
+        <div class="pro-main-content" data-aos="fade-up">
+            <img src="assets/ro_indian_1774159259432.png" alt="RO Purifiers Repair">
+            <h2>Comprehensive RO Purifiers Diagnostics</h2>
+            <p>Water purity is non-negotiable. Over time, RO membranes choke, UV lamps fail, and booster pumps lose their compression rating, resulting in slow flow or high-TDS water. We strip down the filtration pipeline, flush sediment cartridges, test TDS ppm output, and replace failing motor pumps ensuring your water is biologically and chemically sterile.</p>
+            
+            <h3 style="margin-top: 35px; margin-bottom: 20px; font-size: 1.5rem; color: var(--bg-dark);">Specialized Component Protocols:</h3>
+            <ul class="pro-bullets">
+                <li><i class='fas fa-check-circle'></i> RO Membrane Replacement</li>
+                <li><i class='fas fa-check-circle'></i> TDS Recalibration</li>
+                <li><i class='fas fa-check-circle'></i> Booster Pump Repair</li>
+                <li><i class='fas fa-check-circle'></i> Leak/Drip Fix</li>
+                
+            </ul>
+            
+            <p>Our Tier-1 hardware engineers utilize high-grade testing equipment to thoroughly diagnose your appliance before replacing any internal controllers, resulting in a perfect fix-rate on the very first visit. Don't compromise on standard urban repairmen when you can deploy certified QuickCare operatives directly to your flat.</p>
+        </div>
+
+        <!-- Sticky Sidebar Right Side -->
+        <div class="pro-sidebar-sticky" data-aos="fade-left">
+            <div class="service-form-box">
+                <h3>Book An Engineer</h3>
+                <p style="text-align:center; color: var(--text-body); margin-bottom: 25px; font-weight:500; font-size:0.95rem;">Input your details below for instant dispatch.</p>
+                <form onsubmit="event.preventDefault(); alert('We have received your priority dispatch request!');">
+                    <input type="hidden" id="f_area" name="f_area" value="Pending GPS">
+                    <input type="hidden" id="latitudeField" name="latitude" value="">
+                    <input type="hidden" id="longitudeField" name="longitude" value="">
+                    
+                    <button type="button" class="location-btn" onclick="detectLocation()" style="margin-bottom: 20px;">
+                        <i class="fas fa-crosshairs"></i> <span id="locText">Allow Auto-Detect GPS</span>
+                    </button>
+                    
+                    <div class="form-group">
+                        <i class="fas fa-user form-icon"></i>
+                        <input type="text" class="form-control" placeholder="Property Owner Name" required>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-phone form-icon"></i>
+                        <input type="text" class="form-control" placeholder="Active Mobile Format (+91)" required>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-tag form-icon"></i>
+                        <input type="text" class="form-control" placeholder="Service Type" value="RO Purifiers" readonly>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 18px; font-size: 1.1rem; border-radius: 8px;">
+                        <i class="fas fa-paper-plane"></i> Initialize Dispatch
+                    </button>
+                </form>
+            </div>
+            
+            <div style="background:var(--bg-dark); color:#FFF; padding:30px; border-radius:16px; margin-top:30px; text-align:center; box-shadow: var(--shadow-xl);">
+                <h4 style="margin-bottom:15px; color:#FFF; font-size: 1.3rem;">Emergency Protocol?</h4>
+                <p style="color:rgba(255,255,255,0.7); margin-bottom:20px; font-size:0.95rem;">Our backend team is standing by to resolve complex faults instantly.</p>
+                <a href="tel:18001038824" class="btn btn-primary" style="width:100%; background:#FFF; color:var(--bg-dark); font-weight: 800;"><i class="fas fa-phone-alt" style="margin-right:8px;"></i> Call 1800-103-8824</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section Core Content -->
+    <section class="section-padding" style="background:var(--bg-light); border-top: 1px solid rgba(0,0,0,0.05);">
+        <div class="container">
+            <div class="section-head" data-aos="fade-up">
+                <span class="section-tag">Client Protocol</span>
+                <h2>Frequently Asked Algorithms</h2>
+                <p class="section-desc">Understanding our operational behavior and transparent pricing mechanism.</p>
+            </div>
+            
+            <div class="faq-container" data-aos="fade-up" data-aos-delay="100">
+                <div class="faq-item">
+                    <button class="faq-question"><span>What exactly is the 120-minute SLA?</span> <i class="fas fa-chevron-down faq-icon"></i></button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">From the second you trigger a dispatch below, our automated system assigns the nearest available engineer. They are guaranteed to hit your location within 120 minutes inside Pune limits.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question"><span>Are the hardware replacement parts genuine?</span> <i class="fas fa-chevron-down faq-icon"></i></button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">Absolutely. We only utilize Tier-1, OEM-certified hardware blocks for any major appliance replacements.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question"><span>Is there an upfront visitation charge?</span> <i class="fas fa-chevron-down faq-icon"></i></button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">Yes, a highly affordable, standard diagnostic fee is applied for the engineer's deployment. This covers their highly technical assessment.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <a onclick="document.getElementById('queryModal').classList.add('active');" class="fab fab-query" style="background:#8B5CF6;" title="Quick Query"><i class="fas fa-clipboard-list"></i></a>
+        <a href="https://wa.me/917756996498" target="_blank" class="fab fab-wa"><i class="fab fa-whatsapp"></i></a>
+        <a href="tel:18001038824" class="fab fab-call"><i class="fas fa-phone-alt"></i></a>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="queryModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="this.closest('.modal-overlay').classList.remove('active');"><i class="fas fa-times"></i></button>
+            <div class="modal-body" style="text-align: center; padding: 60px 40px;">
+                <i class="fas fa-comments" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
+                <h2>Direct Developer Query</h2>
+                <p style="color: var(--text-body); margin-bottom: 30px;">Initialize a direct line with our back-office engineers.</p>
+                <a href="https://wa.me/917756996498" target="_blank" class="btn btn-primary" style="width:100%; padding:15px; margin-bottom:15px; background:#25D366; border:none;"><i class="fab fa-whatsapp"></i> WhatsApp Us Securely</a>
+                <a href="tel:18001038824" class="btn" style="width:100%; padding:15px; border:2px solid var(--border); color:var(--text-dark);"><i class="fas fa-phone-alt"></i> Call 1800-103-8824</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium Light/Soft Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col-1">
+                    <div class="footer-logo">
+                        <img src="assets/logo_new_1774159155609.png" alt="QuickCare Service">
+                        <span>QuickCare.</span>
+                    </div>
+                    <p class="footer-desc">Deploying elite, highly trained electrical and mechanical hardware engineers directly to households across Pune.</p>
+                    <div class="f-socials">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="footer-title">Navigation Grid</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-circle"></i> Command Center</a></li>
+                        <li><a href="about.html"><i class="fas fa-circle"></i> Corporate Array</a></li>
+                        <li><a href="services.html"><i class="fas fa-circle"></i> Service Capabilities</a></li>
+                        <li><a href="contact.html"><i class="fas fa-circle"></i> Dispatch Hub</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Hardware Targets</h4>
+                    <ul class="footer-links">
+                        <li><a href="service-chimney.html"><i class="fas fa-circle"></i> Kitchen Chimneys</a></li>
+                        <li><a href="service-hob.html"><i class="fas fa-circle"></i> Built-in Hobs</a></li>
+                        <li><a href="service-microwave.html"><i class="fas fa-circle"></i> Microwaves</a></li>
+                        <li><a href="service-ro.html"><i class="fas fa-circle"></i> Water RO Systems</a></li>
+                        <li><a href="service-dishwasher.html"><i class="fas fa-circle"></i> Dishwashers</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Central Hub</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> <span>Shop 5, Dhanori Rd, Jakat Naka, Pune - 411015</span></li>
+                        <li><i class="fas fa-phone-alt"></i> <span>1800-103-8824</span></li>
+                        <li><i class="fas fa-bolt"></i> <span style="color:var(--success);">Available Mon-Sun</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 QuickCare Service Platform. High-Conversion Architecture Generated.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({ duration: 800, once: true, offset: 50 });
+            // Accordion Logic
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const btn = item.querySelector('.faq-question');
+                btn.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                    const answer = item.querySelector('.faq-answer');
+                    if(item.classList.contains('active')) {
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                    } else {
+                        answer.style.maxHeight = '0';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
