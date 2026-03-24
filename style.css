@@ -245,11 +245,16 @@ textarea.form-control { padding: 16px; }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; margin-bottom: 60px; }
 .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; filter: none; }
 .footer-logo img { height: 45px; mix-blend-mode: multiply; }
-.footer-logo span { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; color: var(--bg-dark); }
+.footer-logo span { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; color: var(--primary); }
 .footer-desc { color: var(--text-body); margin-bottom: 24px; font-size: 1rem; line-height: 1.8; max-width: 350px; font-weight: 500; }
-.f-socials { display: flex; gap: 16px; }
-.f-socials a { width: 45px; height: 45px; border-radius: 50%; background: #F8FAFC; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-dark); font-size: 1.2rem; transition: var(--transition); }
-.f-socials a:hover { background: var(--primary); color: #FFF; transform: translateY(-5px); border-color: var(--primary); box-shadow: var(--shadow-md); }
+.f-socials { display: flex; gap: 16px; margin-top: 10px; }
+.f-socials a { width: 42px; height: 42px; border-radius: 12px; background: #FFF; border: 1.5px solid #E2E8F0; display: flex; align-items: center; justify-content: center; transition: var(--transition); box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+.f-socials a i { color: #0F172A; font-size: 1.15rem; transition: var(--transition); }
+.f-socials a:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); border-color: transparent; }
+.f-socials a:hover i { color: #FFF; }
+.f-socials a.fb:hover { background: #1877F2; }
+.f-socials a.ig:hover { background: linear-gradient(45deg, #F09433 0%, #E6683C 25%, #DC2743 50%, #CC2366 75%, #BC1888 100%); }
+.f-socials a.yt:hover { background: #FF0000; }
 .footer-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 24px; color: var(--bg-dark); }
 .footer-links li { margin-bottom: 16px; }
 .footer-links a { color: var(--text-body); font-size: 1.05rem; display: flex; align-items: center; gap: 10px; transition: var(--transition); font-weight: 600; }

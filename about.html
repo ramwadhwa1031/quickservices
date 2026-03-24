@@ -3,13 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pune's Premium Appliance Care | Corporate Array</title>
-    
-    <meta name="keywords" content="kitchen appliance repair Pune, appliance repair service Pune, chimney repair Pune, gas stove repair Pune, microwave repair Pune, oven repair Pune, cooktop repair Pune, hob repair service Pune, dishwasher repair Pune, water purifier repair Pune, cooking range repair Pune, kitchen chimney service Pune, built-in hob repair Pune, gas stove service near me, microwave oven repair Pune, RO water purifier service Pune, dishwasher technician Pune, cooking range service Pune, cooktop burner repair Pune, electric oven repair">
+    <title>About Us | QuickCare Appliance Repair Service in Pune</title>
+    <meta name="description" content="Learn about QuickCare — Pune's trusted appliance repair service. Our trained technicians provide fast, reliable repairs for kitchen chimneys, hobs, microwaves, RO purifiers, and dishwashers with a 30-day warranty.">
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* About Page Premium Styles */
+        .about-hero { padding: 160px 0 100px; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #FFF; text-align: center; position: relative; overflow: hidden; }
+        .about-hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.08) 2px, transparent 2px); background-size: 30px 30px; }
+        .about-hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin-bottom: 20px; position: relative; z-index: 2; color: #FFF; }
+        .about-hero p { font-size: 1.2rem; color: rgba(255,255,255,0.8); max-width: 700px; margin: 0 auto; position: relative; z-index: 2; line-height: 1.7; }
+
+        /* Story Section */
+        .story-section { padding: 100px 0; background: #FFF; }
+        .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        @media(max-width: 900px) { .story-grid { grid-template-columns: 1fr; gap: 40px; } }
+        .story-img-wrap { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
+        .story-img-wrap img { width: 100%; height: auto; display: block; }
+        .story-img-wrap::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40%; background: linear-gradient(to top, rgba(15,23,42,0.4), transparent); }
+        .story-badge { position: absolute; bottom: 20px; left: 20px; background: var(--primary); color: #FFF; padding: 12px 25px; border-radius: 12px; font-weight: 800; font-size: 1.1rem; z-index: 2; box-shadow: 0 8px 20px rgba(255,87,34,0.3); }
+        .story-content h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 900; color: var(--bg-dark); margin-bottom: 20px; line-height: 1.2; }
+        .story-content p { font-size: 1.1rem; color: var(--text-body); line-height: 1.8; margin-bottom: 20px; }
+        .story-highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
+        @media(max-width: 500px) { .story-highlights { grid-template-columns: 1fr; } }
+        .highlight-item { display: flex; align-items: center; gap: 12px; padding: 15px 20px; background: #f8fafc; border-radius: 12px; border-left: 4px solid var(--primary); transition: 0.3s; }
+        .highlight-item:hover { transform: translateX(5px); box-shadow: var(--shadow-sm); }
+        .highlight-item i { color: var(--primary); font-size: 1.2rem; flex-shrink: 0; }
+        .highlight-item span { font-weight: 700; color: var(--bg-dark); font-size: 0.95rem; }
+
+        /* Values Section */
+        .values-section { padding: 100px 0; background: linear-gradient(135deg, #f8fafc 0%, #fff5eb 100%); }
+        .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 50px; }
+        .value-card { background: #FFF; padding: 40px 30px; border-radius: 20px; text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.04); transition: 0.4s; position: relative; overflow: hidden; }
+        .value-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--primary), #ff9800); transform: scaleX(0); transition: 0.4s; transform-origin: left; }
+        .value-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        .value-card:hover::before { transform: scaleX(1); }
+        .value-icon { width: 80px; height: 80px; background: #fff5eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; font-size: 2rem; color: var(--primary); transition: 0.4s; }
+        .value-card:hover .value-icon { background: var(--primary); color: #FFF; transform: scale(1.1) rotate(5deg); }
+        .value-card h3 { font-size: 1.3rem; font-weight: 800; color: var(--bg-dark); margin-bottom: 12px; }
+        .value-card p { color: var(--text-body); font-size: 0.95rem; line-height: 1.7; }
+
+        /* Coverage Section */
+        .coverage-section { padding: 100px 0; background: var(--bg-dark); color: #FFF; position: relative; overflow: hidden; }
+        .coverage-section::before { content: ''; position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(255,87,34,0.1) 0%, transparent 70%); top: -150px; right: -150px; border-radius: 50%; }
+        .coverage-section h2, .coverage-section h4 { color: #FFF; }
+        .coverage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 50px; text-align: center; }
+        .coverage-card { padding: 30px 20px; border-radius: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .coverage-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-5px); }
+        .coverage-card i { font-size: 2rem; color: var(--primary); margin-bottom: 15px; display: block; }
+        .coverage-card h4 { font-size: 1.15rem; font-weight: 800; margin-bottom: 8px; }
+        .coverage-card p { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
+
+        /* CTA Section */
+        .cta-section { padding: 80px 0; background: linear-gradient(135deg, #ff5722, #e64a19); text-align: center; color: #FFF; }
+        .cta-section h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; margin-bottom: 16px; }
+        .cta-section p { font-size: 1.15rem; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; opacity: 0.95; }
+        .cta-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .cta-btns a { display: inline-flex; align-items: center; gap: 10px; padding: 16px 35px; border-radius: 50px; font-weight: 800; font-size: 1.05rem; text-decoration: none; transition: 0.3s; }
+        .cta-btn-white { background: #FFF; color: #ff5722; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .cta-btn-white:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .cta-btn-outline { background: transparent; color: #FFF; border: 2px solid rgba(255,255,255,0.5); }
+        .cta-btn-outline:hover { background: rgba(255,255,255,0.15); border-color: #FFF; transform: translateY(-3px); }
+    </style>
+    <meta name="keywords" content="kitchen appliance repair Pune, appliance repair service Pune, chimney repair Pune, gas stove repair Pune, microwave repair Pune, oven repair Pune, cooktop repair Pune, hob repair service Pune, dishwasher repair Pune, water purifier repair Pune, cooking range repair Pune, kitchen chimney service Pune, built-in hob repair Pune, gas stove service near me, microwave oven repair Pune, RO water purifier service Pune, dishwasher technician Pune, cooking range service Pune, cooktop burner repair Pune, electric oven repair Pune, kitchen appliance maintenance Pune, appliance repair near me Pune, chimney repair near me, microwave repair near me Pune, gas stove repair near me, best appliance repair service in Pune, home appliance repair Pune Maharashtra, same day appliance repair Pune, emergency appliance repair Pune, affordable kitchen appliance repair in Pune, expert chimney repair technician Pune, same day microwave repair service Pune, gas stove burner repair service Pune, best RO water purifier repair in Pune, built-in hob installation and repair Pune, dishwasher repair service at home Pune, kitchen appliance repair doorstep service Pune, book appliance repair online Pune, appliance repair at home Pune, certified appliance technician Pune, low cost appliance repair Pune, fast appliance repair service Pune">
+    <meta name="robots" content="index, follow">
 </head>
 <body class="bg-light">
 
@@ -17,8 +76,8 @@
     <div class="top-bar">
         <div class="container">
             <div class="top-bar-left">
-                <span><i class="fas fa-shield-alt"></i> Verified & Guaranteed Operations</span>
-                <span style="margin-left: 30px;"><i class="fas fa-bolt"></i> 120-Min SLA in Pune</span>
+                <span><i class="fas fa-shield-alt"></i> Trusted & Verified Technicians</span>
+                <span style="margin-left: 30px;"><i class="fas fa-bolt"></i> 2-Hour Doorstep Service in Pune</span>
             </div>
             <div class="top-bar-right">
                 <a href="mailto:divedipankaj9@gmail.com"><i class="fas fa-envelope"></i> divedipankaj9@gmail.com</a>
@@ -27,7 +86,7 @@
         </div>
     </div>
 
-    <!-- Sticky Main Header -->
+    <!-- Sticky Header -->
     <header class="main-header" id="mainHeader">
         <div class="container header-wrapper">
             <a href="index.html" class="logo">
@@ -37,7 +96,6 @@
                     <span class="logo-sub">Appliance Service</span>
                 </div>
             </a>
-            
             <nav class="nav-menu" id="navLinks">
                 <a href="index.html">Home</a>
                 <a href="about.html" class="active">About Us</a>
@@ -60,78 +118,153 @@
         </div>
     </header>
 
-    <div class="page-banner">
-        <div class="banner-blob-2"></div>
-        <div class="container" style="position:relative; z-index:2;">
-            <span class="banner-tag" data-aos="fade-down"><i class="fas fa-home"></i> Home / Corporate Array</span>
-            <h1 data-aos="zoom-in">About Us</h1>
-            <p data-aos="fade-up">Deeply engineered service protocols deployed perfectly across Pune.</p>
+    <!-- Hero Banner -->
+    <div class="about-hero">
+        <div class="container">
+            <span style="display:inline-block; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:8px 20px; border-radius:30px; font-weight:700; margin-bottom:20px; position:relative; z-index:2;" data-aos="fade-down"><i class="fas fa-home"></i> Home / About Us</span>
+            <h1 data-aos="zoom-in">About QuickCare</h1>
+            <p data-aos="fade-up">Pune's trusted appliance repair service — delivering fast, professional, and affordable solutions to thousands of homes.</p>
         </div>
     </div>
 
-    <!-- Intersecting "Why Choose Us" Split Layout -->
-    <section class="section-padding" style="overflow: hidden; margin-top: -60px;">
+    <!-- Our Story -->
+    <section class="story-section">
         <div class="container">
-            <div class="intersect-section">
-                <div class="intersect-visual" data-aos="fade-right">
-                    <div class="shape-blob" style="left:-10%; top:auto; bottom:-10%;"></div>
-                    <img src="assets/hero_indian_1774159176459.png" alt="Pune Network" style="border: 8px solid #FFF;">
+            <div class="story-grid">
+                <div class="story-img-wrap" data-aos="fade-right">
+                    <img src="assets/hero_indian_1774159176459.png" alt="QuickCare Technician Repairing Appliance in Pune">
+                    <div class="story-badge"><i class="fas fa-star" style="margin-right:6px;"></i> Serving Since 2019</div>
                 </div>
-                <div class="intersect-content" data-aos="fade-left">
-                    <div style="background:#FFF; padding:50px; border-radius:var(--radius-lg); box-shadow:var(--shadow-xl); border:1px solid var(--border);">
-                        <span class="section-tag">Market Dominance</span>
-                        <h2>We Redefined Hardware Resolution.</h2>
-                        <p>QuickCare evolved specifically for the extreme conditions of Indian households. Hard water scales in RO Systems, massive oil coagulation in Kitchen Chimneys, and extreme voltage fluctuations mapped directly into our repair workflow models.</p>
-                        
-                        <ul class="intersect-list">
-                            <li style="box-shadow:none; padding:10px 0;">
-                                <i class="fas fa-check-double"></i>
-                                <div>
-                                    <h4 style="margin-bottom:5px;">100% Background Verifiable Experts</h4>
-                                    <p style="font-size: 0.95rem;">Audited logic processing and behavioral control.</p>
-                                </div>
-                            </li>
-                            <li style="box-shadow:none; padding:10px 0; border:none;">
-                                <i class="fas fa-check-double"></i>
-                                <div>
-                                    <h4 style="margin-bottom:5px;">Circuit Integrated Analysis</h4>
-                                    <p style="font-size: 0.95rem;">We use multi-meters immediately upon arrival.</p>
-                                </div>
-                            </li>
-                        </ul>
+                <div class="story-content" data-aos="fade-left">
+                    <span class="section-tag">Our Story</span>
+                    <h2>Built for Indian Homes, Designed for Reliability</h2>
+                    <p>QuickCare was founded to solve a real problem — homeowners in Pune struggling to find reliable, affordable, and quick appliance repair services. From hard water scaling in RO purifiers to heavy grease buildup in kitchen chimneys, we understood the unique challenges Indian households face.</p>
+                    <p>Today, we serve 10,000+ happy customers with a team of trained, background-verified technicians who specialize in kitchen and home appliance repairs.</p>
+                    
+                    <div class="story-highlights">
+                        <div class="highlight-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Background-Verified Experts</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Genuine OEM Parts Only</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>First-Visit Fix Rate: 95%</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Transparent & Upfront Pricing</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- New Vision & Mission Section -->
-    <section class="section-padding container">
-        <div class="section-head" data-aos="fade-up">
-            <span class="section-tag">Our Vision</span>
-            <h2>Setting the Gold Standard</h2>
-            <p class="section-desc">To be the most reliable and technically advanced appliance repair network in India.</p>
-        </div>
-        <div class="process-grid" style="grid-template-columns: 1fr 1fr; gap: 40px;">
-            <div class="process-step" data-aos="fade-right" style="text-align:left; padding: 40px; background:#FFF; border-radius:16px; box-shadow:var(--shadow-md);">
-                <h3><i class="fas fa-bullseye" style="color:var(--primary); margin-right:10px;"></i> Our Mission</h3>
-                <p style="margin:0; text-align:left; max-width:100%;">To deliver 120-minute rapid-response appliance diagnostics and strict, guaranteed hardware repair with absolute transparency in pricing across every pin code in Pune.</p>
+    <!-- Our Values -->
+    <section class="values-section">
+        <div class="container">
+            <div class="section-head" data-aos="fade-up" style="text-align:center; margin-bottom:10px;">
+                <span class="section-tag">What We Stand For</span>
+                <h2>Our Mission & Values</h2>
+                <p class="section-desc">Every repair is guided by our commitment to quality, speed, and honesty.</p>
             </div>
-            <div class="process-step" data-aos="fade-left" style="text-align:left; padding: 40px; background:#FFF; border-radius:16px; box-shadow:var(--shadow-md);">
-                <h3><i class="fas fa-eye" style="color:var(--primary); margin-right:10px;"></i> Core Values</h3>
-                <p style="margin:0; text-align:left; max-width:100%;">We operate strictly on genuine OEM hardware usage. We ban all hidden service costs and implement aggressive quality control audits for all deployed engineers.</p>
+            <div class="values-grid">
+                <div class="value-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="value-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Our Mission</h3>
+                    <p>To provide 2-hour doorstep appliance repair with genuine parts and transparent pricing to every home in Pune.</p>
+                </div>
+                <div class="value-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="value-icon"><i class="fas fa-eye"></i></div>
+                    <h3>Our Vision</h3>
+                    <p>To become India's most trusted appliance repair network, known for speed, quality, and customer satisfaction.</p>
+                </div>
+                <div class="value-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="value-icon"><i class="fas fa-handshake"></i></div>
+                    <h3>Customer First</h3>
+                    <p>Every decision we make starts with one question: "How does this benefit the customer?" That's our promise.</p>
+                </div>
+                <div class="value-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="value-icon"><i class="fas fa-award"></i></div>
+                    <h3>Quality Assurance</h3>
+                    <p>We never use duplicate parts. Every component is OEM-compatible and comes with a service warranty.</p>
+                </div>
+                <div class="value-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="value-icon"><i class="fas fa-rupee-sign"></i></div>
+                    <h3>No Hidden Costs</h3>
+                    <p>We diagnose first, give you a clear quote, and repair only after your approval. Zero surprises.</p>
+                </div>
+                <div class="value-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="value-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Speed & Efficiency</h3>
+                    <p>Our streamlined booking and dispatch system ensures your appliance is repaired on the same day of booking.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Coverage -->
+    <section class="coverage-section">
+        <div class="container">
+            <div class="section-head" data-aos="fade-up" style="text-align:center; margin-bottom:10px;">
+                <span class="section-tag" style="border-color:rgba(255,255,255,0.3); color:#FFF;">Service Coverage</span>
+                <h2 style="color:#FFF;">Appliances We Repair</h2>
+                <p class="section-desc" style="color:rgba(255,255,255,0.6);">Expert repair for all major kitchen and home appliances.</p>
+            </div>
+            <div class="coverage-grid">
+                <div class="coverage-card" data-aos="fade-up" data-aos-delay="0">
+                    <i class="fas fa-wind"></i>
+                    <h4>Kitchen Chimneys</h4>
+                    <p>Deep cleaning, motor repair, filter servicing</p>
+                </div>
+                <div class="coverage-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-fire-burner"></i>
+                    <h4>Built-in Hobs</h4>
+                    <p>Gas leak fix, burner repair, auto-ignition</p>
+                </div>
+                <div class="coverage-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-wave-square"></i>
+                    <h4>Microwave Ovens</h4>
+                    <p>Heating issues, sparking, display repair</p>
+                </div>
+                <div class="coverage-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-tint"></i>
+                    <h4>RO Purifiers</h4>
+                    <p>Membrane change, filter replacement, TDS fix</p>
+                </div>
+                <div class="coverage-card" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-sink"></i>
+                    <h4>Dishwashers</h4>
+                    <p>Drainage, cleaning, error code resolution</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-section">
+        <div class="container" data-aos="zoom-in">
+            <h2>Need an Appliance Repaired?</h2>
+            <p>Book a trained technician now and get doorstep service within 2 hours — with a 30-day service warranty.</p>
+            <div class="cta-btns">
+                <a href="tel:18001038824" class="cta-btn-white"><i class="fas fa-phone-alt"></i> Call 1800-103-8824</a>
+                <a href="https://wa.me/917756996498?text=Hi%2C%20I%20need%20appliance%20repair%20service%20in%20Pune.%20Please%20share%20details." target="_blank" class="cta-btn-outline"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
             </div>
         </div>
     </section>
 
     <!-- Floating Action Buttons -->
     <div class="fab-container">
-        <a href="index.html" class="fab fab-query" style="background:#8B5CF6;" title="Quick Query"><i class="fas fa-clipboard-list"></i></a>
+        <a href="index.html" class="fab fab-query" style="background:#8B5CF6;" title="Book a Technician"><i class="fas fa-clipboard-list"></i></a>
         <a href="https://wa.me/917756996498" target="_blank" class="fab fab-wa"><i class="fab fa-whatsapp"></i></a>
         <a href="tel:18001038824" class="fab fab-call"><i class="fas fa-phone-alt"></i></a>
     </div>
 
-    <!-- Premium Light/Soft Footer -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -140,41 +273,38 @@
                         <img src="assets/logo_new_1774159155609.png" alt="QuickCare Service">
                         <span>QuickCare.</span>
                     </div>
-                    <p class="footer-desc">Deploying elite, highly trained electrical and mechanical hardware engineers directly to households across Pune.</p>
+                    <p class="footer-desc">Professional appliance repair services in Pune. Expert technicians for kitchen chimneys, hobs, microwaves, RO purifiers, and dishwashers.</p>
                     <div class="f-socials">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="fb"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="ig"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="yt"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-                
                 <div>
-                    <h4 class="footer-title">Navigation Grid</h4>
+                    <h4 class="footer-title">Quick Links</h4>
                     <ul class="footer-links">
-                        <li><a href="index.html"><i class="fas fa-circle"></i> Command Center</a></li>
-                        <li><a href="about.html"><i class="fas fa-circle"></i> Corporate Array</a></li>
-                        <li><a href="services.html"><i class="fas fa-circle"></i> Service Capabilities</a></li>
-                        <li><a href="contact.html"><i class="fas fa-circle"></i> Dispatch Hub</a></li>
+                        <li><a href="index.html"><i class="fas fa-circle"></i> Home</a></li>
+                        <li><a href="about.html"><i class="fas fa-circle"></i> About Us</a></li>
+                        <li><a href="services.html"><i class="fas fa-circle"></i> Our Services</a></li>
+                        <li><a href="contact.html"><i class="fas fa-circle"></i> Contact Us</a></li>
                     </ul>
                 </div>
-
                 <div>
-                    <h4 class="footer-title">Hardware Targets</h4>
+                    <h4 class="footer-title">Our Services</h4>
                     <ul class="footer-links">
-                        <li><a href="service-chimney.html"><i class="fas fa-circle"></i> Kitchen Chimneys</a></li>
-                        <li><a href="service-hob.html"><i class="fas fa-circle"></i> Built-in Hobs</a></li>
-                        <li><a href="service-microwave.html"><i class="fas fa-circle"></i> Microwaves</a></li>
-                        <li><a href="service-ro.html"><i class="fas fa-circle"></i> Water RO Systems</a></li>
-                        <li><a href="service-dishwasher.html"><i class="fas fa-circle"></i> Dishwashers</a></li>
+                        <li><a href="service-chimney.html"><i class="fas fa-circle"></i> Kitchen Chimney Repair</a></li>
+                        <li><a href="service-hob.html"><i class="fas fa-circle"></i> Hob & Gas Stove Repair</a></li>
+                        <li><a href="service-microwave.html"><i class="fas fa-circle"></i> Microwave Oven Repair</a></li>
+                        <li><a href="service-ro.html"><i class="fas fa-circle"></i> RO Water Purifier</a></li>
+                        <li><a href="service-dishwasher.html"><i class="fas fa-circle"></i> Dishwasher Repair</a></li>
                     </ul>
                 </div>
-
                 <div>
-                    <h4 class="footer-title">Central Hub</h4>
+                    <h4 class="footer-title">Contact Info</h4>
                     <ul class="footer-contact">
                         <li><i class="fas fa-map-marker-alt"></i> <span>Shop 5, Dhanori Rd, Jakat Naka, Pune - 411015</span></li>
-                        <li><i class="fas fa-phone-alt"></i> <span>1800-103-8824</span></li>
-                        <li><i class="fas fa-bolt"></i> <span style="color:var(--success);">Available Mon-Sun</span></li>
+                        <li><i class="fas fa-phone-volume"></i> <span>1800-103-8824</span></li>
+                        <li><i class="fas fa-clock"></i> <span>Mon-Sun: 8 AM – 9 PM</span></li>
                     </ul>
                 </div>
             </div>

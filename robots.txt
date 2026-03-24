@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Sitemap: https://quickcareservice.com/sitemap.xml
+
+# QuickCare Appliance Repair Service - Pune
+# Kitchen Chimney | Built-in Hob | Microwave | RO Purifier | Dishwasher
