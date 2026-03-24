@@ -925,35 +925,86 @@
         .svc-btns {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 12px;
             padding: 0 25px 25px;
             position: relative;
             z-index: 5;
         }
 
+        /* Premium WhatsApp Button */
         .svc-btn-wa {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #25D366, #128C7E);
+            gap: 10px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
             color: #FFF;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 12px 22px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.88rem;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .svc-btn-wa::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+        }
+
+        .svc-btn-wa:hover::before {
+            left: 130%;
         }
 
         .svc-btn-wa:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.45);
             color: #FFF;
         }
 
         .svc-btn-wa i {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            width: 30px;
+            height: 30px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: 0.3s;
+        }
+
+        .svc-btn-wa:hover i {
+            background: rgba(255,255,255,0.35);
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        /* Pulsing live indicator dot */
+        .svc-btn-wa::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #7df5a6;
+            border-radius: 50%;
+            flex-shrink: 0;
+            animation: waPulse 1.8s ease-in-out infinite;
+            box-shadow: 0 0 6px rgba(125, 245, 166, 0.6);
+        }
+
+        @keyframes waPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.7); }
         }
 
         .svc-btn-detail {
@@ -962,26 +1013,31 @@
             gap: 8px;
             color: #0f172a;
             font-weight: 800;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             text-decoration: none;
             background: transparent;
-            transition: 0.3s;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1.5px solid transparent;
+            transition: all 0.35s ease;
         }
 
         .svc-btn-detail:hover {
             color: #ff5722;
+            background: rgba(255, 87, 34, 0.04);
+            border-color: rgba(255, 87, 34, 0.15);
         }
 
         .svc-btn-detail i {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: #f1f5f9;
             color: #0f172a;
             border-radius: 50%;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
@@ -992,20 +1048,55 @@
             box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
         }
 
-        /* Responsive Fix for Handheld Devices (iPhone 14/etc) */
+        /* Responsive */
+        @media(max-width: 768px) {
+            .svc-btns {
+                flex-wrap: wrap;
+                padding: 0 20px 20px;
+                gap: 10px;
+            }
+            .svc-btn-wa {
+                padding: 11px 18px;
+                font-size: 0.82rem;
+                flex: 1 1 auto;
+                justify-content: center;
+                min-width: 140px;
+            }
+            .svc-btn-detail {
+                font-size: 0.75rem;
+                flex: 1 1 auto;
+                justify-content: center;
+                min-width: 100px;
+            }
+        }
         @media(max-width: 480px) {
             .svc-btns {
                 padding: 0 15px 20px;
-                gap: 5px;
+                gap: 10px;
+                flex-direction: column;
             }
             .svc-btn-wa {
-                padding: 8px 12px;
-                font-size: 0.75rem;
-                gap: 5px;
+                padding: 14px 20px;
+                font-size: 0.9rem;
+                gap: 10px;
+                width: 100%;
+                justify-content: center;
+                border-radius: 14px;
+            }
+            .svc-btn-wa i {
+                width: 32px;
+                height: 32px;
+                font-size: 1.15rem;
             }
             .svc-btn-detail {
-                font-size: 0.72rem;
-                gap: 4px;
+                font-size: 0.82rem;
+                gap: 6px;
+                width: 100%;
+                justify-content: center;
+                padding: 12px;
+                background: #f8fafc;
+                border-radius: 14px;
+                border-color: #e2e8f0;
             }
             .svc-btn-detail i {
                 width: 28px;
@@ -1219,9 +1310,9 @@
                     Book a Technician</h3>
                 <p style="text-align:center; color:#64748b; margin-bottom:24px; font-weight:600; font-size:0.95rem;">Get
                     an expert at your doorstep within 2 hours.</p>
-                <button type="button" onclick="detectLocation()"
+                <button type="button" class="location-btn" onclick="detectLocation(this)"
                     style="width:100%; border:none; background:rgba(37,99,235,0.05); color:#2563eb; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; margin-bottom:20px; display:flex; align-items:center; justify-content:center; gap:8px; transition:0.3s; box-shadow:0 4px 6px rgba(37,99,235,0.1);">
-                    <i class="fas fa-crosshairs"></i> <span id="locText">Detect My Location</span>
+                    <i class="fas fa-crosshairs"></i> <span class="loc-text">Detect My Location</span>
                 </button>
                 <form
                     onsubmit="event.preventDefault(); alert('Your service request has been submitted! Our team will call you shortly.'); document.getElementById('queryModal').classList.remove('active');">
@@ -1373,9 +1464,9 @@
                     <p class="form-subtitle">Get doorstep service within 2 hours</p>
                     <form
                         onsubmit="event.preventDefault(); alert('Your service request has been submitted! Our team will call you shortly.');">
-                        <button type="button" onclick="detectLocation()"
+                        <button type="button" class="location-btn" onclick="detectLocation(this)"
                             style="width:100%; border:none; background:rgba(37,99,235,0.05); color:#2563eb; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; margin-bottom:16px; display:flex; align-items:center; justify-content:center; gap:8px; transition:0.3s; box-shadow:0 4px 6px rgba(37,99,235,0.1);">
-                            <i class="fas fa-map-marker-alt"></i> <span>Detect My Location</span>
+                            <i class="fas fa-map-marker-alt"></i> <span class="loc-text">Detect My Location</span>
                         </button>
                         <div class="form-group">
                             <i class="fas fa-user form-icon"></i>
@@ -1472,7 +1563,7 @@
             <div class="svc-grid-modern">
                 <!-- Chimney -->
                 <div class="svc-card-3d" data-aos="zoom-in" data-aos-delay="0"
-                    onclick="if(event.target.closest('.svc-actions'))return; location.href='service-chimney.html';">
+                    onclick="if(event.target.closest('.svc-btns'))return; location.href='service-chimney.html';">
                     <div class="svc-img-wrap"><img src="assets/chimney_indian_1774159192970.png" class="svc-img"
                             alt="Kitchen Chimney Repair Service in Pune"></div>
                     <div class="svc-body-3d">
@@ -1491,7 +1582,7 @@
 
                 <!-- Hobs -->
                 <div class="svc-card-3d" data-aos="zoom-in" data-aos-delay="100"
-                    onclick="if(event.target.closest('.svc-actions'))return; location.href='service-hob.html';">
+                    onclick="if(event.target.closest('.svc-btns'))return; location.href='service-hob.html';">
                     <div class="svc-img-wrap"><img src="assets/stove_indian_1774159214973.png" class="svc-img"
                             alt="Built-in Hob Gas Stove Repair in Pune"></div>
                     <div class="svc-body-3d">
@@ -1510,7 +1601,7 @@
 
                 <!-- Microwave -->
                 <div class="svc-card-3d" data-aos="zoom-in" data-aos-delay="200"
-                    onclick="if(event.target.closest('.svc-actions'))return; location.href='service-microwave.html';">
+                    onclick="if(event.target.closest('.svc-btns'))return; location.href='service-microwave.html';">
                     <div class="svc-img-wrap"><img src="assets/microwave_indian_1774159242700.png" class="svc-img"
                             alt="Microwave Oven Repair Service in Pune"></div>
                     <div class="svc-body-3d">
@@ -1529,7 +1620,7 @@
 
                 <!-- RO -->
                 <div class="svc-card-3d" data-aos="zoom-in" data-aos-delay="300"
-                    onclick="if(event.target.closest('.svc-actions'))return; location.href='service-ro.html';">
+                    onclick="if(event.target.closest('.svc-btns'))return; location.href='service-ro.html';">
                     <div class="svc-img-wrap"><img src="assets/ro_indian_1774159259432.png" class="svc-img"
                             alt="RO Water Purifier Repair in Pune"></div>
                     <div class="svc-body-3d">
@@ -1548,7 +1639,7 @@
 
                 <!-- Dishwasher -->
                 <div class="svc-card-3d" data-aos="zoom-in" data-aos-delay="400"
-                    onclick="if(event.target.closest('.svc-actions'))return; location.href='service-dishwasher.html';">
+                    onclick="if(event.target.closest('.svc-btns'))return; location.href='service-dishwasher.html';">
                     <div class="svc-img-wrap"><img src="assets/dishwasher_indian_1774159277516.png" class="svc-img"
                             alt="Dishwasher Repair Service in Pune"></div>
                     <div class="svc-body-3d">

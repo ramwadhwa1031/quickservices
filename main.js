@@ -109,45 +109,76 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
-
 // --- HTML5 Geolocation API ---
 // Function to update the Location Data visibly
-function setLocationSuccess(city, region, lat = "", lon = "") {
-    const locBtn = document.querySelector('.location-btn');
-    const locText = document.getElementById('locText');
+function setLocationSuccess(btn, area, city, region, lat = "", lon = "") {
+    const locText = btn.querySelector('.loc-text');
     
-    locBtn.style.background = "#D1FAE5";
-    locBtn.style.borderColor = "#10B981";
-    locBtn.style.color = "#047857";
-    locBtn.style.opacity = "1";
-    locBtn.style.pointerEvents = "auto";
+    btn.style.background = "#D1FAE5";
+    btn.style.borderColor = "#10B981";
+    btn.style.color = "#047857";
+    btn.style.opacity = "1";
+    btn.style.pointerEvents = "auto";
     
     if (document.getElementById('latitudeField')) document.getElementById('latitudeField').value = lat;
     if (document.getElementById('longitudeField')) document.getElementById('longitudeField').value = lon;
-    if (document.getElementById('f_area')) document.getElementById('f_area').value = city;
+    if (document.getElementById('modalLat')) document.getElementById('modalLat').value = lat;
+    if (document.getElementById('modalLong')) document.getElementById('modalLong').value = lon;
+    if (document.getElementById('f_area')) document.getElementById('f_area').value = area || city;
     
-    locText.innerText = `Secured: ${city}, ${region}`;
+    // Build display text: "Area, City" or just "City, State"
+    let displayText = "";
+    if (area && city && area !== city) {
+        displayText = `${area}, ${city}`;
+    } else if (area) {
+        displayText = `${area}, ${region}`;
+    } else {
+        displayText = `${city}, ${region}`;
+    }
+    
+    if (locText) locText.innerText = `📍 ${displayText}`;
 }
 
 // Function to handle Location Failure properly
-function setLocationError() {
-    const locBtn = document.querySelector('.location-btn');
-    const locText = document.getElementById('locText');
-    locBtn.style.background = "#FEF2F2";
-    locBtn.style.borderColor = "#EF4444";
-    locBtn.style.color = "#B91C1C";
-    locBtn.style.opacity = "1";
-    locBtn.style.pointerEvents = "auto";
-    locText.innerText = "Location access failed. Enter manually.";
+function setLocationError(btn) {
+    const locText = btn.querySelector('.loc-text');
+    btn.style.background = "#FEF2F2";
+    btn.style.borderColor = "#EF4444";
+    btn.style.color = "#B91C1C";
+    btn.style.opacity = "1";
+    btn.style.pointerEvents = "auto";
+    if (locText) locText.innerText = "Location access failed. Enter manually.";
 }
 
-function detectLocation() {
-    const locBtn = document.querySelector('.location-btn');
-    const locText = document.getElementById('locText');
+// Extract best area name from Nominatim address for Indian locations
+function extractAreaFromAddress(addr) {
+    // Priority: most granular local area first
+    const area = addr.road 
+        || addr.neighbourhood 
+        || addr.suburb 
+        || addr.residential
+        || addr.hamlet
+        || addr.village
+        || addr.city_district
+        || "";
     
-    locText.innerText = "Connecting to Satellite...";
-    locBtn.style.opacity = "0.7";
-    locBtn.style.pointerEvents = "none";
+    const city = addr.city 
+        || addr.town 
+        || addr.county
+        || addr.state_district
+        || "";
+    
+    const region = addr.state || "MH";
+    
+    return { area, city, region };
+}
+
+function detectLocation(btn) {
+    const locText = btn.querySelector('.loc-text');
+    
+    if (locText) locText.innerText = "Detecting location...";
+    btn.style.opacity = "0.7";
+    btn.style.pointerEvents = "none";
 
     // 1. Attempt High-Accuracy Browser GPS first
     if ("geolocation" in navigator) {
@@ -155,49 +186,87 @@ function detectLocation() {
             (position) => {
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
-                // Reverse geocode via Nominatim OSM (Ensuring English output)
-                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=14&addressdetails=1&accept-language=en`)
-                    .then(res => res.json())
-                    .then(data => {
-                        let city = "";
-                        if (data.address) {
-                            // Extract exact, granular local area
-                            city = data.address.suburb || data.address.neighbourhood || data.address.residential || data.address.city_district || data.address.city || data.address.town || "Pune Area";
-                        } else {
-                            city = "Pune Area";
-                        }
-                        const region = data.address ? (data.address.state || "MH") : "MH";
-                        setLocationSuccess(city, region, lat, lon);
-                    })
-                    .catch(err => {
-                        console.error("Nominatim Reverse Geocoding failed:", err);
-                        // Network error on reverse geocoding -> Try IP
-                        fetchIPLocation();
-                    });
+                if (locText) locText.innerText = "Pinpointing your area...";
+                reverseGeocode(btn, lat, lon);
             },
             (error) => {
-                console.warn("GPS Denied or Timeout. Falling back to IP...");
-                fetchIPLocation();
+                console.warn("GPS Denied or Timeout (code: " + error.code + "). Falling back to IP...");
+                fetchIPLocation(btn);
             },
-            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
         );
     } else {
         // Browser lacks geolocation
-        fetchIPLocation();
+        fetchIPLocation(btn);
     }
 }
 
-// 2. IP Fallback
-function fetchIPLocation() {
+// Reverse geocode using Nominatim (zoom=18 for street-level)
+function reverseGeocode(btn, lat, lon) {
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1&accept-language=en`, {
+        headers: {
+            'User-Agent': 'QuickCareService/1.0 (https://quickcareservice.com)'
+        }
+    })
+        .then(res => {
+            if (!res.ok) throw new Error("Nominatim HTTP " + res.status);
+            return res.json();
+        })
+        .then(data => {
+            if (data.address) {
+                const { area, city, region } = extractAreaFromAddress(data.address);
+                if (area || city) {
+                    setLocationSuccess(btn, area, city, region, lat, lon);
+                } else {
+                    // Nominatim returned address but no useful fields — try fallback
+                    reverseGeocodeFallback(btn, lat, lon);
+                }
+            } else {
+                // No address in response — try fallback
+                reverseGeocodeFallback(btn, lat, lon);
+            }
+        })
+        .catch(err => {
+            console.error("Nominatim failed:", err);
+            reverseGeocodeFallback(btn, lat, lon);
+        });
+}
+
+// Fallback: BigDataCloud free reverse geocoding (excellent for India)
+function reverseGeocodeFallback(btn, lat, lon) {
+    fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`)
+        .then(res => {
+            if (!res.ok) throw new Error("BigDataCloud HTTP " + res.status);
+            return res.json();
+        })
+        .then(data => {
+            const area = data.locality || data.city || "";
+            const city = data.city || data.principalSubdivision || "";
+            const region = data.principalSubdivision || "MH";
+            if (area || city) {
+                setLocationSuccess(btn, area, city, region, lat, lon);
+            } else {
+                setLocationSuccess(btn, "", "Pune Area", "MH", lat, lon);
+            }
+        })
+        .catch(err => {
+            console.error("BigDataCloud also failed:", err);
+            // Last resort: just show coordinates
+            setLocationSuccess(btn, "", "Pune Area", "MH", lat, lon);
+        });
+}
+
+// IP-based location fallback (no GPS available)
+function fetchIPLocation(btn) {
     fetch('https://get.geojs.io/v1/ip/geo.json')
         .then(res => res.json())
         .then(data => {
             const city = data.city || "Pune Area";
             const region = data.region || "MH";
-            setLocationSuccess(city, region, data.latitude, data.longitude);
+            setLocationSuccess(btn, "", city, region, data.latitude, data.longitude);
         })
         .catch(err => {
             console.error("IP Geocoding completely failed:", err);
-            setLocationError();
+            setLocationError(btn);
         });
 }

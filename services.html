@@ -28,29 +28,70 @@
         .svc-card-body { padding: 30px; }
         .svc-card-body h3 { font-size: 1.4rem; font-weight: 800; color: #0f172a; margin-bottom: 12px; }
         .svc-card-body p { color: #64748b; font-size: 1rem; line-height: 1.7; margin-bottom: 0; }
-        .svc-btns { display: flex; align-items: center; justify-content: space-between; padding: 0 30px 25px; }
-        .svc-btn-wa { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #25D366, #128C7E); color: #FFF; padding: 10px 20px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; box-shadow: 0 5px 15px rgba(37,211,102,0.3); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none; }
-        .svc-btn-wa:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 10px 25px rgba(37,211,102,0.4); color: #FFF; }
-        .svc-btn-wa i { font-size: 1.1rem; }
-        .svc-btn-detail { display: inline-flex; align-items: center; gap: 8px; color: #0f172a; font-weight: 800; font-size: 0.8rem; text-decoration: none; background: transparent; transition: 0.3s; }
-        .svc-btn-detail:hover { color: #ff5722; }
-        .svc-btn-detail i { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #f1f5f9; color: #0f172a; border-radius: 50%; font-size: 0.75rem; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .svc-btns { display: flex; align-items: center; gap: 12px; padding: 0 30px 25px; }
+        /* Premium WhatsApp Button */
+        .svc-btn-wa { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #FFF; padding: 12px 22px; border-radius: 14px; font-weight: 800; font-size: 0.88rem; letter-spacing: 0.3px; box-shadow: 0 4px 15px rgba(37,211,102,0.35); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none; position: relative; overflow: hidden; }
+        .svc-btn-wa::before { content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent); transform: skewX(-25deg); transition: left 0.6s ease; }
+        .svc-btn-wa:hover::before { left: 130%; }
+        .svc-btn-wa:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 25px rgba(37,211,102,0.45); color: #FFF; }
+        .svc-btn-wa i { font-size: 1.2rem; width: 30px; height: 30px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: 0.3s; }
+        .svc-btn-wa:hover i { background: rgba(255,255,255,0.35); transform: rotate(15deg) scale(1.1); }
+        .svc-btn-wa::after { content: ''; width: 8px; height: 8px; background: #7df5a6; border-radius: 50%; flex-shrink: 0; animation: waPulse 1.8s ease-in-out infinite; box-shadow: 0 0 6px rgba(125,245,166,0.6); }
+        @keyframes waPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.7); } }
+        .svc-btn-detail { display: inline-flex; align-items: center; gap: 8px; color: #0f172a; font-weight: 800; font-size: 0.82rem; text-decoration: none; background: transparent; padding: 10px 14px; border-radius: 12px; border: 1.5px solid transparent; transition: all 0.35s ease; }
+        .svc-btn-detail:hover { color: #ff5722; background: rgba(255, 87, 34, 0.04); border-color: rgba(255, 87, 34, 0.15); }
+        .svc-btn-detail i { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #f1f5f9; color: #0f172a; border-radius: 50%; font-size: 0.7rem; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .svc-btn-detail:hover i { background: #ff5722; color: #FFF; transform: translateX(4px) rotate(-45deg); box-shadow: 0 4px 12px rgba(255,87,34,0.3); }
 
-        /* Responsive Fix for Handheld Devices (iPhone 14/etc) */
+        /* Responsive */
+        @media(max-width: 768px) {
+            .svc-btns {
+                flex-wrap: wrap;
+                padding: 0 20px 20px;
+                gap: 10px;
+            }
+            .svc-btn-wa {
+                padding: 11px 18px;
+                font-size: 0.82rem;
+                flex: 1 1 auto;
+                justify-content: center;
+                min-width: 140px;
+            }
+            .svc-btn-detail {
+                font-size: 0.75rem;
+                flex: 1 1 auto;
+                justify-content: center;
+                min-width: 100px;
+            }
+        }
         @media(max-width: 480px) {
             .svc-btns {
                 padding: 0 15px 20px;
-                gap: 5px;
+                gap: 10px;
+                flex-direction: column;
             }
             .svc-btn-wa {
-                padding: 8px 12px;
-                font-size: 0.75rem;
-                gap: 5px;
+                padding: 14px 20px;
+                font-size: 0.9rem;
+                gap: 10px;
+                width: 100%;
+                justify-content: center;
+                border-radius: 14px;
+            }
+            .svc-btn-wa i {
+                width: 32px;
+                height: 32px;
+                font-size: 1.15rem;
             }
             .svc-btn-detail {
-                font-size: 0.72rem;
-                gap: 4px;
+                font-size: 0.82rem;
+                gap: 6px;
+                width: 100%;
+                justify-content: center;
+                padding: 12px;
+                background: #f8fafc;
+                border-radius: 14px;
+                border-color: #e2e8f0;
             }
             .svc-btn-detail i {
                 width: 28px;
