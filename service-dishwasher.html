@@ -39,6 +39,24 @@
         
         .feature-tags { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px;}
         .feature-tags span { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px); color: #FFF; padding: 8px 16px; border-radius: 30px; font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;}
+
+        /* Premium WhatsApp CTA */
+        .wa-cta-divider { display:flex; align-items:center; gap:12px; margin:20px 0 6px; }
+        .wa-cta-divider::before, .wa-cta-divider::after { content:''; flex:1; height:1px; background:linear-gradient(90deg, transparent, #cbd5e1, transparent); }
+        .wa-cta-divider span { font-size:0.75rem; color:#94a3b8; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; white-space:nowrap; }
+        .wa-premium-btn { display:flex; align-items:center; justify-content:center; gap:14px; width:100%; padding:16px 24px; margin-top:8px; background:linear-gradient(135deg, #25D366 0%, #128C7E 100%); color:#FFF; border:none; border-radius:14px; font-weight:800; font-size:1rem; text-decoration:none; position:relative; overflow:hidden; box-shadow: 0 8px 25px rgba(37,211,102,0.35), inset 0 1px 0 rgba(255,255,255,0.2); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .wa-premium-btn::before { content:''; position:absolute; top:0; left:-100%; width:50%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent); transform:skewX(-25deg); animation:waShine 3s infinite; }
+        .wa-premium-btn:hover { transform:translateY(-3px) scale(1.02); box-shadow: 0 12px 35px rgba(37,211,102,0.5), inset 0 1px 0 rgba(255,255,255,0.3); }
+        .wa-premium-btn .wa-icon { font-size:1.5rem; animation:waBounce 2s infinite; }
+        .wa-premium-btn .wa-text { display:flex; flex-direction:column; align-items:flex-start; line-height:1.3; }
+        .wa-premium-btn .wa-text-main { font-size:1rem; font-weight:800; }
+        .wa-premium-btn .wa-text-sub { font-size:0.7rem; font-weight:500; opacity:0.85; letter-spacing:0.5px; }
+        .wa-trust-row { display:flex; justify-content:center; gap:16px; margin-top:10px; }
+        .wa-trust-item { display:flex; align-items:center; gap:5px; font-size:0.72rem; color:#64748b; font-weight:600; }
+        .wa-trust-item .online-dot { width:7px; height:7px; background:#25D366; border-radius:50%; animation:onlinePulse 2s infinite; }
+        @keyframes waShine { 0%{left:-100%} 40%{left:130%} 100%{left:130%} }
+        @keyframes waBounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+        @keyframes onlinePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
     </style>
     <meta name="keywords" content="kitchen appliance repair Pune, appliance repair service Pune, chimney repair Pune, gas stove repair Pune, microwave repair Pune, oven repair Pune, cooktop repair Pune, hob repair service Pune, dishwasher repair Pune, water purifier repair Pune, cooking range repair Pune, kitchen chimney service Pune, built-in hob repair Pune, gas stove service near me, microwave oven repair Pune, RO water purifier service Pune, dishwasher technician Pune, cooking range service Pune, cooktop burner repair Pune, electric oven repair Pune, kitchen appliance maintenance Pune, appliance repair near me Pune, chimney repair near me, microwave repair near me Pune, gas stove repair near me, best appliance repair service in Pune, home appliance repair Pune Maharashtra, same day appliance repair Pune, emergency appliance repair Pune, affordable kitchen appliance repair in Pune, expert chimney repair technician Pune, same day microwave repair service Pune, gas stove burner repair service Pune, best RO water purifier repair in Pune, built-in hob installation and repair Pune, dishwasher repair service at home Pune, kitchen appliance repair doorstep service Pune, book appliance repair online Pune, appliance repair at home Pune, certified appliance technician Pune, low cost appliance repair Pune, fast appliance repair service Pune">
     <meta name="robots" content="index, follow">
@@ -52,7 +70,7 @@
             </div>
             <div class="top-bar-right">
                 <a href="mailto:divedipankaj9@gmail.com" style="color:#FFF;"><i class="fas fa-envelope"></i> divedipankaj9@gmail.com</a>
-                <a href="tel:18001038824" style="color:#FFF;"><i class="fas fa-phone"></i> 1800 103 8824</a>
+                <a href="tel:+917756996498" style="color:#FFF;"><i class="fas fa-phone"></i> +91 7756996498</a>
             </div>
         </div>
     </div>
@@ -81,7 +99,7 @@
                     </div>
                 </div>
                 <a href="contact.html">Contact Us</a>
-                <a href="tel:18001038824" class="btn btn-primary" style="margin-left: 10px; padding: 12px 24px;">
+                <a href="tel:+917756996498" class="btn btn-primary" style="margin-left: 10px; padding: 12px 24px;">
                     <i class="fas fa-phone-volume"></i> Support 24/7
                 </a>
             </nav>
@@ -148,16 +166,26 @@
                     <button type="submit" class="btn btn-primary" style="width: 100%; padding: 18px; font-size: 1.1rem; border-radius: 8px;">
                         <i class="fas fa-paper-plane"></i> Book Now
                     </button>
-                <a href="https://wa.me/917756996498?text=Hi%2C%20I%20need%20Dishwasher%20repair%20service%20in%20Pune.%20Please%20share%20details%20and%20availability." target="_blank" style="display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:14px 20px; background:#25D366; color:#FFF; border:none; border-radius:12px; font-weight:700; font-size:0.95rem; text-decoration:none; margin-top:12px; transition:0.3s; box-shadow: 0 4px 15px rgba(37,211,102,0.25);" onmouseover="this.style.background='#1da851'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(37,211,102,0.35)';" onmouseout="this.style.background='#25D366'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(37,211,102,0.25)';">
-                    <i class="fab fa-whatsapp" style="font-size:1.2rem;"></i> Book via WhatsApp
+                <!-- Premium WhatsApp CTA -->
+                <div class="wa-cta-divider"><span>or book instantly</span></div>
+                <a href="https://wa.me/917756996498?text=Hi%2C%20I%20need%20Dishwasher%20repair%20service%20in%20Pune.%20Please%20share%20details%20and%20availability." target="_blank" class="wa-premium-btn">
+                    <i class="fab fa-whatsapp wa-icon"></i>
+                    <div class="wa-text">
+                        <span class="wa-text-main">Book via WhatsApp</span>
+                        <span class="wa-text-sub">Instant Reply • No Waiting</span>
+                    </div>
                 </a>
+                <div class="wa-trust-row">
+                    <span class="wa-trust-item"><span class="online-dot"></span> Online Now</span>
+                    <span class="wa-trust-item"><i class="fas fa-bolt" style="color:#FBBF24;font-size:0.65rem;"></i> Avg. Reply: 2 min</span>
+                </div>
                 </form>
             </div>
             
             <div style="background:var(--bg-dark); color:#FFF; padding:30px; border-radius:16px; margin-top:30px; text-align:center; box-shadow: var(--shadow-xl);">
                 <h4 style="margin-bottom:15px; color:#FFF; font-size: 1.3rem;">Need Urgent Help?</h4>
                 <p style="color:rgba(255,255,255,0.7); margin-bottom:20px; font-size:0.95rem;">Our support team is available to help you with any urgent repair needs.</p>
-                <a href="tel:18001038824" class="btn btn-primary" style="width:100%; background:#FFF; color:var(--bg-dark); font-weight: 800;"><i class="fas fa-phone-alt" style="margin-right:8px;"></i> Call 1800-103-8824</a>
+                <a href="tel:+917756996498" class="btn btn-primary" style="width:100%; background:#FFF; color:var(--bg-dark); font-weight: 800;"><i class="fas fa-phone-alt" style="margin-right:8px;"></i> Call +91 7756996498</a>
             </div>
         </div>
     </div>
@@ -198,7 +226,7 @@
     <div class="fab-container">
         <a onclick="document.getElementById('queryModal').classList.add('active');" class="fab fab-query" style="background:#8B5CF6;" title="Quick Query"><i class="fas fa-clipboard-list"></i></a>
         <a href="https://wa.me/917756996498" target="_blank" class="fab fab-wa"><i class="fab fa-whatsapp"></i></a>
-        <a href="tel:18001038824" class="fab fab-call"><i class="fas fa-phone-alt"></i></a>
+        <a href="tel:+917756996498" class="fab fab-call"><i class="fas fa-phone-alt"></i></a>
     </div>
 
     <!-- Modals -->
@@ -210,7 +238,7 @@
                 <h2>Get in Touch</h2>
                 <p style="color: var(--text-body); margin-bottom: 30px;">Contact our support team for quick assistance.</p>
                 <a href="https://wa.me/917756996498" target="_blank" class="btn btn-primary" style="width:100%; padding:15px; margin-bottom:15px; background:#25D366; border:none;"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
-                <a href="tel:18001038824" class="btn" style="width:100%; padding:15px; border:2px solid var(--border); color:var(--text-dark);"><i class="fas fa-phone-alt"></i> Call 1800-103-8824</a>
+                <a href="tel:+917756996498" class="btn" style="width:100%; padding:15px; border:2px solid var(--border); color:var(--text-dark);"><i class="fas fa-phone-alt"></i> Call +91 7756996498</a>
             </div>
         </div>
     </div>
@@ -257,7 +285,7 @@
                     <h4 class="footer-title">Contact Info</h4>
                     <ul class="footer-contact">
                         <li><i class="fas fa-map-marker-alt"></i> <span>Shop 5, Dhanori Rd, Jakat Naka, Pune - 411015</span></li>
-                        <li><i class="fas fa-phone-alt"></i> <span>1800-103-8824</span></li>
+                        <li><i class="fas fa-phone-alt"></i> <span>+91 7756996498</span></li>
                         <li><i class="fas fa-bolt"></i> <span style="color:var(--success);">Available Mon-Sun</span></li>
                     </ul>
                 </div>
