@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CallFlow — Telecaller CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0D1B2A;
+  --navy-mid: #162436;
+  --indigo: #1B4F8A;
+  --indigo-light: #2563AE;
+  --violet: #7C3AED;
+  --violet-light: #8B5CF6;
+  --emerald: #059669;
+  --amber: #D97706;
+  --red: #DC2626;
+  --rose: #F43F5E;
+  --slate: #64748B;
+  --slate-light: #94A3B8;
+  --border: #E2E8F0;
+  --bg: #F6F8FB;
+  --bg2: #EEF2F7;
+  --white: #FFFFFF;
+  --text: #0F172A;
+  --text2: #475569;
+  --text3: #94A3B8;
+  --sidebar-w: 248px;
+  --header-h: 60px;
+  --radius: 10px;
+  --shadow: 0 2px 16px rgba(13,27,42,0.07);
+  --shadow-lg: 0 8px 32px rgba(13,27,42,0.13);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+h1,h2,h3,h4 { font-family: 'Playfair Display', serif; font-weight: 600; }
+
+/* ---- SCREEN SYSTEM ---- */
+.screen { display: none; height: 100vh; overflow: hidden; }
+.screen.active { display: flex; }
+
+/* ---- LAYOUT ---- */
+.sidebar { width: var(--sidebar-w); background: var(--navy); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.topbar { height: var(--header-h); background: var(--white); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 16px; flex-shrink: 0; box-shadow: 0 1px 0 var(--border); }
+.content { flex: 1; overflow-y: auto; padding: 26px 30px; }
+
+/* ---- SIDEBAR ---- */
+.sidebar-logo { padding: 20px 20px 14px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.logo-mark { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: white; letter-spacing: -0.3px; display: flex; align-items: center; gap: 8px; }
+.logo-dot { width: 8px; height: 8px; background: var(--violet-light); border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.3)} }
+.logo-sub { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 3px; margin-left: 16px; }
+.sidebar-role { padding: 11px 14px; margin: 12px 10px 4px; background: rgba(255,255,255,0.06); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
+.role-label { font-size: 10px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 1px; }
+.role-name { font-size: 13px; font-weight: 500; color: white; margin-top: 2px; }
+.role-status { font-size: 11px; color: #34D399; margin-top: 1px; display: flex; align-items: center; gap: 4px; }
+.role-status::before { content:''; width:6px; height:6px; background:#34D399; border-radius:50%; display:inline-block; }
+.sidebar-section { padding: 8px 14px 4px; font-size: 10px; color: rgba(255,255,255,0.28); text-transform: uppercase; letter-spacing: 1.2px; margin-top: 6px; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 14px; margin: 1px 8px; border-radius: 7px; cursor: pointer; color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 400; transition: all 0.15s; }
+.nav-item:hover { background: rgba(255,255,255,0.07); color: white; }
+.nav-item.active { background: linear-gradient(135deg, var(--indigo), var(--indigo-light)); color: white; font-weight: 500; box-shadow: 0 2px 8px rgba(27,79,138,0.4); }
+.nav-icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+.nav-badge { margin-left: auto; background: var(--amber); color: white; font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 10px; }
+.nav-badge.green { background: var(--emerald); }
+.sidebar-bottom { margin-top: auto; padding: 12px; border-top: 1px solid rgba(255,255,255,0.07); }
+.user-card { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 8px; cursor: pointer; transition: background 0.15s; }
+.user-card:hover { background: rgba(255,255,255,0.06); }
+.avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: white; flex-shrink: 0; }
+.user-info .name { font-size: 12px; font-weight: 500; color: white; }
+.user-info .sub { font-size: 11px; color: rgba(255,255,255,0.38); }
+
+/* ---- TOPBAR ---- */
+.topbar-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: var(--text); }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.notif-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; font-size: 16px; transition: all 0.15s; }
+.notif-btn:hover { background: var(--bg2); }
+.notif-dot { position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; background: var(--red); border-radius: 50%; border: 2px solid white; }
+.topbar-date { font-size: 12px; color: var(--text3); background: var(--bg2); padding: 5px 12px; border-radius: 20px; }
+.view-switcher { display: flex; background: var(--bg2); border-radius: 8px; padding: 3px; gap: 2px; }
+.view-btn { padding: 5px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; color: var(--text3); transition: all 0.15s; border: none; background: transparent; font-family: 'DM Sans', sans-serif; }
+.view-btn.active { background: white; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+
+/* ---- CARDS ---- */
+.card { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); }
+.card-header { padding: 16px 20px 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; }
+.card-body { padding: 18px 20px; }
+
+/* ---- STAT CARDS ---- */
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 22px; }
+.stat-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 18px 20px; position: relative; overflow: hidden; transition: transform 0.15s, box-shadow 0.15s; }
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.stat-card::after { content:''; position:absolute; top:0; right:0; width:3px; height:100%; border-radius:0 var(--radius) var(--radius) 0; }
+.stat-card.c1::after{background:var(--indigo-light);}
+.stat-card.c2::after{background:var(--emerald);}
+.stat-card.c3::after{background:var(--amber);}
+.stat-card.c4::after{background:var(--violet);}
+.stat-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; font-size: 18px; }
+.si-blue { background: #EFF6FF; }
+.si-green { background: #ECFDF5; }
+.si-amber { background: #FFFBEB; }
+.si-violet { background: #F5F3FF; }
+.stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+.stat-value { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 6px; }
+.stat-change { font-size: 12px; display: flex; align-items: center; gap: 4px; }
+.stat-up { color: var(--emerald); }
+.stat-down { color: var(--red); }
+
+/* ---- BUTTONS ---- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 16px; border-radius: 7px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+.btn-primary { background: var(--indigo); color: white; }
+.btn-primary:hover { background: var(--indigo-light); }
+.btn-violet { background: var(--violet); color: white; }
+.btn-violet:hover { background: var(--violet-light); }
+.btn-success { background: var(--emerald); color: white; }
+.btn-outline { background: transparent; color: var(--text2); border: 1px solid var(--border); }
+.btn-outline:hover { background: var(--bg2); }
+.btn-danger { background: var(--red); color: white; }
+.btn-ghost { background: transparent; color: var(--text2); }
+.btn-ghost:hover { background: var(--bg2); }
+.btn-sm { padding: 5px 12px; font-size: 12px; }
+.btn-lg { padding: 11px 22px; font-size: 14px; }
+
+/* ---- BADGES ---- */
+.badge { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+.badge-green { background: #ECFDF5; color: #065F46; }
+.badge-blue { background: #EFF6FF; color: #1E40AF; }
+.badge-amber { background: #FFFBEB; color: #92400E; }
+.badge-red { background: #FEF2F2; color: #991B1B; }
+.badge-violet { background: #F5F3FF; color: #5B21B6; }
+.badge-gray { background: #F1F5F9; color: #475569; }
+
+/* ---- TABLES ---- */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+table th { padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text3); background: var(--bg); border-bottom: 1px solid var(--border); white-space: nowrap; }
+table td { padding: 12px 14px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: middle; }
+table tr:last-child td { border-bottom: none; }
+table tbody tr { transition: background 0.12s; cursor: pointer; }
+table tbody tr:hover { background: var(--bg); }
+
+/* ---- FORM ---- */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.full { grid-column: 1/-1; }
+label { font-size: 12px; font-weight: 500; color: var(--text2); }
+input, select, textarea { padding: 9px 12px; border: 1px solid var(--border); border-radius: 7px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); background: white; transition: border-color 0.15s, box-shadow 0.15s; outline: none; width: 100%; }
+input:focus, select:focus, textarea:focus { border-color: var(--indigo-light); box-shadow: 0 0 0 3px rgba(37,99,174,0.1); }
+textarea { resize: vertical; min-height: 80px; }
+.radio-group { display: flex; gap: 12px; }
+.radio-item { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; color: var(--text2); }
+.radio-item input[type=radio] { width: auto; }
+.form-row { display: flex; gap: 16px; }
+.form-row .form-group { flex: 1; }
+
+/* ---- TABS ---- */
+.tab-bar { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 22px; }
+.tab { padding: 9px 18px; font-size: 13px; font-weight: 500; color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; }
+.tab:hover { color: var(--text2); }
+.tab.active { color: var(--indigo); border-bottom-color: var(--indigo); }
+
+/* ---- MODAL ---- */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(13,27,42,0.45); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(2px); }
+.modal-overlay.open { display: flex; }
+.modal { background: white; border-radius: 14px; box-shadow: var(--shadow-lg); width: 640px; max-width: 95vw; max-height: 90vh; overflow-y: auto; }
+.modal-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; }
+.modal-close { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--text3); transition: all 0.15s; }
+.modal-close:hover { background: var(--bg2); color: var(--text); }
+.modal-body { padding: 22px 24px; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+
+/* ---- PROGRESS ---- */
+.progress-bar { height: 6px; background: var(--bg2); border-radius: 10px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 10px; transition: width 0.4s ease; }
+
+/* ---- TIMELINE ---- */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.timeline-item { display: flex; gap: 14px; padding-bottom: 18px; position: relative; }
+.timeline-item:not(:last-child)::before { content:''; position:absolute; left:15px; top:32px; bottom:0; width:1px; background:var(--border); }
+.timeline-dot { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; border: 2px solid white; box-shadow: 0 0 0 1px var(--border); }
+.timeline-content { flex: 1; padding-top: 4px; }
+.timeline-title { font-size: 13px; font-weight: 500; color: var(--text); }
+.timeline-meta { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+/* ---- SEARCH / FILTER BAR ---- */
+.filter-bar { display: flex; gap: 10px; align-items: center; margin-bottom: 18px; flex-wrap: wrap; }
+.search-wrap { position: relative; flex: 1; min-width: 200px; }
+.search-wrap input { padding-left: 34px; }
+.search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 14px; pointer-events: none; }
+
+/* ---- CHARTS (CSS only) ---- */
+.mini-bars { display: flex; align-items: flex-end; gap: 4px; height: 48px; }
+.mini-bar { flex: 1; border-radius: 3px 3px 0 0; transition: opacity 0.15s; cursor: pointer; min-width: 6px; }
+.mini-bar:hover { opacity: 0.7; }
+.donut-wrap { display: flex; align-items: center; gap: 18px; }
+.donut { width: 80px; height: 80px; border-radius: 50%; flex-shrink: 0; }
+.legend { display: flex; flex-direction: column; gap: 8px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+/* ---- FOLLOWUP CARD ---- */
+.followup-card { background: white; border: 1px solid var(--border); border-radius: 9px; padding: 14px 16px; transition: all 0.15s; }
+.followup-card:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+.followup-card.urgent { border-left: 3px solid var(--red); }
+.followup-card.today { border-left: 3px solid var(--amber); }
+.followup-card.upcoming { border-left: 3px solid var(--indigo-light); }
+
+/* ---- AMOUNT INPUT ---- */
+.amount-input { position: relative; }
+.amount-input input { padding-left: 30px; }
+.amount-prefix { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 13px; font-weight: 500; pointer-events: none; }
+
+/* ---- TOAST ---- */
+.toast { position: fixed; bottom: 24px; right: 24px; background: var(--text); color: white; padding: 12px 20px; border-radius: 9px; font-size: 13px; font-weight: 500; z-index: 9999; transform: translateY(60px); opacity: 0; transition: all 0.3s ease; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 8px; }
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { background: var(--emerald); }
+.toast.warning { background: var(--amber); }
+
+/* ---- CALLER PERFORMANCE ---- */
+.caller-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.caller-row:last-child { border-bottom: none; }
+.caller-rank { width: 24px; height: 24px; border-radius: 50%; background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--text3); flex-shrink: 0; }
+.caller-rank.gold { background: #FFFBEB; color: #92400E; }
+.caller-rank.silver { background: #F1F5F9; color: #475569; }
+.caller-rank.bronze { background: #FFF7ED; color: #9A3412; }
+
+/* ---- REPORT / DOWNLOAD ---- */
+.report-option { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 9px; cursor: pointer; transition: all 0.15s; }
+.report-option:hover { border-color: var(--indigo-light); background: #EFF6FF; }
+.report-option input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--indigo); }
+.report-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+
+/* ---- GRID LAYOUTS ---- */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.col-span-2 { grid-column: 1/-1; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- SCREEN: CALLER DASHBOARD                                     -->
+<!-- ============================================================ -->
+<div id="caller-dashboard" class="screen active">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark"><span class="logo-dot"></span> CallFlow</div>
+      <div class="logo-sub">Telecaller CRM</div>
+    </div>
+    <div class="sidebar-role">
+      <div class="role-label">Logged in as</div>
+      <div class="role-name">Rahul Sharma</div>
+      <div class="role-status">Active · Team A</div>
+    </div>
+    <div class="sidebar-section">Workspace</div>
+    <div class="nav-item active" onclick="show('caller-dashboard')"><span class="nav-icon">📊</span> My Dashboard</div>
+    <div class="nav-item" onclick="openAddCall()"><span class="nav-icon">📞</span> Log New Call</div>
+    <div class="nav-item" onclick="show('caller-calls')"><span class="nav-icon">📋</span> My Calls <span class="nav-badge green">12</span></div>
+    <div class="nav-item" onclick="show('caller-followups')"><span class="nav-icon">🔔</span> Follow-ups <span class="nav-badge">3</span></div>
+    <div class="nav-item" onclick="show('caller-reports')"><span class="nav-icon">📈</span> My Reports</div>
+    <div class="sidebar-section">Views</div>
+    <div class="nav-item" onclick="show('admin-dashboard')"><span class="nav-icon">🛠️</span> Admin View</div>
+    <div class="nav-item" onclick="show('admin-reports')"><span class="nav-icon">📥</span> Download Reports</div>
+    <div class="sidebar-bottom">
+      <div class="user-card">
+        <div class="avatar" style="background:linear-gradient(135deg,var(--indigo),var(--violet));">RS</div>
+        <div class="user-info">
+          <div class="name">Rahul Sharma</div>
+          <div class="sub">Telecaller · ID #TC-04</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">My Dashboard</div>
+      <div class="topbar-right">
+        <div class="topbar-date">📅 Wednesday, 25 March 2026</div>
+        <button class="btn btn-violet" onclick="openAddCall()">+ Log Call</button>
+        <div class="notif-btn">🔔<span class="notif-dot"></span></div>
+      </div>
+    </div>
+    <div class="content">
+
+      <!-- Stat Cards -->
+      <div class="stats-grid">
+        <div class="stat-card c1">
+          <div class="stat-icon si-blue">📞</div>
+          <div class="stat-label">Calls Today</div>
+          <div class="stat-value">18</div>
+          <div class="stat-change stat-up">↑ 4 vs yesterday</div>
+        </div>
+        <div class="stat-card c2">
+          <div class="stat-icon si-green">✅</div>
+          <div class="stat-label">Agreements Today</div>
+          <div class="stat-value">7</div>
+          <div class="stat-change stat-up">↑ 38.9% rate</div>
+        </div>
+        <div class="stat-card c3">
+          <div class="stat-icon si-amber">💰</div>
+          <div class="stat-label">Amount Collected</div>
+          <div class="stat-value">₹42,500</div>
+          <div class="stat-change stat-up">↑ ₹8,200 vs yesterday</div>
+        </div>
+        <div class="stat-card c4">
+          <div class="stat-icon si-violet">📅</div>
+          <div class="stat-label">Pending Follow-ups</div>
+          <div class="stat-value">3</div>
+          <div class="stat-change stat-down">↓ 2 overdue</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:16px;">
+        <!-- Call Activity Chart -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Call Activity</div>
+            <div class="view-switcher">
+              <button class="view-btn active" onclick="setChartPeriod('day',this)">Today</button>
+              <button class="view-btn" onclick="setChartPeriod('month',this)">Month</button>
+              <button class="view-btn" onclick="setChartPeriod('6m',this)">6M</button>
+              <button class="view-btn" onclick="setChartPeriod('year',this)">Year</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="chart-subtitle" style="font-size:12px;color:var(--text3);margin-bottom:14px;">Calls per hour · Today</div>
+            <div class="mini-bars" id="call-chart"></div>
+            <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--text3);" id="chart-labels"></div>
+            <div style="margin-top:16px;display:flex;gap:24px;">
+              <div><div style="font-size:11px;color:var(--text3);">Total Calls</div><div style="font-size:18px;font-weight:700;font-family:'Playfair Display',serif;" id="chart-total">18</div></div>
+              <div><div style="font-size:11px;color:var(--text3);">Agreements</div><div style="font-size:18px;font-weight:700;font-family:'Playfair Display',serif;color:var(--emerald);" id="chart-agreed">7</div></div>
+              <div><div style="font-size:11px;color:var(--text3);">Amount</div><div style="font-size:18px;font-weight:700;font-family:'Playfair Display',serif;color:var(--amber);" id="chart-amount">₹42.5K</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Outcome Breakdown -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Outcome Breakdown</div>
+            <span class="badge badge-blue">This Month</span>
+          </div>
+          <div class="card-body">
+            <div class="donut-wrap">
+              <div class="donut" style="background:conic-gradient(var(--emerald) 0% 38%,var(--red) 38% 62%,var(--amber) 62% 79%,var(--indigo-light) 79% 100%);"></div>
+              <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:var(--emerald);"></div><span style="color:var(--text2);">Agreed &amp; Paid</span> <strong style="margin-left:auto;">38%</strong></div>
+                <div class="legend-item"><div class="legend-dot" style="background:var(--red);"></div><span style="color:var(--text2);">Declined</span> <strong style="margin-left:auto;">24%</strong></div>
+                <div class="legend-item"><div class="legend-dot" style="background:var(--amber);"></div><span style="color:var(--text2);">Follow-up</span> <strong style="margin-left:auto;">17%</strong></div>
+                <div class="legend-item"><div class="legend-dot" style="background:var(--indigo-light);"></div><span style="color:var(--text2);">Pending</span> <strong style="margin-left:auto;">21%</strong></div>
+              </div>
+            </div>
+            <div style="margin-top:20px;">
+              <div style="font-size:12px;color:var(--text3);margin-bottom:8px;">Monthly Target Progress</div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;"><span style="font-size:12px;color:var(--text2);">Calls: 186 / 250</span><span style="font-size:12px;font-weight:600;color:var(--indigo);">74%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:74%;background:var(--indigo-light);"></div></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;margin-top:10px;"><span style="font-size:12px;color:var(--text2);">Revenue: ₹3.8L / ₹5L</span><span style="font-size:12px;font-weight:600;color:var(--emerald);">76%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:76%;background:var(--emerald);"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Calls Table -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Today's Calls</div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-outline btn-sm" onclick="show('caller-calls')">View All</button>
+            <button class="btn btn-primary btn-sm" onclick="openAddCall()">+ Log Call</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>Client Name</th><th>Phone</th><th>Reason</th><th>Agreed</th><th>Amount</th><th>Follow-up</th><th>Time</th><th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr onclick="openCallDetail()">
+                <td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1042</td>
+                <td><strong>Anita Desai</strong><div style="font-size:11px;color:var(--text3);">anita@email.com</div></td>
+                <td>98765 43210</td>
+                <td>Insurance Renewal</td>
+                <td><span class="badge badge-green">✓ Yes</span></td>
+                <td style="font-weight:600;color:var(--emerald);">₹8,500</td>
+                <td><span class="badge badge-gray">—</span></td>
+                <td style="color:var(--text3);">9:15 AM</td>
+                <td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openCallDetail()">View</button></td>
+              </tr>
+              <tr>
+                <td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1043</td>
+                <td><strong>Rajesh Kumar</strong><div style="font-size:11px;color:var(--text3);">—</div></td>
+                <td>87654 32109</td>
+                <td>Loan Follow-up</td>
+                <td><span class="badge badge-red">✗ No</span></td>
+                <td style="color:var(--text3);">—</td>
+                <td><span class="badge badge-amber">28 Mar</span></td>
+                <td style="color:var(--text3);">9:52 AM</td>
+                <td><button class="btn btn-ghost btn-sm">View</button></td>
+              </tr>
+              <tr>
+                <td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1044</td>
+                <td><strong>Priya Mehta</strong><div style="font-size:11px;color:var(--text3);">priya.mehta@gmail.com</div></td>
+                <td>76543 21098</td>
+                <td>Product Demo</td>
+                <td><span class="badge badge-green">✓ Yes</span></td>
+                <td style="font-weight:600;color:var(--emerald);">₹12,000</td>
+                <td><span class="badge badge-gray">—</span></td>
+                <td style="color:var(--text3);">10:30 AM</td>
+                <td><button class="btn btn-ghost btn-sm">View</button></td>
+              </tr>
+              <tr>
+                <td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1045</td>
+                <td><strong>Sanjay Patel</strong></td>
+                <td>65432 10987</td>
+                <td>Credit Card Offer</td>
+                <td><span class="badge badge-amber">Pending</span></td>
+                <td style="color:var(--text3);">—</td>
+                <td><span class="badge badge-violet">27 Mar</span></td>
+                <td style="color:var(--text3);">11:05 AM</td>
+                <td><button class="btn btn-ghost btn-sm">View</button></td>
+              </tr>
+              <tr>
+                <td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1046</td>
+                <td><strong>Meera Iyer</strong><div style="font-size:11px;color:var(--text3);">meera@corp.in</div></td>
+                <td>54321 09876</td>
+                <td>Service Upgrade</td>
+                <td><span class="badge badge-green">✓ Yes</span></td>
+                <td style="font-weight:600;color:var(--emerald);">₹22,000</td>
+                <td><span class="badge badge-gray">—</span></td>
+                <td style="color:var(--text3);">11:48 AM</td>
+                <td><button class="btn btn-ghost btn-sm">View</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: ALL CALLS (CALLER)                                   -->
+<!-- ============================================================ -->
+<div id="caller-calls" class="screen">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="logo-mark"><span class="logo-dot"></span> CallFlow</div><div class="logo-sub">Telecaller CRM</div></div>
+    <div class="sidebar-role"><div class="role-label">Logged in as</div><div class="role-name">Rahul Sharma</div><div class="role-status">Active · Team A</div></div>
+    <div class="sidebar-section">Workspace</div>
+    <div class="nav-item" onclick="show('caller-dashboard')"><span class="nav-icon">📊</span> My Dashboard</div>
+    <div class="nav-item" onclick="openAddCall()"><span class="nav-icon">📞</span> Log New Call</div>
+    <div class="nav-item active" onclick="show('caller-calls')"><span class="nav-icon">📋</span> My Calls <span class="nav-badge green">12</span></div>
+    <div class="nav-item" onclick="show('caller-followups')"><span class="nav-icon">🔔</span> Follow-ups <span class="nav-badge">3</span></div>
+    <div class="nav-item" onclick="show('caller-reports')"><span class="nav-icon">📈</span> My Reports</div>
+    <div class="sidebar-section">Views</div>
+    <div class="nav-item" onclick="show('admin-dashboard')"><span class="nav-icon">🛠️</span> Admin View</div>
+    <div class="nav-item" onclick="show('admin-reports')"><span class="nav-icon">📥</span> Download Reports</div>
+    <div class="sidebar-bottom"><div class="user-card"><div class="avatar" style="background:linear-gradient(135deg,var(--indigo),var(--violet));">RS</div><div class="user-info"><div class="name">Rahul Sharma</div><div class="sub">Telecaller · ID #TC-04</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">My Calls</div>
+      <div class="topbar-right">
+        <div class="view-switcher">
+          <button class="view-btn active" id="period-day" onclick="filterPeriod('day')">Today</button>
+          <button class="view-btn" id="period-month" onclick="filterPeriod('month')">Month</button>
+          <button class="view-btn" id="period-6m" onclick="filterPeriod('6m')">6 Months</button>
+          <button class="view-btn" id="period-year" onclick="filterPeriod('year')">Year</button>
+        </div>
+        <button class="btn btn-primary" onclick="openAddCall()">+ Log Call</button>
+      </div>
+    </div>
+    <div class="content">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+        <div style="background:white;border:1px solid var(--border);border-radius:9px;padding:14px 16px;"><div style="font-size:11px;color:var(--text3);text-transform:uppercase;">Total Calls</div><div style="font-size:22px;font-weight:700;font-family:'Playfair Display',serif;">186</div><div style="font-size:12px;color:var(--text3);">This month</div></div>
+        <div style="background:white;border:1px solid var(--border);border-radius:9px;padding:14px 16px;"><div style="font-size:11px;color:var(--text3);text-transform:uppercase;">Agreements</div><div style="font-size:22px;font-weight:700;font-family:'Playfair Display',serif;color:var(--emerald);">72</div><div style="font-size:12px;color:var(--text3);">38.7% rate</div></div>
+        <div style="background:white;border:1px solid var(--border);border-radius:9px;padding:14px 16px;"><div style="font-size:11px;color:var(--text3);text-transform:uppercase;">Revenue</div><div style="font-size:22px;font-weight:700;font-family:'Playfair Display',serif;color:var(--amber);">₹3.8L</div><div style="font-size:12px;color:var(--text3);">Month total</div></div>
+        <div style="background:white;border:1px solid var(--border);border-radius:9px;padding:14px 16px;"><div style="font-size:11px;color:var(--text3);text-transform:uppercase;">Pending F/U</div><div style="font-size:22px;font-weight:700;font-family:'Playfair Display',serif;color:var(--violet);">14</div><div style="font-size:12px;color:var(--text3);">Scheduled</div></div>
+      </div>
+
+      <div class="filter-bar">
+        <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Search by name, phone, reason..."></div>
+        <select style="width:160px;"><option>All Outcomes</option><option>Agreed - Yes</option><option>Agreed - No</option><option>Pending</option><option>Follow-up</option></select>
+        <select style="width:160px;"><option>All Reasons</option><option>Insurance Renewal</option><option>Loan Follow-up</option><option>Product Demo</option><option>Service Upgrade</option></select>
+        <button class="btn btn-outline btn-sm">Clear Filters</button>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Call Log</div><button class="btn btn-outline btn-sm" onclick="show('admin-reports')">⬇ Export</button></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Client Name</th><th>Phone</th><th>Email</th><th>Reason</th><th>Agreed</th><th>Amount</th><th>Follow-up Date</th><th>Date/Time</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr><td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1042</td><td><strong>Anita Desai</strong></td><td>98765 43210</td><td style="font-size:12px;color:var(--text3);">anita@email.com</td><td>Insurance Renewal</td><td><span class="badge badge-green">✓ Yes</span></td><td style="font-weight:600;color:var(--emerald);">₹8,500</td><td><span class="badge badge-gray">—</span></td><td style="color:var(--text3);">25 Mar · 9:15</td><td style="display:flex;gap:4px;"><button class="btn btn-ghost btn-sm" onclick="openCallDetail()">View</button><button class="btn btn-outline btn-sm">Edit</button></td></tr>
+              <tr><td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1043</td><td><strong>Rajesh Kumar</strong></td><td>87654 32109</td><td style="font-size:12px;color:var(--text3);">—</td><td>Loan Follow-up</td><td><span class="badge badge-red">✗ No</span></td><td style="color:var(--text3);">—</td><td><span class="badge badge-amber">28 Mar</span></td><td style="color:var(--text3);">25 Mar · 9:52</td><td style="display:flex;gap:4px;"><button class="btn btn-ghost btn-sm">View</button><button class="btn btn-outline btn-sm">Edit</button></td></tr>
+              <tr><td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1038</td><td><strong>Vikram Singh</strong></td><td>77665 54433</td><td style="font-size:12px;color:var(--text3);">vikram@b2b.com</td><td>Service Upgrade</td><td><span class="badge badge-green">✓ Yes</span></td><td style="font-weight:600;color:var(--emerald);">₹15,000</td><td><span class="badge badge-gray">—</span></td><td style="color:var(--text3);">24 Mar · 2:30</td><td style="display:flex;gap:4px;"><button class="btn btn-ghost btn-sm">View</button><button class="btn btn-outline btn-sm">Edit</button></td></tr>
+              <tr><td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1030</td><td><strong>Sunita Joshi</strong></td><td>66554 43322</td><td style="font-size:12px;color:var(--text3);">sunita.j@gmail.com</td><td>Product Demo</td><td><span class="badge badge-amber">Pending</span></td><td style="color:var(--text3);">—</td><td><span class="badge badge-violet">30 Mar</span></td><td style="color:var(--text3);">22 Mar · 11:00</td><td style="display:flex;gap:4px;"><button class="btn btn-ghost btn-sm">View</button><button class="btn btn-outline btn-sm">Edit</button></td></tr>
+              <tr><td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1025</td><td><strong>Arjun Nair</strong></td><td>55443 32211</td><td style="font-size:12px;color:var(--text3);">arjun.n@corp.in</td><td>Credit Card</td><td><span class="badge badge-green">✓ Yes</span></td><td style="font-weight:600;color:var(--emerald);">₹5,000</td><td><span class="badge badge-gray">—</span></td><td style="color:var(--text3);">21 Mar · 3:45</td><td style="display:flex;gap:4px;"><button class="btn btn-ghost btn-sm">View</button><button class="btn btn-outline btn-sm">Edit</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: FOLLOW-UPS                                           -->
+<!-- ============================================================ -->
+<div id="caller-followups" class="screen">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="logo-mark"><span class="logo-dot"></span> CallFlow</div><div class="logo-sub">Telecaller CRM</div></div>
+    <div class="sidebar-role"><div class="role-label">Logged in as</div><div class="role-name">Rahul Sharma</div><div class="role-status">Active · Team A</div></div>
+    <div class="sidebar-section">Workspace</div>
+    <div class="nav-item" onclick="show('caller-dashboard')"><span class="nav-icon">📊</span> My Dashboard</div>
+    <div class="nav-item" onclick="openAddCall()"><span class="nav-icon">📞</span> Log New Call</div>
+    <div class="nav-item" onclick="show('caller-calls')"><span class="nav-icon">📋</span> My Calls <span class="nav-badge green">12</span></div>
+    <div class="nav-item active"><span class="nav-icon">🔔</span> Follow-ups <span class="nav-badge">3</span></div>
+    <div class="nav-item" onclick="show('caller-reports')"><span class="nav-icon">📈</span> My Reports</div>
+    <div class="sidebar-section">Views</div>
+    <div class="nav-item" onclick="show('admin-dashboard')"><span class="nav-icon">🛠️</span> Admin View</div>
+    <div class="nav-item" onclick="show('admin-reports')"><span class="nav-icon">📥</span> Download Reports</div>
+    <div class="sidebar-bottom"><div class="user-card"><div class="avatar" style="background:linear-gradient(135deg,var(--indigo),var(--violet));">RS</div><div class="user-info"><div class="name">Rahul Sharma</div><div class="sub">Telecaller · ID #TC-04</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar"><div class="topbar-title">Follow-up Schedule</div><div class="topbar-right"><button class="btn btn-primary" onclick="openAddCall()">+ Log Call</button></div></div>
+    <div class="content">
+      <div class="grid-2">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:6px;">🔴 Overdue (2)</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+            <div class="followup-card urgent">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+                <div><div style="font-weight:600;font-size:14px;">Rajesh Kumar</div><div style="font-size:12px;color:var(--text3);margin-top:2px;">87654 32109 · Loan Follow-up</div></div>
+                <span class="badge badge-red">2 days overdue</span>
+              </div>
+              <div style="margin-top:10px;font-size:12px;color:var(--text2);background:var(--bg);border-radius:6px;padding:8px;">Was not ready on first call. Promised callback on 23rd March.</div>
+              <div style="margin-top:10px;display:flex;gap:8px;"><button class="btn btn-primary btn-sm" onclick="openLogFollowup()">📞 Log Follow-up</button><button class="btn btn-outline btn-sm">Reschedule</button></div>
+            </div>
+            <div class="followup-card urgent">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+                <div><div style="font-weight:600;font-size:14px;">Sunita Joshi</div><div style="font-size:12px;color:var(--text3);margin-top:2px;">66554 43322 · Product Demo</div></div>
+                <span class="badge badge-red">1 day overdue</span>
+              </div>
+              <div style="margin-top:10px;font-size:12px;color:var(--text2);background:var(--bg);border-radius:6px;padding:8px;">Interested in premium plan. Needs to discuss with partner first.</div>
+              <div style="margin-top:10px;display:flex;gap:8px;"><button class="btn btn-primary btn-sm" onclick="openLogFollowup()">📞 Log Follow-up</button><button class="btn btn-outline btn-sm">Reschedule</button></div>
+            </div>
+          </div>
+
+          <div style="font-size:13px;font-weight:600;color:var(--amber);margin-bottom:12px;display:flex;align-items:center;gap:6px;">🟡 Today (1)</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="followup-card today">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+                <div><div style="font-weight:600;font-size:14px;">Sanjay Patel</div><div style="font-size:12px;color:var(--text3);margin-top:2px;">65432 10987 · Credit Card Offer</div></div>
+                <span class="badge badge-amber">Due Today</span>
+              </div>
+              <div style="margin-top:10px;font-size:12px;color:var(--text2);background:var(--bg);border-radius:6px;padding:8px;">Client said call back in 2 days after salary credit.</div>
+              <div style="margin-top:10px;display:flex;gap:8px;"><button class="btn btn-primary btn-sm" onclick="openLogFollowup()">📞 Log Follow-up</button><button class="btn btn-outline btn-sm">Reschedule</button></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--indigo);margin-bottom:12px;display:flex;align-items:center;gap:6px;">🔵 Upcoming (4)</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="followup-card upcoming">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+                <div><div style="font-weight:600;font-size:14px;">Meenakshi Rao</div><div style="font-size:12px;color:var(--text3);margin-top:2px;">43210 98765 · Insurance</div></div>
+                <span class="badge badge-blue">28 Mar</span>
+              </div>
+              <div style="margin-top:8px;display:flex;gap:8px;"><button class="btn btn-outline btn-sm">View Details</button></div>
+            </div>
+            <div class="followup-card upcoming">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+                <div><div style="font-weight:600;font-size:14px;">Deepak Verma</div><div style="font-size:12px;color:var(--text3);margin-top:2px;">32109 87654 · Loan Offer</div></div>
+                <span class="badge badge-blue">30 Mar</span>
+              </div>
+              <div style="margin-top:8px;display:flex;gap:8px;"><button class="btn btn-outline btn-sm">View Details</button></div>
+            </div>
+            <div class="followup-card upcoming">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+                <div><div style="font-weight:600;font-size:14px;">Kavita Shah</div><div style="font-size:12px;color:var(--text3);margin-top:2px;">21098 76543 · Subscription</div></div>
+                <span class="badge badge-blue">1 Apr</span>
+              </div>
+              <div style="margin-top:8px;display:flex;gap:8px;"><button class="btn btn-outline btn-sm">View Details</button></div>
+            </div>
+            <div class="followup-card upcoming">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+                <div><div style="font-weight:600;font-size:14px;">Amit Chauhan</div><div style="font-size:12px;color:var(--text3);margin-top:2px;">10987 65432 · Product Demo</div></div>
+                <span class="badge badge-blue">3 Apr</span>
+              </div>
+              <div style="margin-top:8px;display:flex;gap:8px;"><button class="btn btn-outline btn-sm">View Details</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: CALLER REPORTS                                       -->
+<!-- ============================================================ -->
+<div id="caller-reports" class="screen">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="logo-mark"><span class="logo-dot"></span> CallFlow</div><div class="logo-sub">Telecaller CRM</div></div>
+    <div class="sidebar-role"><div class="role-label">Logged in as</div><div class="role-name">Rahul Sharma</div><div class="role-status">Active · Team A</div></div>
+    <div class="sidebar-section">Workspace</div>
+    <div class="nav-item" onclick="show('caller-dashboard')"><span class="nav-icon">📊</span> My Dashboard</div>
+    <div class="nav-item" onclick="openAddCall()"><span class="nav-icon">📞</span> Log New Call</div>
+    <div class="nav-item" onclick="show('caller-calls')"><span class="nav-icon">📋</span> My Calls <span class="nav-badge green">12</span></div>
+    <div class="nav-item" onclick="show('caller-followups')"><span class="nav-icon">🔔</span> Follow-ups <span class="nav-badge">3</span></div>
+    <div class="nav-item active"><span class="nav-icon">📈</span> My Reports</div>
+    <div class="sidebar-section">Views</div>
+    <div class="nav-item" onclick="show('admin-dashboard')"><span class="nav-icon">🛠️</span> Admin View</div>
+    <div class="nav-item" onclick="show('admin-reports')"><span class="nav-icon">📥</span> Download Reports</div>
+    <div class="sidebar-bottom"><div class="user-card"><div class="avatar" style="background:linear-gradient(135deg,var(--indigo),var(--violet));">RS</div><div class="user-info"><div class="name">Rahul Sharma</div><div class="sub">Telecaller · ID #TC-04</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar"><div class="topbar-title">My Performance Report</div><div class="topbar-right"><button class="btn btn-outline btn-sm" onclick="showToast('Report downloaded!','success')">⬇ Download PDF</button></div></div>
+    <div class="content">
+      <div class="grid-3" style="margin-bottom:20px;">
+        <div class="card"><div class="card-body"><div style="font-size:11px;color:var(--text3);text-transform:uppercase;margin-bottom:4px;">Monthly Calls</div><div style="font-size:26px;font-weight:700;font-family:'Playfair Display',serif;">186</div><div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:74%;background:var(--indigo-light);"></div></div><div style="font-size:11px;color:var(--text3);margin-top:4px;">74% of 250 target</div></div></div>
+        <div class="card"><div class="card-body"><div style="font-size:11px;color:var(--text3);text-transform:uppercase;margin-bottom:4px;">Monthly Revenue</div><div style="font-size:26px;font-weight:700;font-family:'Playfair Display',serif;color:var(--emerald);">₹3.8L</div><div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:76%;background:var(--emerald);"></div></div><div style="font-size:11px;color:var(--text3);margin-top:4px;">76% of ₹5L target</div></div></div>
+        <div class="card"><div class="card-body"><div style="font-size:11px;color:var(--text3);text-transform:uppercase;margin-bottom:4px;">Conversion Rate</div><div style="font-size:26px;font-weight:700;font-family:'Playfair Display',serif;color:var(--violet);">38.7%</div><div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:78%;background:var(--violet);"></div></div><div style="font-size:11px;color:var(--text3);margin-top:4px;">Team avg: 32.4%</div></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">6-Month Trend</div></div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;text-align:center;">
+            <div><div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Oct</div><div style="height:80px;display:flex;align-items:flex-end;justify-content:center;"><div style="width:36px;background:var(--bg2);border-radius:4px 4px 0 0;height:55%;"></div></div><div style="font-size:12px;font-weight:600;margin-top:4px;">142</div><div style="font-size:11px;color:var(--emerald);">₹2.1L</div></div>
+            <div><div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Nov</div><div style="height:80px;display:flex;align-items:flex-end;justify-content:center;"><div style="width:36px;background:var(--bg2);border-radius:4px 4px 0 0;height:65%;"></div></div><div style="font-size:12px;font-weight:600;margin-top:4px;">158</div><div style="font-size:11px;color:var(--emerald);">₹2.6L</div></div>
+            <div><div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Dec</div><div style="height:80px;display:flex;align-items:flex-end;justify-content:center;"><div style="width:36px;background:var(--bg2);border-radius:4px 4px 0 0;height:60%;"></div></div><div style="font-size:12px;font-weight:600;margin-top:4px;">152</div><div style="font-size:11px;color:var(--emerald);">₹2.4L</div></div>
+            <div><div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Jan</div><div style="height:80px;display:flex;align-items:flex-end;justify-content:center;"><div style="width:36px;background:var(--indigo-light);border-radius:4px 4px 0 0;height:70%;opacity:0.6;"></div></div><div style="font-size:12px;font-weight:600;margin-top:4px;">167</div><div style="font-size:11px;color:var(--emerald);">₹3.0L</div></div>
+            <div><div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Feb</div><div style="height:80px;display:flex;align-items:flex-end;justify-content:center;"><div style="width:36px;background:var(--indigo-light);border-radius:4px 4px 0 0;height:80%;opacity:0.8;"></div></div><div style="font-size:12px;font-weight:600;margin-top:4px;">174</div><div style="font-size:11px;color:var(--emerald);">₹3.4L</div></div>
+            <div><div style="font-size:12px;color:var(--text3);margin-bottom:6px;">Mar</div><div style="height:80px;display:flex;align-items:flex-end;justify-content:center;"><div style="width:36px;background:var(--indigo);border-radius:4px 4px 0 0;height:95%;"></div></div><div style="font-size:12px;font-weight:600;margin-top:4px;">186</div><div style="font-size:11px;color:var(--emerald);">₹3.8L</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: ADMIN DASHBOARD                                      -->
+<!-- ============================================================ -->
+<div id="admin-dashboard" class="screen">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="logo-mark"><span class="logo-dot"></span> CallFlow</div><div class="logo-sub">Telecaller CRM</div></div>
+    <div class="sidebar-role"><div class="role-label">Admin Panel</div><div class="role-name">Vikash Gupta</div><div class="role-status">Super Admin</div></div>
+    <div class="sidebar-section">Admin</div>
+    <div class="nav-item active"><span class="nav-icon">🛠️</span> Admin Overview</div>
+    <div class="nav-item" onclick="show('admin-callers')"><span class="nav-icon">👥</span> Telecallers</div>
+    <div class="nav-item" onclick="show('admin-allcalls')"><span class="nav-icon">📋</span> All Calls</div>
+    <div class="nav-item" onclick="show('admin-reports')"><span class="nav-icon">📥</span> Download Reports</div>
+    <div class="sidebar-section">Caller View</div>
+    <div class="nav-item" onclick="show('caller-dashboard')"><span class="nav-icon">📊</span> Caller Dashboard</div>
+    <div class="nav-item" onclick="show('caller-followups')"><span class="nav-icon">🔔</span> Follow-ups</div>
+    <div class="sidebar-bottom"><div class="user-card"><div class="avatar" style="background:linear-gradient(135deg,var(--rose),var(--violet));">VG</div><div class="user-info"><div class="name">Vikash Gupta</div><div class="sub">Super Admin</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Admin Overview</div>
+      <div class="topbar-right">
+        <div class="topbar-date">📅 25 March 2026</div>
+        <div class="view-switcher">
+          <button class="view-btn active">Today</button>
+          <button class="view-btn">Month</button>
+          <button class="view-btn">6M</button>
+          <button class="view-btn">Year</button>
+        </div>
+        <div class="notif-btn">🔔<span class="notif-dot"></span></div>
+      </div>
+    </div>
+    <div class="content">
+      <!-- Admin stat cards -->
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;">
+        <div class="stat-card c1"><div class="stat-icon si-blue">📞</div><div class="stat-label">Total Calls Today</div><div class="stat-value">142</div><div class="stat-change stat-up">↑ 18 vs yesterday</div></div>
+        <div class="stat-card c2"><div class="stat-icon si-green">✅</div><div class="stat-label">Agreements</div><div class="stat-value">54</div><div class="stat-change stat-up">↑ 38% rate</div></div>
+        <div class="stat-card c3"><div class="stat-icon si-amber">💰</div><div class="stat-label">Revenue Today</div><div class="stat-value">₹3.2L</div><div class="stat-change stat-up">↑ ₹48K vs avg</div></div>
+        <div class="stat-card c4"><div class="stat-icon si-violet">🔔</div><div class="stat-label">Follow-ups Due</div><div class="stat-value">28</div><div class="stat-change stat-down">↓ 8 overdue</div></div>
+        <div class="stat-card" style="border-right:3px solid var(--rose);"><div class="stat-icon" style="background:#FFF1F2;">👥</div><div class="stat-label">Active Callers</div><div class="stat-value">12</div><div class="stat-change" style="color:var(--text3);">of 15 total</div></div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:16px;">
+        <!-- Caller Leaderboard -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">Caller Performance · March</div><button class="btn btn-outline btn-sm" onclick="show('admin-callers')">View All</button></div>
+          <div class="card-body" style="padding-top:10px;">
+            <div class="caller-row">
+              <div class="caller-rank gold">1</div>
+              <div class="avatar" style="background:linear-gradient(135deg,#F59E0B,#D97706);font-size:11px;width:30px;height:30px;">PM</div>
+              <div style="flex:1;"><div style="font-size:13px;font-weight:500;">Priya Mehta</div><div style="font-size:11px;color:var(--text3);">Team B · 243 calls</div></div>
+              <div style="text-align:right;"><div style="font-size:13px;font-weight:600;color:var(--emerald);">₹5.4L</div><div style="font-size:11px;color:var(--text3);">44.4% conv.</div></div>
+            </div>
+            <div class="caller-row">
+              <div class="caller-rank silver">2</div>
+              <div class="avatar" style="background:linear-gradient(135deg,var(--indigo),var(--violet));font-size:11px;width:30px;height:30px;">RS</div>
+              <div style="flex:1;"><div style="font-size:13px;font-weight:500;">Rahul Sharma</div><div style="font-size:11px;color:var(--text3);">Team A · 186 calls</div></div>
+              <div style="text-align:right;"><div style="font-size:13px;font-weight:600;color:var(--emerald);">₹3.8L</div><div style="font-size:11px;color:var(--text3);">38.7% conv.</div></div>
+            </div>
+            <div class="caller-row">
+              <div class="caller-rank bronze">3</div>
+              <div class="avatar" style="background:linear-gradient(135deg,#10B981,#059669);font-size:11px;width:30px;height:30px;">AK</div>
+              <div style="flex:1;"><div style="font-size:13px;font-weight:500;">Anjali Kumar</div><div style="font-size:11px;color:var(--text3);">Team A · 201 calls</div></div>
+              <div style="text-align:right;"><div style="font-size:13px;font-weight:600;color:var(--emerald);">₹3.5L</div><div style="font-size:11px;color:var(--text3);">36.2% conv.</div></div>
+            </div>
+            <div class="caller-row">
+              <div class="caller-rank">4</div>
+              <div class="avatar" style="background:linear-gradient(135deg,var(--rose),#BE123C);font-size:11px;width:30px;height:30px;">VN</div>
+              <div style="flex:1;"><div style="font-size:13px;font-weight:500;">Vivek Nair</div><div style="font-size:11px;color:var(--text3);">Team B · 178 calls</div></div>
+              <div style="text-align:right;"><div style="font-size:13px;font-weight:600;color:var(--emerald);">₹3.1L</div><div style="font-size:11px;color:var(--text3);">34.8% conv.</div></div>
+            </div>
+            <div class="caller-row">
+              <div class="caller-rank">5</div>
+              <div class="avatar" style="background:linear-gradient(135deg,#0891B2,#0E7490);font-size:11px;width:30px;height:30px;">SP</div>
+              <div style="flex:1;"><div style="font-size:13px;font-weight:500;">Sneha Patel</div><div style="font-size:11px;color:var(--text3);">Team C · 165 calls</div></div>
+              <div style="text-align:right;"><div style="font-size:13px;font-weight:600;color:var(--emerald);">₹2.8L</div><div style="font-size:11px;color:var(--text3);">33.1% conv.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Revenue by Team -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">Revenue by Team · March</div></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:500;">Team A (5 callers)</span><span style="font-size:13px;font-weight:600;color:var(--indigo);">₹12.8L</span></div><div class="progress-bar"><div class="progress-fill" style="width:82%;background:var(--indigo-light);"></div></div><div style="font-size:11px;color:var(--text3);margin-top:3px;">82% of target · 742 calls</div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:500;">Team B (4 callers)</span><span style="font-size:13px;font-weight:600;color:var(--violet);">₹10.2L</span></div><div class="progress-bar"><div class="progress-fill" style="width:68%;background:var(--violet);"></div></div><div style="font-size:11px;color:var(--text3);margin-top:3px;">68% of target · 596 calls</div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:500;">Team C (3 callers)</span><span style="font-size:13px;font-weight:600;color:var(--emerald);">₹7.5L</span></div><div class="progress-bar"><div class="progress-fill" style="width:75%;background:var(--emerald);"></div></div><div style="font-size:11px;color:var(--text3);margin-top:3px;">75% of target · 425 calls</div></div>
+            </div>
+            <div style="margin-top:18px;padding:14px;background:var(--bg);border-radius:8px;display:flex;justify-content:space-between;">
+              <div><div style="font-size:11px;color:var(--text3);">Total Revenue</div><div style="font-size:20px;font-weight:700;font-family:'Playfair Display',serif;color:var(--emerald);">₹30.5L</div></div>
+              <div><div style="font-size:11px;color:var(--text3);">Total Calls</div><div style="font-size:20px;font-weight:700;font-family:'Playfair Display',serif;">1,763</div></div>
+              <div><div style="font-size:11px;color:var(--text3);">Avg Conv. Rate</div><div style="font-size:20px;font-weight:700;font-family:'Playfair Display',serif;color:var(--violet);">36.8%</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Calls Across All Callers -->
+      <div class="card">
+        <div class="card-header"><div class="card-title">All Calls Today</div><div style="display:flex;gap:8px;"><button class="btn btn-outline btn-sm" onclick="show('admin-allcalls')">View All</button><button class="btn btn-primary btn-sm" onclick="show('admin-reports')">⬇ Export</button></div></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Caller</th><th>Team</th><th>#</th><th>Client</th><th>Phone</th><th>Reason</th><th>Agreed</th><th>Amount</th><th>F/U Date</th><th>Time</th></tr></thead>
+            <tbody>
+              <tr><td><div style="display:flex;align-items:center;gap:8px;"><div class="avatar" style="background:linear-gradient(135deg,var(--indigo),var(--violet));font-size:10px;width:26px;height:26px;">RS</div><span style="font-size:12px;font-weight:500;">Rahul Sharma</span></div></td><td><span class="badge badge-blue">Team A</span></td><td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1042</td><td>Anita Desai</td><td>98765 43210</td><td>Insurance</td><td><span class="badge badge-green">✓ Yes</span></td><td style="font-weight:600;color:var(--emerald);">₹8,500</td><td>—</td><td style="color:var(--text3);">9:15 AM</td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:8px;"><div class="avatar" style="background:linear-gradient(135deg,#F59E0B,#D97706);font-size:10px;width:26px;height:26px;">PM</div><span style="font-size:12px;font-weight:500;">Priya Mehta</span></div></td><td><span class="badge badge-violet">Team B</span></td><td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1088</td><td>Suresh Iyer</td><td>77665 55443</td><td>Product Demo</td><td><span class="badge badge-green">✓ Yes</span></td><td style="font-weight:600;color:var(--emerald);">₹22,000</td><td>—</td><td style="color:var(--text3);">9:30 AM</td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:8px;"><div class="avatar" style="background:linear-gradient(135deg,#10B981,#059669);font-size:10px;width:26px;height:26px;">AK</div><span style="font-size:12px;font-weight:500;">Anjali Kumar</span></div></td><td><span class="badge badge-blue">Team A</span></td><td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1065</td><td>Ramesh Babu</td><td>55443 33221</td><td>Loan Offer</td><td><span class="badge badge-red">✗ No</span></td><td style="color:var(--text3);">—</td><td><span class="badge badge-amber">1 Apr</span></td><td style="color:var(--text3);">10:05 AM</td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:8px;"><div class="avatar" style="background:linear-gradient(135deg,var(--rose),#BE123C);font-size:10px;width:26px;height:26px;">VN</div><span style="font-size:12px;font-weight:500;">Vivek Nair</span></div></td><td><span class="badge badge-violet">Team B</span></td><td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1102</td><td>Nandita Roy</td><td>44332 21100</td><td>Subscription</td><td><span class="badge badge-green">✓ Yes</span></td><td style="font-weight:600;color:var(--emerald);">₹3,000</td><td>—</td><td style="color:var(--text3);">10:22 AM</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: ADMIN - ALL CALLERS                                  -->
+<!-- ============================================================ -->
+<div id="admin-callers" class="screen">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="logo-mark"><span class="logo-dot"></span> CallFlow</div><div class="logo-sub">Telecaller CRM</div></div>
+    <div class="sidebar-role"><div class="role-label">Admin Panel</div><div class="role-name">Vikash Gupta</div><div class="role-status">Super Admin</div></div>
+    <div class="sidebar-section">Admin</div>
+    <div class="nav-item" onclick="show('admin-dashboard')"><span class="nav-icon">🛠️</span> Admin Overview</div>
+    <div class="nav-item active"><span class="nav-icon">👥</span> Telecallers</div>
+    <div class="nav-item" onclick="show('admin-allcalls')"><span class="nav-icon">📋</span> All Calls</div>
+    <div class="nav-item" onclick="show('admin-reports')"><span class="nav-icon">📥</span> Download Reports</div>
+    <div class="sidebar-section">Caller View</div>
+    <div class="nav-item" onclick="show('caller-dashboard')"><span class="nav-icon">📊</span> Caller Dashboard</div>
+    <div class="nav-item" onclick="show('caller-followups')"><span class="nav-icon">🔔</span> Follow-ups</div>
+    <div class="sidebar-bottom"><div class="user-card"><div class="avatar" style="background:linear-gradient(135deg,var(--rose),var(--violet));">VG</div><div class="user-info"><div class="name">Vikash Gupta</div><div class="sub">Super Admin</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar"><div class="topbar-title">All Telecallers</div><div class="topbar-right"><button class="btn btn-outline btn-sm">+ Add Caller</button></div></div>
+    <div class="content">
+      <div class="filter-bar">
+        <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Search callers..."></div>
+        <select style="width:150px;"><option>All Teams</option><option>Team A</option><option>Team B</option><option>Team C</option></select>
+        <select style="width:150px;"><option>All Status</option><option>Active</option><option>Inactive</option></select>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Caller</th><th>ID</th><th>Team</th><th>Calls (Month)</th><th>Agreements</th><th>Conv. Rate</th><th>Revenue</th><th>F/U Pending</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar" style="background:linear-gradient(135deg,#F59E0B,#D97706);font-size:11px;">PM</div><div><div style="font-weight:500;">Priya Mehta</div><div style="font-size:11px;color:var(--text3);">priya@callflow.in</div></div></div></td><td style="font-family:monospace;font-size:11px;color:var(--text3);">#TC-01</td><td><span class="badge badge-violet">Team B</span></td><td>243</td><td>108</td><td><span style="color:var(--emerald);font-weight:600;">44.4%</span></td><td style="font-weight:600;color:var(--emerald);">₹5.4L</td><td>8</td><td><span class="badge badge-green">Active</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar" style="background:linear-gradient(135deg,var(--indigo),var(--violet));font-size:11px;">RS</div><div><div style="font-weight:500;">Rahul Sharma</div><div style="font-size:11px;color:var(--text3);">rahul@callflow.in</div></div></div></td><td style="font-family:monospace;font-size:11px;color:var(--text3);">#TC-04</td><td><span class="badge badge-blue">Team A</span></td><td>186</td><td>72</td><td><span style="color:var(--indigo-light);font-weight:600;">38.7%</span></td><td style="font-weight:600;color:var(--emerald);">₹3.8L</td><td>14</td><td><span class="badge badge-green">Active</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar" style="background:linear-gradient(135deg,#10B981,#059669);font-size:11px;">AK</div><div><div style="font-weight:500;">Anjali Kumar</div><div style="font-size:11px;color:var(--text3);">anjali@callflow.in</div></div></div></td><td style="font-family:monospace;font-size:11px;color:var(--text3);">#TC-02</td><td><span class="badge badge-blue">Team A</span></td><td>201</td><td>73</td><td><span style="color:var(--indigo-light);font-weight:600;">36.2%</span></td><td style="font-weight:600;color:var(--emerald);">₹3.5L</td><td>11</td><td><span class="badge badge-green">Active</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar" style="background:linear-gradient(135deg,var(--rose),#BE123C);font-size:11px;">VN</div><div><div style="font-weight:500;">Vivek Nair</div><div style="font-size:11px;color:var(--text3);">vivek@callflow.in</div></div></div></td><td style="font-family:monospace;font-size:11px;color:var(--text3);">#TC-05</td><td><span class="badge badge-violet">Team B</span></td><td>178</td><td>62</td><td><span style="color:var(--amber);font-weight:600;">34.8%</span></td><td style="font-weight:600;color:var(--emerald);">₹3.1L</td><td>9</td><td><span class="badge badge-green">Active</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar" style="background:linear-gradient(135deg,#0891B2,#0E7490);font-size:11px;">SP</div><div><div style="font-weight:500;">Sneha Patel</div><div style="font-size:11px;color:var(--text3);">sneha@callflow.in</div></div></div></td><td style="font-family:monospace;font-size:11px;color:var(--text3);">#TC-07</td><td><span class="badge badge-gray">Team C</span></td><td>165</td><td>55</td><td><span style="color:var(--amber);font-weight:600;">33.1%</span></td><td style="font-weight:600;color:var(--emerald);">₹2.8L</td><td>6</td><td><span class="badge badge-green">Active</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar" style="background:var(--slate-light);font-size:11px;">MR</div><div><div style="font-weight:500;">Mohan Rao</div><div style="font-size:11px;color:var(--text3);">mohan@callflow.in</div></div></div></td><td style="font-family:monospace;font-size:11px;color:var(--text3);">#TC-09</td><td><span class="badge badge-gray">Team C</span></td><td>0</td><td>0</td><td style="color:var(--text3);">—</td><td style="color:var(--text3);">—</td><td>0</td><td><span class="badge badge-red">Inactive</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: ADMIN ALL CALLS                                      -->
+<!-- ============================================================ -->
+<div id="admin-allcalls" class="screen">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="logo-mark"><span class="logo-dot"></span> CallFlow</div><div class="logo-sub">Telecaller CRM</div></div>
+    <div class="sidebar-role"><div class="role-label">Admin Panel</div><div class="role-name">Vikash Gupta</div><div class="role-status">Super Admin</div></div>
+    <div class="sidebar-section">Admin</div>
+    <div class="nav-item" onclick="show('admin-dashboard')"><span class="nav-icon">🛠️</span> Admin Overview</div>
+    <div class="nav-item" onclick="show('admin-callers')"><span class="nav-icon">👥</span> Telecallers</div>
+    <div class="nav-item active"><span class="nav-icon">📋</span> All Calls</div>
+    <div class="nav-item" onclick="show('admin-reports')"><span class="nav-icon">📥</span> Download Reports</div>
+    <div class="sidebar-section">Caller View</div>
+    <div class="nav-item" onclick="show('caller-dashboard')"><span class="nav-icon">📊</span> Caller Dashboard</div>
+    <div class="nav-item" onclick="show('caller-followups')"><span class="nav-icon">🔔</span> Follow-ups</div>
+    <div class="sidebar-bottom"><div class="user-card"><div class="avatar" style="background:linear-gradient(135deg,var(--rose),var(--violet));">VG</div><div class="user-info"><div class="name">Vikash Gupta</div><div class="sub">Super Admin</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar"><div class="topbar-title">All Calls</div><div class="topbar-right"><div class="view-switcher"><button class="view-btn active">Today</button><button class="view-btn">Month</button><button class="view-btn">6M</button><button class="view-btn">Year</button></div><button class="btn btn-primary btn-sm" onclick="show('admin-reports')">⬇ Export Report</button></div></div>
+    <div class="content">
+      <div class="filter-bar">
+        <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Search client, caller, phone..."></div>
+        <select style="width:150px;"><option>All Callers</option><option>Priya Mehta</option><option>Rahul Sharma</option><option>Anjali Kumar</option><option>Vivek Nair</option></select>
+        <select style="width:130px;"><option>All Teams</option><option>Team A</option><option>Team B</option><option>Team C</option></select>
+        <select style="width:140px;"><option>All Outcomes</option><option>Agreed - Yes</option><option>Agreed - No</option><option>Pending</option></select>
+        <input type="date" style="width:150px;">
+        <button class="btn btn-outline btn-sm">Apply</button>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Call Records</div><span style="font-size:12px;color:var(--text3);">Showing 142 records today</span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Caller</th><th>Team</th><th>Client</th><th>Phone</th><th>Email</th><th>Reason</th><th>Agreed</th><th>Amount</th><th>F/U</th><th>Date</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1042</td><td style="font-size:12px;font-weight:500;">Rahul S.</td><td><span class="badge badge-blue" style="font-size:10px;">A</span></td><td><strong>Anita Desai</strong></td><td>98765 43210</td><td style="font-size:12px;color:var(--text3);">anita@email.com</td><td>Insurance</td><td><span class="badge badge-green">✓</span></td><td style="font-weight:600;color:var(--emerald);">₹8,500</td><td>—</td><td style="color:var(--text3);">25 Mar</td><td style="font-size:12px;color:var(--text3);">Renewed policy annually</td></tr>
+              <tr><td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1088</td><td style="font-size:12px;font-weight:500;">Priya M.</td><td><span class="badge badge-violet" style="font-size:10px;">B</span></td><td><strong>Suresh Iyer</strong></td><td>77665 55443</td><td style="font-size:12px;color:var(--text3);">suresh@iyer.com</td><td>Product Demo</td><td><span class="badge badge-green">✓</span></td><td style="font-weight:600;color:var(--emerald);">₹22,000</td><td>—</td><td style="color:var(--text3);">25 Mar</td><td style="font-size:12px;color:var(--text3);">Enterprise plan selected</td></tr>
+              <tr><td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1065</td><td style="font-size:12px;font-weight:500;">Anjali K.</td><td><span class="badge badge-blue" style="font-size:10px;">A</span></td><td><strong>Ramesh Babu</strong></td><td>55443 33221</td><td style="font-size:12px;color:var(--text3);">—</td><td>Loan Offer</td><td><span class="badge badge-red">✗</span></td><td style="color:var(--text3);">—</td><td><span class="badge badge-amber" style="font-size:10px;">1 Apr</span></td><td style="color:var(--text3);">25 Mar</td><td style="font-size:12px;color:var(--text3);">Not interested currently</td></tr>
+              <tr><td style="font-family:monospace;font-size:11px;color:var(--text3);">#CF-1102</td><td style="font-size:12px;font-weight:500;">Vivek N.</td><td><span class="badge badge-violet" style="font-size:10px;">B</span></td><td><strong>Nandita Roy</strong></td><td>44332 21100</td><td style="font-size:12px;color:var(--text3);">nandita@gmail.com</td><td>Subscription</td><td><span class="badge badge-green">✓</span></td><td style="font-weight:600;color:var(--emerald);">₹3,000</td><td>—</td><td style="color:var(--text3);">25 Mar</td><td style="font-size:12px;color:var(--text3);">Monthly plan, auto renew</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: DOWNLOAD REPORTS (ADMIN)                             -->
+<!-- ============================================================ -->
+<div id="admin-reports" class="screen">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="logo-mark"><span class="logo-dot"></span> CallFlow</div><div class="logo-sub">Telecaller CRM</div></div>
+    <div class="sidebar-role"><div class="role-label">Admin Panel</div><div class="role-name">Vikash Gupta</div><div class="role-status">Super Admin</div></div>
+    <div class="sidebar-section">Admin</div>
+    <div class="nav-item" onclick="show('admin-dashboard')"><span class="nav-icon">🛠️</span> Admin Overview</div>
+    <div class="nav-item" onclick="show('admin-callers')"><span class="nav-icon">👥</span> Telecallers</div>
+    <div class="nav-item" onclick="show('admin-allcalls')"><span class="nav-icon">📋</span> All Calls</div>
+    <div class="nav-item active"><span class="nav-icon">📥</span> Download Reports</div>
+    <div class="sidebar-section">Caller View</div>
+    <div class="nav-item" onclick="show('caller-dashboard')"><span class="nav-icon">📊</span> Caller Dashboard</div>
+    <div class="nav-item" onclick="show('caller-followups')"><span class="nav-icon">🔔</span> Follow-ups</div>
+    <div class="sidebar-bottom"><div class="user-card"><div class="avatar" style="background:linear-gradient(135deg,var(--rose),var(--violet));">VG</div><div class="user-info"><div class="name">Vikash Gupta</div><div class="sub">Super Admin</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar"><div class="topbar-title">Download Reports</div></div>
+    <div class="content">
+      <div class="grid-2">
+        <!-- Filters Panel -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">Report Filters</div></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div class="form-group">
+                <label>Date Range</label>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                  <input type="date" value="2026-03-01">
+                  <input type="date" value="2026-03-25">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Telecaller(s)</label>
+                <select>
+                  <option>All Telecallers</option>
+                  <option>Priya Mehta</option>
+                  <option>Rahul Sharma</option>
+                  <option>Anjali Kumar</option>
+                  <option>Vivek Nair</option>
+                  <option>Sneha Patel</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Team</label>
+                <select>
+                  <option>All Teams</option>
+                  <option>Team A</option>
+                  <option>Team B</option>
+                  <option>Team C</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Call Outcome</label>
+                <select>
+                  <option>All Outcomes</option>
+                  <option>Agreed — Yes</option>
+                  <option>Agreed — No</option>
+                  <option>Follow-up Pending</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Calling Reason</label>
+                <select>
+                  <option>All Reasons</option>
+                  <option>Insurance Renewal</option>
+                  <option>Loan Follow-up</option>
+                  <option>Product Demo</option>
+                  <option>Service Upgrade</option>
+                  <option>Credit Card Offer</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Minimum Amount</label>
+                <div class="amount-input"><span class="amount-prefix">₹</span><input type="number" placeholder="0" style="padding-left:28px;"></div>
+              </div>
+              <button class="btn btn-outline" style="width:100%;">🔍 Preview Report</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Report Type & Download -->
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div class="card">
+            <div class="card-header"><div class="card-title">Select Report Type</div></div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
+              <label class="report-option"><input type="checkbox" checked><div class="report-icon" style="background:#EFF6FF;">📋</div><div><div style="font-weight:500;font-size:13px;">Call Log Report</div><div style="font-size:12px;color:var(--text3);">All call records with client details</div></div></label>
+              <label class="report-option"><input type="checkbox" checked><div class="report-icon" style="background:#ECFDF5;">💰</div><div><div style="font-weight:500;font-size:13px;">Revenue Report</div><div style="font-size:12px;color:var(--text3);">Amount collected by caller/team</div></div></label>
+              <label class="report-option"><input type="checkbox"><div class="report-icon" style="background:#FFFBEB;">🔔</div><div><div style="font-weight:500;font-size:13px;">Follow-up Report</div><div style="font-size:12px;color:var(--text3);">Pending & completed follow-ups</div></div></label>
+              <label class="report-option"><input type="checkbox"><div class="report-icon" style="background:#F5F3FF;">📊</div><div><div style="font-weight:500;font-size:13px;">Performance Summary</div><div style="font-size:12px;color:var(--text3);">Caller rankings & conversion rates</div></div></label>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">Export Format</div></div>
+            <div class="card-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+                <div style="border:2px solid var(--indigo);border-radius:8px;padding:12px;text-align:center;cursor:pointer;background:#EFF6FF;">
+                  <div style="font-size:22px;margin-bottom:4px;">📊</div>
+                  <div style="font-size:13px;font-weight:600;color:var(--indigo);">Excel (.xlsx)</div>
+                  <div style="font-size:11px;color:var(--text3);">Best for analysis</div>
+                </div>
+                <div style="border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;cursor:pointer;" onclick="this.style.border='2px solid var(--indigo)';this.style.background='#EFF6FF'">
+                  <div style="font-size:22px;margin-bottom:4px;">📄</div>
+                  <div style="font-size:13px;font-weight:600;">PDF Report</div>
+                  <div style="font-size:11px;color:var(--text3);">Formatted for sharing</div>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-lg" style="width:100%;" onclick="showToast('✅ Report downloaded successfully!','success')">⬇ Download Report</button>
+              <div style="text-align:center;margin-top:10px;font-size:12px;color:var(--text3);">Will include 186 records based on current filters</div>
+            </div>
+          </div>
+
+          <!-- Preview Summary -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">Report Preview Summary</div></div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;justify-content:space-between;font-size:13px;"><span style="color:var(--text3);">Date Range</span><span style="font-weight:500;">1 Mar — 25 Mar 2026</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;"><span style="color:var(--text3);">Telecaller</span><span style="font-weight:500;">All (15)</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;"><span style="color:var(--text3);">Total Records</span><span style="font-weight:500;">1,763 calls</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;"><span style="color:var(--text3);">Total Revenue</span><span style="font-weight:600;color:var(--emerald);">₹30,50,000</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;"><span style="color:var(--text3);">Agreements</span><span style="font-weight:500;color:var(--indigo);">649 (36.8%)</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODAL: LOG NEW CALL                                          -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="addCallModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Log New Call</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px;">Record client interaction details</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('addCallModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="form-group">
+          <label>Client Name *</label>
+          <input type="text" placeholder="Full name">
+        </div>
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" placeholder="10-digit mobile">
+        </div>
+        <div class="form-group">
+          <label>Email Address <span style="color:var(--text3);font-weight:400;">(Optional)</span></label>
+          <input type="email" placeholder="client@email.com">
+        </div>
+        <div class="form-group">
+          <label>Calling Reason *</label>
+          <select>
+            <option value="">Select reason</option>
+            <option>Insurance Renewal</option>
+            <option>Loan Follow-up</option>
+            <option>Product Demo</option>
+            <option>Service Upgrade</option>
+            <option>Credit Card Offer</option>
+            <option>Subscription</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label>Address <span style="color:var(--text3);font-weight:400;">(Optional)</span></label>
+          <input type="text" placeholder="City, State">
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label>Client Agreed? *</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="agreed" value="yes"> <span style="color:var(--emerald);font-weight:500;">✓ Yes — Client agreed</span></label>
+            <label class="radio-item"><input type="radio" name="agreed" value="no"> <span style="color:var(--red);font-weight:500;">✗ No — Not interested</span></label>
+            <label class="radio-item"><input type="radio" name="agreed" value="pending"> <span style="color:var(--amber);font-weight:500;">⏳ Pending decision</span></label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Amount Paid (₹)</label>
+          <div class="amount-input"><span class="amount-prefix">₹</span><input type="number" placeholder="0.00" style="padding-left:28px;"></div>
+        </div>
+        <div class="form-group">
+          <label>Schedule Follow-up</label>
+          <input type="date">
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label>Additional Notes</label>
+          <textarea placeholder="Any important context, client objections, or next steps..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addCallModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('addCallModal');showToast('✅ Call logged successfully!','success')">Save Call Record</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODAL: LOG FOLLOW-UP CALL                                    -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="followupModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Log Follow-up Call</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px;">Rajesh Kumar · #CF-1043</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('followupModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:var(--bg);border-radius:8px;padding:12px;margin-bottom:16px;font-size:13px;">
+        <div style="font-weight:600;margin-bottom:4px;">Previous call note:</div>
+        <div style="color:var(--text2);">Was not ready on first call. Promised callback on 23rd March. Interested in Loan Follow-up.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="form-group" style="grid-column:1/-1;">
+          <label>Follow-up Outcome *</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="fu_outcome" value="yes"> <span style="color:var(--emerald);font-weight:500;">✓ Now agreed</span></label>
+            <label class="radio-item"><input type="radio" name="fu_outcome" value="no"> <span style="color:var(--red);font-weight:500;">✗ Still declined</span></label>
+            <label class="radio-item"><input type="radio" name="fu_outcome" value="another"> <span style="color:var(--amber);font-weight:500;">⏳ Need another follow-up</span></label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Amount Collected (₹)</label>
+          <div class="amount-input"><span class="amount-prefix">₹</span><input type="number" placeholder="0.00" style="padding-left:28px;"></div>
+        </div>
+        <div class="form-group">
+          <label>Next Follow-up (if needed)</label>
+          <input type="date">
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label>Call Notes</label>
+          <textarea placeholder="What was discussed in this follow-up?"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('followupModal')">Cancel</button>
+      <button class="btn btn-success" onclick="closeModal('followupModal');showToast('✅ Follow-up logged!','success')">Save Follow-up</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODAL: CALL DETAIL                                           -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="callDetailModal">
+  <div class="modal" style="width:700px;">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Call Record — Anita Desai</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px;">#CF-1042 · 25 March 2026, 9:15 AM · Logged by Rahul Sharma</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('callDetailModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+        <div>
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;margin-bottom:8px;">Client Info</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;"><span style="font-size:13px;color:var(--text3);">Name</span><span style="font-size:13px;font-weight:500;">Anita Desai</span></div>
+            <div style="display:flex;justify-content:space-between;"><span style="font-size:13px;color:var(--text3);">Phone</span><span style="font-size:13px;font-weight:500;">98765 43210</span></div>
+            <div style="display:flex;justify-content:space-between;"><span style="font-size:13px;color:var(--text3);">Email</span><span style="font-size:13px;font-weight:500;">anita@email.com</span></div>
+            <div style="display:flex;justify-content:space-between;"><span style="font-size:13px;color:var(--text3);">Address</span><span style="font-size:13px;font-weight:500;">Mumbai, MH</span></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;margin-bottom:8px;">Call Details</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;"><span style="font-size:13px;color:var(--text3);">Reason</span><span style="font-size:13px;font-weight:500;">Insurance Renewal</span></div>
+            <div style="display:flex;justify-content:space-between;"><span style="font-size:13px;color:var(--text3);">Agreed</span><span class="badge badge-green">✓ Yes</span></div>
+            <div style="display:flex;justify-content:space-between;"><span style="font-size:13px;color:var(--text3);">Amount</span><span style="font-size:13px;font-weight:600;color:var(--emerald);">₹8,500</span></div>
+            <div style="display:flex;justify-content:space-between;"><span style="font-size:13px;color:var(--text3);">Follow-up</span><span style="font-size:13px;color:var(--text3);">Not required</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--bg);border-radius:8px;padding:14px;margin-bottom:16px;">
+        <div style="font-size:11px;color:var(--text3);text-transform:uppercase;margin-bottom:6px;">Notes</div>
+        <div style="font-size:13px;color:var(--text2);">Client was looking for annual renewal. Happy with current plan. Opted for premium add-on cover. Payment done via UPI immediately on call.</div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--text3);text-transform:uppercase;margin-bottom:10px;">Call History</div>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-dot" style="background:#ECFDF5;">✅</div><div class="timeline-content"><div class="timeline-title">Call Completed · Agreed & Paid</div><div class="timeline-meta">25 Mar 2026 · 9:15 AM · Rahul Sharma</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot" style="background:#EFF6FF;">📞</div><div class="timeline-content"><div class="timeline-title">First Contact — Insurance Renewal</div><div class="timeline-meta">25 Mar 2026 · 9:10 AM · Call initiated</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('callDetailModal')">Close</button>
+      <button class="btn btn-outline btn-sm">✏️ Edit</button>
+      <button class="btn btn-primary btn-sm" onclick="closeModal('callDetailModal');openLogFollowup()">+ Log Follow-up</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ---- SCREEN NAVIGATION ----
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById(id);
+  if (target) target.classList.add('active');
+}
+
+// ---- MODAL ----
+function openAddCall() { document.getElementById('addCallModal').classList.add('open'); }
+function openLogFollowup() { document.getElementById('followupModal').classList.add('open'); }
+function openCallDetail() { document.getElementById('callDetailModal').classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+});
+
+// ---- TOAST ----
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => { t.classList.remove('show'); }, 3000);
+}
+
+// ---- CHART DATA ----
+const chartData = {
+  day: {
+    values: [2,3,4,3,5,4,6,5,7,4,3,5,6,4,5,3,4,3],
+    labels: ['8','9','10','11','12','1','2','3','4','5','6','7','8','9','10','11','12','1'],
+    subtitle: 'Calls per hour · Today',
+    total:'18', agreed:'7', amount:'₹42.5K'
+  },
+  month: {
+    values: [5,7,6,8,7,5,9,6,7,8,6,5,7,8,6,9,7,6,8,7,5,6,7,8,6],
+    labels: ['1','3','5','7','9','11','13','15','17','19','21','23','25'],
+    subtitle: 'Daily calls · March 2026',
+    total:'186', agreed:'72', amount:'₹3.8L'
+  },
+  '6m': {
+    values: [65,72,60,80,75,90],
+    labels: ['Oct','Nov','Dec','Jan','Feb','Mar'],
+    subtitle: 'Monthly calls · Oct–Mar',
+    total:'1,763', agreed:'649', amount:'₹30.5L'
+  },
+  year: {
+    values: [55,60,48,70,65,72,60,80,75,90,85,95],
+    labels: ['A','M','J','J','A','S','O','N','D','J','F','M'],
+    subtitle: 'Monthly calls · Apr 2025–Mar 2026',
+    total:'4,218', agreed:'1,553', amount:'₹72.3L'
+  }
+};
+
+function renderChart(period) {
+  const d = chartData[period];
+  const max = Math.max(...d.values);
+  const chart = document.getElementById('call-chart');
+  const labelsEl = document.getElementById('chart-labels');
+  if (!chart) return;
+  const colors = ['#1B4F8A','#2563AE','#7C3AED','#059669','#D97706'];
+  chart.innerHTML = d.values.map((v,i) =>
+    `<div class="mini-bar" style="height:${Math.max(10,(v/max)*100)}%;background:${colors[i%colors.length]};opacity:${0.5 + (v/max)*0.5}" title="${v} calls"></div>`
+  ).join('');
+  // Show subset of labels
+  const step = Math.ceil(d.labels.length / 6);
+  labelsEl.innerHTML = d.labels.filter((_,i)=>i%step===0).map(l=>`<span>${l}</span>`).join('');
+  document.getElementById('chart-subtitle').textContent = d.subtitle;
+  document.getElementById('chart-total').textContent = d.total;
+  document.getElementById('chart-agreed').textContent = d.agreed;
+  document.getElementById('chart-amount').textContent = d.amount;
+}
+
+function setChartPeriod(period, btn) {
+  document.querySelectorAll('.view-btn').forEach(b => {
+    if (b.closest('#caller-dashboard')) b.classList.remove('active');
+  });
+  btn.classList.add('active');
+  renderChart(period);
+}
+
+function filterPeriod(period) {
+  ['day','month','6m','year'].forEach(p => {
+    const el = document.getElementById('period-'+p);
+    if (el) el.classList.toggle('active', p===period);
+  });
+}
+
+// Init chart
+renderChart('day');
+</script>
+</body>
+</html>
