@@ -108,11 +108,76 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // --- Global Form Submission Redirect to WhatsApp ---
+    document.addEventListener("submit", (e) => {
+        const form = e.target;
+        // Check if the form contains name and phone/mobile inputs to identify it as a booking form
+        const hasName = form.querySelector('input[placeholder*="Name"]') || form.querySelector('input[type="text"]');
+        const hasPhone = form.querySelector('input[type="tel"]') || form.querySelector('input[placeholder*="Mobile"]') || form.querySelector('input[placeholder*="Phone"]');
+        
+        if (hasName && hasPhone) {
+            e.preventDefault();
+            
+            const nameInput = form.querySelector('input[placeholder*="Name"]') || form.querySelector('input[type="text"]');
+            const name = nameInput ? nameInput.value.trim() : '';
+
+            const phoneInput = form.querySelector('input[type="tel"]') || 
+                               form.querySelector('input[placeholder*="Mobile"]') || 
+                               form.querySelector('input[placeholder*="Phone"]') ||
+                               form.querySelector('input[placeholder*="Number"]');
+            const phone = phoneInput ? phoneInput.value.trim() : '';
+
+            let appliance = '';
+            const selectElement = form.querySelector('select');
+            if (selectElement) {
+                const selectedOption = selectElement.options[selectElement.selectedIndex];
+                appliance = selectedOption && selectedOption.value ? selectedOption.text.trim() : '';
+                if (!appliance && selectedOption) {
+                    appliance = selectedOption.text.trim();
+                }
+            } else {
+                const serviceInput = form.querySelector('input[placeholder*="Service"]') || 
+                                     form.querySelector('input[value="Kitchen Chimneys"]');
+                if (serviceInput) {
+                    appliance = serviceInput.value.trim();
+                }
+            }
+
+            let locationText = '';
+            const locationBtn = form.querySelector('.location-btn');
+            if (locationBtn) {
+                const span = locationBtn.querySelector('.loc-text') || locationBtn.querySelector('#locText');
+                if (span) {
+                    const text = span.innerText.trim();
+                    if (text.startsWith('📍') || (!text.toLowerCase().includes('detect') && text !== "")) {
+                        locationText = text.replace('📍', '').trim();
+                    }
+                }
+            }
+
+            // Construct the WhatsApp message
+            let msg = `Hi QuickCare Appliance Service, I want to book a service. Here are the details:\n`;
+            msg += `• *Name:* ${name}\n`;
+            msg += `• *Mobile:* ${phone}\n`;
+            msg += `• *Appliance:* ${appliance}`;
+            if (locationText) {
+                msg += `\n• *Location:* ${locationText}`;
+            }
+
+            const baseUrl = "https://wa.me/918905298125";
+            const whatsappUrl = `${baseUrl}?text=${encodeURIComponent(msg)}`;
+            
+            // Redirect to WhatsApp
+            window.location.href = whatsappUrl;
+        }
+    });
+
 });
 // --- HTML5 Geolocation API ---
 // Function to update the Location Data visibly
 function setLocationSuccess(btn, area, city, region, lat = "", lon = "") {
-    const locText = btn.querySelector('.loc-text');
+    if (!btn) return;
+    const locText = btn.querySelector('.loc-text') || btn.querySelector('#locText');
     
     btn.style.background = "#D1FAE5";
     btn.style.borderColor = "#10B981";
@@ -120,11 +185,21 @@ function setLocationSuccess(btn, area, city, region, lat = "", lon = "") {
     btn.style.opacity = "1";
     btn.style.pointerEvents = "auto";
     
-    if (document.getElementById('latitudeField')) document.getElementById('latitudeField').value = lat;
-    if (document.getElementById('longitudeField')) document.getElementById('longitudeField').value = lon;
-    if (document.getElementById('modalLat')) document.getElementById('modalLat').value = lat;
-    if (document.getElementById('modalLong')) document.getElementById('modalLong').value = lon;
-    if (document.getElementById('f_area')) document.getElementById('f_area').value = area || city;
+    const form = btn.closest('form');
+    if (form) {
+        const latField = form.querySelector('input[name="latitude"]') || form.querySelector('#latitudeField') || form.querySelector('#modalLat');
+        const lonField = form.querySelector('input[name="longitude"]') || form.querySelector('#longitudeField') || form.querySelector('#modalLong');
+        const areaField = form.querySelector('input[name="f_area"]') || form.querySelector('#f_area');
+        if (latField) latField.value = lat;
+        if (lonField) lonField.value = lon;
+        if (areaField) areaField.value = area || city;
+    } else {
+        if (document.getElementById('latitudeField')) document.getElementById('latitudeField').value = lat;
+        if (document.getElementById('longitudeField')) document.getElementById('longitudeField').value = lon;
+        if (document.getElementById('modalLat')) document.getElementById('modalLat').value = lat;
+        if (document.getElementById('modalLong')) document.getElementById('modalLong').value = lon;
+        if (document.getElementById('f_area')) document.getElementById('f_area').value = area || city;
+    }
     
     // Build display text: "Area, City" or just "City, State"
     let displayText = "";
@@ -141,7 +216,8 @@ function setLocationSuccess(btn, area, city, region, lat = "", lon = "") {
 
 // Function to handle Location Failure properly
 function setLocationError(btn) {
-    const locText = btn.querySelector('.loc-text');
+    if (!btn) return;
+    const locText = btn.querySelector('.loc-text') || btn.querySelector('#locText');
     btn.style.background = "#FEF2F2";
     btn.style.borderColor = "#EF4444";
     btn.style.color = "#B91C1C";
@@ -174,7 +250,13 @@ function extractAreaFromAddress(addr) {
 }
 
 function detectLocation(btn) {
-    const locText = btn.querySelector('.loc-text');
+    // If called without passing button, fallback to first visible button or any form button
+    if (!btn || btn instanceof Event) {
+        btn = document.querySelector('.location-btn');
+    }
+    if (!btn) return;
+
+    const locText = btn.querySelector('.loc-text') || btn.querySelector('#locText');
     
     if (locText) locText.innerText = "Detecting location...";
     btn.style.opacity = "0.7";
@@ -218,11 +300,9 @@ function reverseGeocode(btn, lat, lon) {
                 if (area || city) {
                     setLocationSuccess(btn, area, city, region, lat, lon);
                 } else {
-                    // Nominatim returned address but no useful fields — try fallback
                     reverseGeocodeFallback(btn, lat, lon);
                 }
             } else {
-                // No address in response — try fallback
                 reverseGeocodeFallback(btn, lat, lon);
             }
         })
@@ -251,7 +331,6 @@ function reverseGeocodeFallback(btn, lat, lon) {
         })
         .catch(err => {
             console.error("BigDataCloud also failed:", err);
-            // Last resort: just show coordinates
             setLocationSuccess(btn, "", "Pune Area", "MH", lat, lon);
         });
 }

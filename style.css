@@ -76,10 +76,12 @@ img { max-width: 100%; display: block; height: auto; }
 .main-header.sticky { position: fixed; top: 0; padding: 15px 0; box-shadow: var(--shadow-lg); animation: slideDown 0.5s ease; }
 @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
 .header-wrapper { display: flex; justify-content: space-between; align-items: center; }
-.logo { display: flex; align-items: center; gap: 12px; }
-.logo img { height: 50px; mix-blend-mode: multiply; }
-.logo-title { font-size: 1.8rem; font-weight: 800; color: var(--primary-dark); letter-spacing: -1px; line-height: 1; }
-.logo-sub { font-size: 0.8rem; color: var(--secondary); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; display: block; }
+.logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.logo img { height: 52px; width: auto; object-fit: contain; mix-blend-mode: multiply; transition: var(--transition); }
+.logo:hover img { transform: scale(1.05); }
+.logo-text { display: flex; flex-direction: column; justify-content: center; }
+.logo-title { font-size: 1.8rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; line-height: 1.1; }
+.logo-sub { font-size: 0.75rem; color: var(--secondary); font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 2px; display: block; }
 .nav-menu { display: flex; align-items: center; gap: 32px; }
 .nav-menu a { font-weight: 700; color: var(--text-dark); font-size: 1rem; position: relative; display: inline-block; }
 .nav-menu > a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px; background: var(--primary); transition: var(--transition); }
@@ -280,7 +282,9 @@ textarea.form-control { padding: 16px; }
     .top-bar-left { display: none; }
     .top-bar { padding: 10px 0; text-align: center; }
     .top-bar .container { justify-content: center; }
-    .logo-title { font-size: 1.5rem; }
+    .logo img { height: 42px; }
+    .logo-title { font-size: 1.4rem; }
+    .logo-sub { font-size: 0.65rem; letter-spacing: 1px; margin-top: 1px; }
     
     .mobile-btn { display: block; z-index: 1001; }
     .nav-menu { position: fixed; top: 0; left: -100%; width: 85%; max-width: 350px; height: 100vh; background: #FFF; box-shadow: var(--shadow-xl); flex-direction: column; align-items: flex-start; padding: 100px 30px 40px; gap: 20px; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1000; overflow-y: auto; display: flex; }
@@ -319,6 +323,9 @@ textarea.form-control { padding: 16px; }
     .trust-grid-6 { grid-template-columns: 1fr; }
     .visual-card .v-content h3 { font-size: 1.3rem; }
     .hero-content h1 { font-size: 2.2rem; }
+    .logo img { height: 35px; }
+    .logo-title { font-size: 1.15rem; }
+    .logo-sub { font-size: 0.58rem; letter-spacing: 0.5px; margin-top: 1px; }
 }
 
 @media (max-width: 1024px) {
